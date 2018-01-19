@@ -1,0 +1,15 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <h1>todo: user overview</h1>
+
+    {% if user %}
+        <h3>user:</h3>
+        {{ dump(user) }}
+    {% else %}
+        <h3>no user found - you can</h3>
+        <a href="{{ path('user_add') }}">create account</a>
+        <br>
+        <a href="{{ path('user_login') }}">login</a>
+    {% endif %}
+{% endblock %}
