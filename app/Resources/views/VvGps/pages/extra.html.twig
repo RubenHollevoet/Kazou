@@ -3,6 +3,15 @@
 {% block header %}{% endblock %}
 
 {% block body %}
+    <div id="top" class="container">
+        <a href="{{ path('vvgps') }}" class="fa fa-home fa-3x goHome large"></a>
+        <a href="#top" class="fa fa-arrow-up fa-3x goToTop down"></a>
+    </div>
+    <div class="container vvgps_pageMenu">
+        <h1>{{ 'vvgps.menu.extra'|trans }}</h1>
+        {#<a class="btn btn-default" href="#startvergadering">startvergadering</a>#}
+        {#<a class="btn btn-default" href="#tweede-vergadering">tweede vergadering</a>#}
+    </div>
     <div class="container vvgps_page">
         <div class="row">
             <div class="col-md-12">

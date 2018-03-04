@@ -106,5 +106,6 @@ hwi_oauth:
 easy_admin:
     entities:
         - AppBundle\Entity\Trip
+        - AppBundle\Entity\TripActivity
         - AppBundle\Entity\TripGroup
         - AppBundle\Entity\User

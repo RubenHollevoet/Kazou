@@ -5,13 +5,17 @@
 {% block header %}{% endblock %}
 
 {% block body %}
-    <div class="vvgps_pageMenu">
+    <div id="top" class="container">
+        <a href="{{ path('vvgps') }}" class="fa fa-home fa-3x goHome large"></a>
+        <a href="#top" class="fa fa-arrow-up fa-3x goToTop down"></a>
+    </div>
+    <div class="container vvgps_pageMenu">
         <h1>{{ 'vvgps.menu.beforeDeparture'|trans }}</h1>
-        <a class="btn btn-default ct-btn-scroll ct-js-btn-scroll" href="#startvergadering">startvergadering</a>
-        <a class="btn btn-default ct-btn-scroll ct-js-btn-scroll" href="#tweede-vergadering">tweede vergadering</a>
-        <a class="btn btn-default ct-btn-scroll ct-js-btn-scroll" href="#laatste-vergadering">laatste vergadering</a>
-        <a class="btn btn-default ct-btn-scroll ct-js-btn-scroll" href="#badges">badges</a>
-        <a class="btn btn-default ct-btn-scroll ct-js-btn-scroll" href="#printwerk">printwerk</a>
+        <a class="btn btn-default" href="#startvergadering">startvergadering</a>
+        <a class="btn btn-default" href="#tweede-vergadering">tweede vergadering</a>
+        <a class="btn btn-default" href="#laatste-vergadering">laatste vergadering</a>
+        <a class="btn btn-default" href="#badges">badges</a>
+        <a class="btn btn-default" href="#printwerk">printwerk</a>
     </div>
     <div class="container vvgps_page">
         <div class="row">
@@ -22,34 +26,34 @@
                     <p>Wat staat er op de agenda?</p>
                     <ul class="vvgps_checklist">
                         <li>
-                            <span class="btn btn-primary fa fa-check check_task"></span>
+                            <span class="btn btn-default fa fa-check check_task"></span>
                             <span>Kennismaking met de ploeg</span>
                         </li>
                         <li>
-                            <span class="btn btn-primary fa fa-check check_task"></span> <span>Info over de vakantie: het centrum, de omgeving, het vakantieschema, profileringsactiviteiten, ...</span>
+                            <span class="btn btn-default fa fa-check check_task"></span> <span>Info over de vakantie: het centrum, de omgeving, het vakantieschema, profileringsactiviteiten, ...</span>
                         </li>
                         <li>
-                            <span class="btn btn-primary fa fa-check check_task"></span> <span>Vakantiestructuur: één grote groep of verdelen ik ploegjes? Welke monitoren vormen een ploegje?</span>
+                            <span class="btn btn-default fa fa-check check_task"></span> <span>Vakantiestructuur: één grote groep of verdelen ik ploegjes? Welke monitoren vormen een ploegje?</span>
                         </li>
                         <li>
-                            <span class="btn btn-primary fa fa-check check_task"></span> <span>Voorbereiden: activiteiten in groepje, avondsluitingen, zinspeelmomenten, welkomsavond, laatste avond en thema
+                            <span class="btn btn-default fa fa-check check_task"></span> <span>Voorbereiden: activiteiten in groepje, avondsluitingen, zinspeelmomenten, welkomsavond, laatste avond en thema
                         </span>
                         </li>
                         <li>
-                            <span class="btn btn-primary fa fa-check check_task"></span>
+                            <span class="btn btn-default fa fa-check check_task"></span>
                             <span>wie bereidt wat voor en wat is de deadline?</span>
                         </li>
                         <li>
-                            <span class="btn btn-primary fa fa-check check_task"></span>
+                            <span class="btn btn-default fa fa-check check_task"></span>
                             <span>Afspraken: binnen de moniploeg en met de deelnemers zodat iedereen op dezelfde lijn zit. <br>
                             <strong>Tip:</strong> hiervoor kan je de Kazoogle uitlenen bij het kazouteam!</span>
                         </li>
                         <li>
-                            <span class="btn btn-primary fa fa-check check_task"></span>
+                            <span class="btn btn-default fa fa-check check_task"></span>
                             <span>Huisbezoeken voorbereiden (indien van toepassing)</span>
                         </li>
                         <li>
-                            <span class="btn btn-primary fa fa-check check_task"></span>
+                            <span class="btn btn-default fa fa-check check_task"></span>
                             <span>Tweede vergadering inplannen</span>
                         </li>
                     </ul>
@@ -60,24 +64,24 @@
                     <p>Wat staat er op de agenda?</p>
                     <ul class="vvgps_checklist">
                         <li>
-                            <span class="btn btn-primary fa fa-check check_task"></span>
+                            <span class="btn btn-default fa fa-check check_task"></span>
                             <span>Kennismaking met nieuwe monitoren</span>
                         </li>
                         <li>
-                            <span class="btn btn-primary fa fa-check check_task"></span>
+                            <span class="btn btn-default fa fa-check check_task"></span>
                             <span>Teambuilding</span>
                         </li>
                         <li>
-                            <span class="btn btn-primary fa fa-check check_task"></span>
+                            <span class="btn btn-default fa fa-check check_task"></span>
                             <span>Nieuwe info over de vakantie of activiteiten</span>
                         </li>
                         <li>
-                            <span class="btn btn-primary fa fa-check check_task"></span>
+                            <span class="btn btn-default fa fa-check check_task"></span>
                             <span>Stand van zaken van de voorbereidingen</span>
                         </li>
                     </ul>
                     <div class="alert alert-info">
-                        Je kan deze vergadering eventueel koppelen aan de vergaderingen van de groepjes, grote
+                        <strong>tip:</strong> Je kan deze vergadering eventueel koppelen aan de vergaderingen van de groepjes, grote
                         activiteiten of het thema. Ook knutselen is mogelijk in bijvoorbeeld de Rezzon of Bar Volontär.
                         Zeker voor vakanties met beginnende monitoren raden we aan om zeker drie vergaderingen te
                         houden. Verwaarloos deze dus zeker niet!
@@ -89,31 +93,31 @@
                     <p>Wat staat er op de agenda?</p>
                     <ul class="vvgps_checklist">
                         <li>
-                            <span class="btn btn-primary fa fa-check check_task"></span>
+                            <span class="btn btn-default fa fa-check check_task"></span>
                             <span>Teambuilding</span>
                         </li>
                         <li>
-                            <span class="btn btn-primary fa fa-check check_task"></span>
+                            <span class="btn btn-default fa fa-check check_task"></span>
                             <span>Laatste informatie overlopen</span>
                         </li>
                         <li>
-                            <span class="btn btn-primary fa fa-check check_task"></span>
+                            <span class="btn btn-default fa fa-check check_task"></span>
                             <span>Organiseren van het vertrek: wie vertrekt waar, wie neemt welke taken op zich (bijvoorbeeld busverantwoordelijke, busanimatie, ...)</span>
                         </li>
                         <li>
-                            <span class="btn btn-primary fa fa-check check_task"></span>
+                            <span class="btn btn-default fa fa-check check_task"></span>
                             <span>Overlopen van materiaal</span>
                         </li>
                         <li>
-                            <span class="btn btn-primary fa fa-check check_task"></span>
+                            <span class="btn btn-default fa fa-check check_task"></span>
                             <span>Overlopen van de afspraken</span>
                         </li>
                         <li>
-                            <span class="btn btn-primary fa fa-check check_task"></span>
+                            <span class="btn btn-default fa fa-check check_task"></span>
                             <span>Zijn alle voorbereidingen in orde?</span>
                         </li>
                         <li>
-                            <span class="btn btn-primary fa fa-check check_task"></span>
+                            <span class="btn btn-default fa fa-check check_task"></span>
                             <span>Medische zaken overlopen <br>
                             <strong>tip:</strong> indien je op in de Rezzon of Bar Volontär vergadert, kan je ook ineens badges maken!</span>
                         </li>
@@ -129,7 +133,7 @@
                     <h2>printwerk</h2>
                     <p>Je kan steeds bij het kazouteam terecht om te kopiëren of papieren af te drukken, daarom vergoeden we geen kopijkosten.</p>
                     <p>Tijdens de kantooruren kan met een usb-stick bij het Kazouteam in Turnhout of in Mechelen terecht om dingen af te drukken.</p>
-                    <p>Ook kan je je printwerk mailen naar kazou.rmt@cm.be. Doe dit wel 5 werkdagen op voorhand zodat het op tijd klaar ligt.</p>
+                    <p>Ook kan je je printwerk mailen naar <a href="mailto:kazourmt@cm.be">kazou.rmt@cm.be</a>. Doe dit wel 5 werkdagen op voorhand zodat het op tijd klaar ligt.</p>
                     <p>We kunnen afdrukken op A3 of A4, enkelzijdig of dubbelzijdig, zwart/wit of in kleur (na goedkeuring) en op wit/geel/groen/rood/blauw papier. Ook kunnen we bundeltjes nieten en boekjes maken.</p>
                 </div>
             </div>
@@ -145,17 +149,14 @@
         var tasks = document.querySelectorAll('.check_task');
         for (var i = 0, len = tasks.length; i < len; i++) {
             tasks[i].addEventListener('click', function (e) {
-                e.currentTarget.classList.toggle('btn-primary');
+                e.currentTarget.classList.toggle('btn-default');
                 e.currentTarget.classList.toggle('btn-success');
 
                 var textElement = e.currentTarget.parentElement.lastElementChild;
-                e.currentTarget.classList.contains('btn-primary') ? textElement.classList.remove('lineThrough') : textElement.classList.add('lineThrough');
+                e.currentTarget.classList.contains('btn-default') ? textElement.classList.remove('lineThrough') : textElement.classList.add('lineThrough');
                 console.log(textElement);
             });
-
-
         }
     </script>
-
     {{ parent() }}
 {% endblock %}

@@ -1,12 +1,47 @@
-/* globals */
+/* +++++  GLOBALS  +++++ */
 .lineThrough {
     text-decoration: line-through;
 }
 
+/* go to top of page */
+.goToTop {
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    transition: bottom 0.5s;
+    cursor: pointer;
+    color: black;
+}
 
-/*     +++++  VV-GPS  +++++     */
+.goToTop:visited, .goToTop:hover, .goToTop:focus {
+    text-decoration: none;
+}
 
-/* pages */
+.goToTop.down {
+    bottom: -50px;
+}
+
+/* go homes */
+.goHome {
+    position: fixed;
+    color: black;
+    top: 30px;
+    left: 30px;
+    transition: transform 0.5s;
+}
+
+.goHome:visited, .goHome:hover, .goHome:focus {
+    color: black;
+    text-decoration: none;
+}
+
+.goHome.large {
+    transform: scale(1.6);
+}
+
+/* +++++  VV-GPS  +++++ */
+
+/* menu */
 .vvgps_main_menu > .menuContainer > a {
     padding: 0;
 }
@@ -29,6 +64,11 @@
 }
 
 /* pages */
+.vvgps_goHome.large {
+    transform: scale(3);
+    transition: transform 0.5s;
+}
+
 .vvgps_pageMenu {
     height: 100vh;
     background-color: pink;
@@ -36,7 +76,6 @@
     flex-direction: column;
     justify-content: space-around;
 }
-
 
 .vvgps_checklist {
     list-style-type: none;
