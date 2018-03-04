@@ -18,10 +18,40 @@ use Symfony\Component\HttpFoundation\Response;
 class ExpensesController extends Controller
 {
     /**
-     * @Route("/expenses/add", name="expense_add")
+     * @Route("/onkosten", name="expense")
+     */
+    public function showExpense()
+    {
+        return $this->render(':expense:show.html.twig', []);
+
+
+        $em = $this->getDoctrine()->getEntityManager();
+
+        $user = null;
+        if( isset($_COOKIE['userHash'])) {
+            $user = $em->getRepository('AppBundle:User')->findOneBy(['hash' => $_COOKIE['userHash']]);
+            if($user) {
+                //$trips = $user->getTrips();
+                $trips = $em->getRepository('AppBundle:Trip')->findAllRecentTripsForUser($user, 5);
+                return $this->render('expense/show.html.twig', ['trips' => $trips]);
+            }
+            else {
+                $this->createNotFoundException('user doesnt exist - go to login page');
+            }
+        }
+        else {
+            $this->createNotFoundException('no user signed in');
+        }
+    }
+
+    /**
+     * @Route("/onkosten/add", name="expense_add")
      */
     public function addExpense()
     {
+        return $this->render(':expense:add.html.twig', []);
+
+
         $em = $this->getDoctrine()->getEntityManager();
 
         $user = null;
@@ -55,30 +85,6 @@ class ExpensesController extends Controller
         }
         else {
             throw $this->createNotFoundException('no user found for the current hash');
-        }
-    }
-
-    /**
-     * @Route("/expenses", name="expense")
-     */
-    public function showExpense()
-    {
-        $em = $this->getDoctrine()->getEntityManager();
-
-        $user = null;
-        if( isset($_COOKIE['userHash'])) {
-            $user = $em->getRepository('AppBundle:User')->findOneBy(['hash' => $_COOKIE['userHash']]);
-            if($user) {
-                //$trips = $user->getTrips();
-                $trips = $em->getRepository('AppBundle:Trip')->findAllRecentTripsForUser($user, 5);
-                return $this->render('expense/show.html.twig', ['trips' => $trips]);
-            }
-            else {
-                $this->createNotFoundException('user doesnt exist - go to login page');
-            }
-        }
-        else {
-            $this->createNotFoundException('no user signed in');
         }
     }
 }

@@ -1,6 +1,15 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
-    <h1>add an expense here</h1>
-    <h2>for now an expense has been created under your account</h2>
+    <div id="js-notes-wrapper"></div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/babel" src="{{ asset('js/expenses/createFlow.react.js') }}"></script>
+    <script type="text/babel">
+        ReactDOM.render(
+            <NoteSection />,
+            document.getElementById('js-notes-wrapper')
+        );
+    </script>
 {% endblock %}
