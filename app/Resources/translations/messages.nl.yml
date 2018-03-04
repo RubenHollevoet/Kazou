@@ -1,0 +1,5 @@
+vvgps:
+    menu:
+        beforeDeparture: voor het vertrek
+        duringVacation: de vakantie
+        extra: extra
