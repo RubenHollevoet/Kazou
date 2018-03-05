@@ -3,9 +3,30 @@
     text-decoration: line-through;
 }
 
+header {
+    position: fixed;
+    background-color: #282f39;
+    top: 0;
+    height: 60px;
+    width: 100%;
+    z-index: 1;
+}
+
+header > a {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 1;
+}
+
+.behindHeader {
+    height: 60px;
+}
+
 /* go to top of page */
 .goToTop {
     position: fixed;
+    z-index: 1;
     bottom: 20px;
     right: 30px;
     transition: bottom 0.5s;
@@ -23,20 +44,18 @@
 
 /* go homes */
 .goHome {
-    position: fixed;
-    color: black;
-    top: 30px;
-    left: 30px;
+    color: white;
+    transform-origin: left top;
     transition: transform 0.5s;
 }
 
 .goHome:visited, .goHome:hover, .goHome:focus {
-    color: black;
+    color: white;
     text-decoration: none;
 }
 
 .goHome.large {
-    transform: scale(1.6);
+    transform: scale(1.8);
 }
 
 /* +++++  VV-GPS  +++++ */
@@ -57,9 +76,19 @@
     color: white;
 }
 
+.vvgps_title {
+    color: white;
+    margin-top: 12px;
+}
+
 @media (max-width: 768px)  {
     .vvgps_main_menu > .menuContainer > a > .inner {
         max-height: 25vh;
+    }
+    
+    .vvgps_title {
+        font-size: 30px;
+        text-align: right;
     }
 }
 
@@ -71,7 +100,7 @@
 
 .vvgps_pageMenu {
     height: 100vh;
-    background-color: pink;
+    background-color: #00cf97;
     display: flex;
     flex-direction: column;
     justify-content: space-around;

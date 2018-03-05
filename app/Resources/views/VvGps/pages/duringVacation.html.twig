@@ -1,6 +1,10 @@
 {% extends "base.html.twig" %}
 
-{% block header %}{% endblock %}
+{% block title %}VV-GPS | {{ 'vvgps.menu.duringVacation'|trans }}{% endblock %}
+
+{% block header %}
+    {% include 'VvGps/header.html.twig' with {'title' : 'vvgps.menu.duringVacation'|trans  } %}
+{% endblock %}
 
 {% block body %}
     <div id="top" class="container">

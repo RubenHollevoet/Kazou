@@ -8,10 +8,10 @@ document.querySelector(".goToTop").addEventListener('click', function (e) {
 function scrollFunction() {
     if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
         document.querySelector('.goToTop').classList.remove('down');
-        document.querySelector('.goHome').classList.remove('large');
+        $('.goHome').removeClass('large');
     } else {
         document.querySelector('.goToTop').classList.add('down');
-        document.querySelector('.goHome').classList.add('large');
+        $('.goHome').addClass('large');
     }
 }
 
@@ -35,8 +35,9 @@ $('a[href*="#"]')           // Select all links with hashes
 
             if (target.length) {// Does a scroll target exist?
                 event.preventDefault();// Only prevent default if animation is actually gonna happen
+                var headerOffset = ($('header').css('position') === 'fixed') ? $('header').css('height').slice(0, -2) : 0;
                 $('html, body').animate({
-                    scrollTop: target.offset().top
+                    scrollTop: target.offset().top - headerOffset
                 }, 500, function() {
                 });
             }
