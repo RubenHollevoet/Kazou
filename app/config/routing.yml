@@ -32,11 +32,11 @@ hwi_oauth_login:
 facebook_login:
     path: /connect/check-facebook
 
-app:
-    resource: "@AppBundle/Controller/"
-    type:     annotation
-
 easy_admin_bundle:
     resource: "@EasyAdminBundle/Controller/AdminController.php"
     type:     annotation
     prefix:   /admin
+
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation

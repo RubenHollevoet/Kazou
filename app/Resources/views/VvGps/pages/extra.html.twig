@@ -1,0 +1,27 @@
+{% extends "base.html.twig" %}
+
+{% block title 'VV-GPS | ' ~ 'vvgps.menu.beforeDeparture'|trans %}
+
+{% block header %}
+    {% include 'VvGps/header.html.twig' with {'title' : 'vvgps.menu.beforeDeparture'|trans  } %}
+{% endblock %}
+
+{% block body %}
+    <div id="top" class="container">
+        <a href="#top" class="fa fa-arrow-up fa-3x goToTop down"></a>
+    </div>
+    <div class="container vvgps_pageMenu">
+        <h1>{{ 'vvgps.menu.extra'|trans }}</h1>
+        {#<a class="btn btn-default" href="#startvergadering">startvergadering</a>#}
+        {#<a class="btn btn-default" href="#tweede-vergadering">tweede vergadering</a>#}
+    </div>
+    <div class="container vvgps_page">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>TODO</h1>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer %}{% endblock %}

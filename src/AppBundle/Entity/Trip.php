@@ -25,19 +25,32 @@ class Trip
     private $id;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="trips")
+     * @ORM\JoinColumn()
+     */
+    private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="TripGroup", inversedBy="trips")
+     * @ORM\JoinColumn()
+     */
+    private $group;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="TripActivity", inversedBy="trips")
+     * @ORM\JoinColumn()
+     */
+    private $activity;
+
+    /**
+     * @ORM\Column(type="string", length=50)
      */
     private $from_;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", length=50)
      */
     private $to_;
-
-    /**
-     * @ORM\Column(type="datetime",nullable=true)
-     */
-    private $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
@@ -60,12 +73,12 @@ class Trip
     private $distance;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="decimal", precision=2, scale=2)
      */
-    private $amount;
+    private $price;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     private $tickets;
 
@@ -75,26 +88,6 @@ class Trip
     private $comment;
 
     /**
-     * @ORM\ManyToOne(targetEntity="TripGroup", inversedBy="trips")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $group;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="trips_")
-     */
-    private $activity;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="trips")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $user;
-
-
-
-
-    /**
      * @return mixed
      */
     public function getId()
@@ -102,44 +95,84 @@ class Trip
         return $this->id;
     }
 
-    public function getFrom()
-    {
-        return $this->from_;
-    }
-
-    public function setFrom($from_)
-    {
-        $this->from_ = $from_;
-    }
-
-    public function getTo()
-    {
-        return $this->to_;
-    }
-
-    public function setTo($to_)
-    {
-        $this->to_ = $to_;
-    }
-
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
-    }
-
+    /**
+     * @return mixed
+     */
     public function getUser()
     {
         return $this->user;
     }
 
+    /**
+     * @param mixed $user
+     */
     public function setUser($user)
     {
         $this->user = $user;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGroup()
+    {
+        return $this->group;
+    }
+
+    /**
+     * @param mixed $group
+     */
+    public function setGroup($group)
+    {
+        $this->group = $group;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getActivity()
+    {
+        return $this->activity;
+    }
+
+    /**
+     * @param mixed $activity
+     */
+    public function setActivity($activity)
+    {
+        $this->activity = $activity;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFrom()
+    {
+        return $this->from_;
+    }
+
+    /**
+     * @param mixed $from_
+     */
+    public function setFrom($from_)
+    {
+        $this->from_ = $from_;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTo()
+    {
+        return $this->to_;
+    }
+
+    /**
+     * @param mixed $to_
+     */
+    public function setTo($to_)
+    {
+        $this->to_ = $to_;
     }
 
     /**
@@ -209,17 +242,17 @@ class Trip
     /**
      * @return mixed
      */
-    public function getAmount()
+    public function getPrice()
     {
-        return $this->amount;
+        return $this->price;
     }
 
     /**
-     * @param mixed $amount
+     * @param mixed $price
      */
-    public function setAmount($amount)
+    public function setPrice($price)
     {
-        $this->amount = $amount;
+        $this->price = $price;
     }
 
     /**
@@ -252,37 +285,5 @@ class Trip
     public function setComment($comment)
     {
         $this->comment = $comment;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getGroup()
-    {
-        return $this->group;
-    }
-
-    /**
-     * @param mixed $group
-     */
-    public function setGroup($group)
-    {
-        $this->group = $group;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getActivity()
-    {
-        return $this->activity;
-    }
-
-    /**
-     * @param mixed $activity
-     */
-    public function setActivity($activity)
-    {
-        $this->activity = $activity;
     }
 }
