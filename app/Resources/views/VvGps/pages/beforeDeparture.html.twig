@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}VV-GPS | {{ 'vvgps.menu.beforeDeparture'|trans }}{% endblock %}
+{% block title 'VV-GPS | ' ~ 'vvgps.menu.beforeDeparture'|trans %}
 
 {% block header %}
     {% include 'VvGps/header.html.twig' with {'title' : 'vvgps.menu.beforeDeparture'|trans  } %}

@@ -1,6 +1,6 @@
 {% extends "base.html.twig" %}
 
-{% block title %}VV-GPS | {{ 'vvgps.menu.duringVacation'|trans }}{% endblock %}
+{% block title 'VV-GPS | ' ~ 'vvgps.menu.duringVacation'|trans %}
 
 {% block header %}
     {% include 'VvGps/header.html.twig' with {'title' : 'vvgps.menu.duringVacation'|trans  } %}
@@ -8,7 +8,6 @@
 
 {% block body %}
     <div id="top" class="container">
-        <a href="{{ path('vvgps') }}" class="fa fa-home fa-3x goHome large"></a>
         <a href="#top" class="fa fa-arrow-up fa-3x goToTop down"></a>
     </div>
     <div class="container vvgps_pageMenu">
