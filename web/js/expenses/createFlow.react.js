@@ -22,10 +22,10 @@ var NoteSection = React.createClass({
             <div className="notes-container">
             <h2 className="notes-header">Notes</h2>
             <div><i className="fa fa-plus plus-btn"></i></div>
-        </div>
-        <NoteList notes={this.state.notes} />
-        </div>
-    );
+            </div>
+            <NoteList notes={this.state.notes} />
+            </div>
+        );
     }
 });
 var NoteList = React.createClass({
