@@ -104,8 +104,37 @@ hwi_oauth:
             infos_url:      "https://graph.facebook.com/me?fields=id,email,first_name,last_name,picture"
 
 easy_admin:
+    site_name: Kazou Tools
+    design:
+        brand_color: '#3C995B'
+        assets:
+            favicon: '/img/favicon.ico'
+            css:
+                - '/css/easyAdmin.css'
+    list:
+        title: 'Lijst van %%entity_label%%'
+        actions:
+            - { name: edit, icon: pencil}
+            - { name: delete, icon: trash}
+
+#    delete:
+#        icon: trash
     entities:
-        - AppBundle\Entity\Trip
-        - AppBundle\Entity\TripActivity
-        - AppBundle\Entity\TripGroup
-        - AppBundle\Entity\User
+        Alliance:
+            class: AppBundle\Entity\Alliance
+            label: verbonden
+            list:
+                fields:
+                    - { property: Alliance, label: verbond}
+        User:
+            class: AppBundle\Entity\User
+            label: gebruikers
+            list:
+                fields:
+                    - { property: email, type: email }
+                    - { property: enabled, type: boolean }
+                    - { property: lastLogin, format: 'D M Y' }
+                sort: ['email', 'ASC']
+#        - AppBundle\Entity\Trip
+#        - AppBundle\Entity\TripActivity
+#        - AppBundle\Entity\TripGroup
