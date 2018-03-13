@@ -9,6 +9,7 @@
 namespace AppBundle\Entity;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -30,14 +31,25 @@ class TripGroup
     private $name;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="TripGroup", inversedBy="children")
+     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id")
      */
-    private $parent_id;
+    private $parent;
+
+    /**
+     * @ORM\OneToMany(targetEntity="TripGroup", mappedBy="parent", cascade={"all"}, orphanRemoval=true)
+     */
+    private $children;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
     private $code;
+
+    public function __construct()
+    {
+        $this->children = new ArrayCollection();
+    }
 
     /**
      * @return mixed
@@ -66,17 +78,25 @@ class TripGroup
     /**
      * @return mixed
      */
-    public function getParentId()
+    public function getParent()
     {
-        return $this->parent_id;
+        return $this->parent;
     }
 
     /**
-     * @param mixed $parent_id
+     * @param mixed $parent
      */
-    public function setParentId($parent_id)
+    public function setParent($parent)
     {
-        $this->parent_id = $parent_id;
+        $this->parent = $parent;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getChildren()
+    {
+        return $this->children;
     }
 
     /**
@@ -93,5 +113,17 @@ class TripGroup
     public function setCode($code)
     {
         $this->code = $code;
+    }
+
+    public function __toString() {
+        $count = 0;
+        $group = $this;
+        while($group->getParent() !== null)
+        {
+            $group = $group->getParent();
+            $count++;
+        }
+
+        return str_repeat('> ', $count) . $this->name;
     }
 }
