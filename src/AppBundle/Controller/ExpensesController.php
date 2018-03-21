@@ -24,38 +24,40 @@ class ExpensesController extends Controller
      */
     public function addExpense()
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        return $this->render('expense/add.html.twig');
 
-        $user = null;
-        if (isset($_COOKIE['userHash'])) {
-            $user = $em->getRepository('AppBundle:User')->findOneBy(['hash' => $_COOKIE['userHash']]);
-        } else {
-            throw $this->createNotFoundException('no user signed in');
-        }
-
-        $group = $em->getRepository('AppBundle:TripGroup')->find(1); //find group with id 1
-
-        if ($user) {
-
-            $trip = new Trip();
-            $trip->setFrom('A-' . rand(0, 100));
-            $trip->setTo('B-' . rand(0, 100));
-            $trip->setCreatedAt(new \DateTime());
-            $trip->setDate(new \DateTime('1/1/2018 2:00 pm'));
-            $trip->setTransportType('auto');
-            $trip->setCompany('alone');
-
-            $trip->setGroup($group);
-            $trip->setUser($user);
-
-            $em->persist($trip);
-
-            $em->flush();
-
-            return $this->render('expense/add.html.twig', ['trip' => $trip]);
-        } else {
-            throw $this->createNotFoundException('no user found for the current hash');
-        }
+//        $em = $this->getDoctrine()->getEntityManager();
+//
+//        $user = null;
+//        if (isset($_COOKIE['userHash'])) {
+//            $user = $em->getRepository('AppBundle:User')->findOneBy(['hash' => $_COOKIE['userHash']]);
+//        } else {
+//            throw $this->createNotFoundException('no user signed in');
+//        }
+//
+//        $group = $em->getRepository('AppBundle:TripGroup')->find(1); //find group with id 1
+//
+//        if ($user) {
+//
+//            $trip = new Trip();
+//            $trip->setFrom('A-' . rand(0, 100));
+//            $trip->setTo('B-' . rand(0, 100));
+//            $trip->setCreatedAt(new \DateTime());
+//            $trip->setDate(new \DateTime('1/1/2018 2:00 pm'));
+//            $trip->setTransportType('auto');
+//            $trip->setCompany('alone');
+//
+//            $trip->setGroup($group);
+//            $trip->setUser($user);
+//
+//            $em->persist($trip);
+//
+//            $em->flush();
+//
+//            return $this->render('expense/add.html.twig', ['trip' => $trip]);
+//        } else {
+//            throw $this->createNotFoundException('no user found for the current hash');
+//        }
     }
 
     /**

@@ -1,6 +1,92 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
-    <h1>add an expense here</h1>
-    <h2>for now an expense has been created under your account</h2>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+    <div id="app">
+        <div v-if="page === 0">
+            <h2>Wie ben je?</h2>
+            <img src="" alt="">
+            <table>
+                <tr>
+                    <th>Naam:</th>
+                    <td>???</td>
+                </tr>
+                <tr>
+                    <th>Email:</th>
+                    <td>???</td>
+                </tr>
+                <tr>
+                    <th>Rijksregisternummer:</th>
+                    <td>???</td>
+                </tr>
+                <tr>
+                    <th>IBAN:</th>
+                    <td>???</td>
+                </tr>
+            </table>
+            <div class="actions">
+                <button v-on:click="nextStep" >Dit ben ik</button>
+            </div>
+        </div>
+        <div v-else-if="page === 1">
+            <h2>Waarvoor dien je KM in?</h2>
+            <ul class="todo-list">
+                <div>
+                    <h3>activiteit</h3>
+                    <groupstack-item
+                            v-for="group in groupStack"
+                            v-bind:group="group"
+                            v-bind:key="group.id">
+                    </groupstack-item>
+
+                    <groupsavaliable-item
+                            v-for="group in activeGroups"
+                            v-bind:group="group"
+                            v-bind:key="group.id">
+                    </groupsavaliable-item>
+                </div>
+                <div>
+                    <h3>datum</h3>
+                    <input type="date">
+                </div>
+                <div>
+                    <h3>plaats</h3>
+                    <input type="text">
+                </div>
+            </ul>
+            <div class="actions">
+                <button v-on:click="prevStep" >vorige</button>
+                <button v-on:click="nextStep" >volgende</button>
+            </div>
+        </div>
+        <div v-else-if="page === 2">
+            <h2>Wat was je vervoer?</h2>
+            <div class="actions">
+                <button v-on:click="prevStep" >vorige</button>
+                <button v-on:click="nextStep" >volgende</button>
+            </div>
+        </div>
+        <div v-else-if="page === 3">
+            <h2>Bevestigen</h2>
+            <div class="actions">
+                <button v-on:click="prevStep" >vorige</button>
+                <button v-on:click="submit" >bevestigen</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="js-notes-wrapper"></div>
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+
+
+
+
+    <script src={{ asset('/js/vue/expensesAdd.js') }}  ></script>
+
 {% endblock %}

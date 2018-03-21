@@ -1,9 +1,12 @@
 /* go to top */
 window.onscroll = function() {scrollFunction()};
 
-document.querySelector(".goToTop").addEventListener('click', function (e) {
-    topFunction();
-});
+if(document.querySelector(".goToTop")) {
+    document.querySelector(".goToTop").addEventListener('click', function (e) {
+        topFunction();
+    });
+}
+
 
 function scrollFunction() {
     if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
