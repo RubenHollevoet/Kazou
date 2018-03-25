@@ -1,4 +1,7 @@
 /* +++++  GLOBALS  +++++ */
+@import url('https://fonts.googleapis.com/css?family=Archivo+Black');
+@import url('https://fonts.googleapis.com/css?family=Oswald');
+
 .lineThrough {
     text-decoration: line-through;
 }
@@ -19,8 +22,8 @@ header > a {
     z-index: 1;
 }
 
-.behindHeader {
-    height: 60px;
+.underline {
+    text-decoration: underline;
 }
 
 /* go to top of page */
@@ -31,11 +34,12 @@ header > a {
     right: 30px;
     transition: bottom 0.5s;
     cursor: pointer;
-    color: black;
+    color: #282f39;
 }
 
 .goToTop:visited, .goToTop:hover, .goToTop:focus {
     text-decoration: none;
+    color: #282f39;
 }
 
 .goToTop.down {
@@ -79,6 +83,8 @@ header > a {
 .vvgps_title {
     color: white;
     margin-top: 12px;
+    text-align: right;
+    padding-right: 10px;
 }
 
 @media (max-width: 768px)  {
@@ -88,7 +94,6 @@ header > a {
     
     .vvgps_title {
         font-size: 30px;
-        text-align: right;
     }
 }
 
@@ -99,11 +104,15 @@ header > a {
 }
 
 .vvgps_pageMenu {
-    height: 100vh;
-    background-color: #00cf97;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
+
+}
+
+@media (max-width: 768px)  {
+   .vvgps_pageMenu {
+        min-height: 100vh;
+        background: url('/img/vvgps/menuBg.jpg');
+        background-size: cover;
+    }
 }
 
 .vvgps_checklist {
@@ -119,4 +128,35 @@ header > a {
 
 .vvgps_checklist > li > .btn {
     margin-right: 5px;
+}
+
+.vvgps_infoBlock {
+    margin-top: -60px;
+    padding-top: 60px;
+}
+
+.vvgps_pageMenu_btns {
+    padding-top: 60px;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(255,255,255,0.6);
+    max-width: 600px;
+    margin: auto;
+}
+
+.vvgps_menu_btn {
+    background-color: #f1d600;
+    padding: 10px 20px;
+    margin: 10px;
+    color: white;
+    border-radius: 4px;
+    font-size: 24px;
+    font-family: 'Oswald', sans-serif;
+    align-self: center;
+}
+
+.vvgps_menu_btn:hover, .vvgps_menu_btn:focus {
+    background-color: #d7bf00;
+    color: white;
+    text-decoration: none;
 }
