@@ -143,7 +143,6 @@ function loStoChecksRecover() {
     if (json) {
         for (var btn_id in json) {
             var btn_ = document.getElementById('c-' + btn_id);
-            console.log(json[btn_id]);
             if (btn_ && json[btn_id]) {
                 btn_.click();
             }

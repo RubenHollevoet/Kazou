@@ -14,6 +14,9 @@ use AppBundle\Entity\User;
 use AppBundle\Repository\TripRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -22,9 +25,40 @@ class ExpensesController extends Controller
     /**
      * @Route("/expenses/add", name="expense_add")
      */
-    public function addExpense()
+    public function addExpense(Request $request)
     {
-        return $this->render('expense/add.html.twig');
+        $user = $this->getUser();
+        $trip = new Trip();
+
+        $form = $this->createFormBuilder($trip)
+            ->add('to_', TextType::class)
+            ->add('from_', TextType::class)
+            ->add('date', DateType::class)
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // $form->getData() holds the submitted values
+            // but, the original `$task` variable has also been updated
+            $trip = $form->getData();
+
+            dump($trip); die;
+
+            // ... perform some action, such as saving the task to the database
+            // for example, if Task is a Doctrine entity, save it!
+            // $entityManager = $this->getDoctrine()->getManager();
+            // $entityManager->persist($task);
+            // $entityManager->flush();
+
+            return $this->redirectToRoute('expense_add'); //todo route to expenses added
+        }
+
+
+        return $this->render('expense/add.html.twig', [
+            'form' => $form->createView(),
+            'user' => $user
+        ]);
 
 //        $em = $this->getDoctrine()->getEntityManager();
 //

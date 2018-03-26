@@ -3,7 +3,9 @@
 {% block body %}
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
+    {{ dump(user) }}
 
+    {{ form_start(form) }}
     <div id="app">
         <div v-if="page === 0">
             <h2>Wie ben je?</h2>
@@ -27,7 +29,7 @@
                 </tr>
             </table>
             <div class="actions">
-                <button v-on:click="nextStep" >Dit ben ik</button>
+                <span class="btn btn-default" v-on:click="nextStep">Dit ben ik</span>
             </div>
         </div>
         <div v-else-if="page === 1">
@@ -40,7 +42,6 @@
                             v-bind:group="group"
                             v-bind:key="group.id">
                     </groupstack-item>
-
                     <groupsavaliable-item
                             v-for="group in activeGroups"
                             v-bind:group="group"
@@ -49,33 +50,37 @@
                 </div>
                 <div>
                     <h3>datum</h3>
-                    <input type="date">
+                    {{ form_row(form.date) }}
                 </div>
                 <div>
                     <h3>plaats</h3>
-                    <input type="text">
+                    {{ form_row(form.to_) }}
                 </div>
             </ul>
             <div class="actions">
-                <button v-on:click="prevStep" >vorige</button>
-                <button v-on:click="nextStep" >volgende</button>
+                <span class="btn btn-default" v-on:click="prevStep">vorige</span>
+                <span class="btn btn-default" v-on:click="nextStep">volgende</span>
             </div>
         </div>
         <div v-else-if="page === 2">
-            <h2>Wat was je vervoer?</h2>
+            <h2>vervoer?</h2>
+            <h3>Waar ben je vertrokken?</h3>
+            {{ form_row(form.from_) }}
+            <h3>Welk vervoer heb je gebruikt?</h3>
             <div class="actions">
-                <button v-on:click="prevStep" >vorige</button>
-                <button v-on:click="nextStep" >volgende</button>
+                <span class="btn btn-default" v-on:click="prevStep">vorige</span>
+                <span class="btn btn-default" v-on:click="nextStep">volgende</span>
             </div>
         </div>
         <div v-else-if="page === 3">
             <h2>Bevestigen</h2>
             <div class="actions">
-                <button v-on:click="prevStep" >vorige</button>
-                <button v-on:click="submit" >bevestigen</button>
+                <span class="btn btn-default" v-on:click="prevStep">vorige</span>
+                <span class="btn btn-default" v-on:click="submit">bevestigen</span>
             </div>
         </div>
     </div>
+    {{ form_end(form) }}
 
     <div id="js-notes-wrapper"></div>
 {% endblock %}
@@ -87,6 +92,6 @@
 
 
 
-    <script src={{ asset('/js/vue/expensesAdd.js') }}  ></script>
+    <script src={{ asset('/js/vue/expensesAdd.js') }}></script>
 
 {% endblock %}
