@@ -156,4 +156,18 @@ class ExpensesController extends Controller
             'data' => $children
         ]);
     }
+
+    /**
+     * @Route("/expenses/api/createTrip")
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function addTrip(Request $request)
+    {
+        $in = $request->getContent();
+
+        return $this->json([
+            'status' => 'ok',
+            'echo' => $in
+        ]);
+    }
 }

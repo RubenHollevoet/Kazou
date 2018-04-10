@@ -3,10 +3,10 @@
 {% block body %}
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
-    {{ dump(user) }}
+    {#{{ dump(user) }}#}
 
-    {{ form_start(form) }}
-    <div id="app">
+    {#{{ form_start(form) }}#}
+    <div id="expenses_app">
         <div v-if="page === 0">
             <h2>Wie ben je?</h2>
             <img src="" alt="">
@@ -28,59 +28,79 @@
                     <td>???</td>
                 </tr>
             </table>
-            <div class="actions">
+            <span class="flex1"></span>
+            <div class="actions btnGroup">
                 <span class="btn btn-default" v-on:click="nextStep">Dit ben ik</span>
             </div>
         </div>
         <div v-else-if="page === 1">
             <h2>Waarvoor dien je KM in?</h2>
-            <ul class="todo-list">
-                <div>
-                    <h3>activiteit</h3>
+            <div>
+                <h3>activiteit</h3>
+                <ul id="groupStack">
                     <groupstack-item
                             v-for="group in groupStack"
                             v-bind:group="group"
                             v-bind:key="group.id">
                     </groupstack-item>
+                </ul>
+                <div class="btnGroup">
                     <groupsavaliable-item
                             v-for="group in activeGroups"
                             v-bind:group="group"
                             v-bind:key="group.id">
                     </groupsavaliable-item>
                 </div>
-                <div>
-                    <h3>datum</h3>
-                    {{ form_row(form.date) }}
+            </div>
+            <div>
+                <h3>datum</h3>
+                <div class="form-group">
+                    <input class="form-control "v-model="tripData.date" placeholder="vertrekplaats" type="date">
                 </div>
-                <div>
-                    <h3>plaats</h3>
-                    {{ form_row(form.to_) }}
+            </div>
+            <div>
+                <h3>plaats</h3>
+                <div class="form-group">
+                    <input class="form-control "v-model="tripData.to" placeholder="vertrekplaats" type="text">
                 </div>
-            </ul>
-            <div class="actions">
+            </div>
+            <span class="flex1"></span>
+            <div class="actions btnGroup">
                 <span class="btn btn-default" v-on:click="prevStep">vorige</span>
                 <span class="btn btn-default" v-on:click="nextStep">volgende</span>
             </div>
         </div>
-        <div v-else-if="page === 2">
+        <div class="" v-else-if="page === 2">
             <h2>vervoer?</h2>
             <h3>Waar ben je vertrokken?</h3>
-            {{ form_row(form.from_) }}
+            <div class="form-group">
+                <input class="form-control" v-model="tripData.from" placeholder="vertrekplaats" type="text">
+            </div>
+
+            {#{{ form_row(form.from_) }}#}
             <h3>Welk vervoer heb je gebruikt?</h3>
-            <div class="actions">
+            <div class="btnGroup">
+                <span class="btn btn-default">auto of moto (+50cc)</span>
+                <span class="btn btn-default">openbaar vervoer</span>
+                <span class="btn btn-default">fiets</span>
+                <span class="btn btn-default">brommer (-50cc)</span>
+            </div>
+            <span class="flex1"></span>
+            <div class="actions btnGroup">
                 <span class="btn btn-default" v-on:click="prevStep">vorige</span>
                 <span class="btn btn-default" v-on:click="nextStep">volgende</span>
             </div>
         </div>
         <div v-else-if="page === 3">
             <h2>Bevestigen</h2>
-            <div class="actions">
+            <span class="flex1"></span>
+            <div class="actions btnGroup">
                 <span class="btn btn-default" v-on:click="prevStep">vorige</span>
                 <span class="btn btn-default" v-on:click="submit">bevestigen</span>
             </div>
         </div>
     </div>
-    {{ form_end(form) }}
+    {#{{ form_end(form) }}#}
 
     <div id="js-notes-wrapper"></div>
 {% endblock %}
@@ -88,9 +108,6 @@
 
 {% block javascripts %}
     {{ parent() }}
-
-
-
 
     <script src={{ asset('/js/vue/expensesAdd.js') }}></script>
 
