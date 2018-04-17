@@ -17,8 +17,3 @@ services:
             autowire: true
             tags:
                 - { name: kernel.event_subscriber }
-
-     app.fos_user.oauth_provider:
-         # Change the class according to the location of the FOSUBUserProvider class
-         class: AppBundle\Service\FOSUBUserProvider
-         arguments: ['@fos_user.user_manager',{facebook: facebook_id}]

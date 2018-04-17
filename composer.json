@@ -29,7 +29,7 @@
         "javiereguiluz/easyadmin-bundle": "^1.17",
         "friendsofsymfony/user-bundle": "~2.0",
         "php-http/guzzle6-adapter": "^1.1",
-        "hwi/oauth-bundle": "^0.6.0"
+        "facebook/php-sdk-v4" : "5.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

@@ -46,15 +46,6 @@ class User extends BaseUser
      */
     private $facebook_access_token;
 
-//    /**
-//     * @ORM\Column(name="google_id", type="string", length=255, nullable=true)
-//     */
-//    private $google_id;
-//
-//    /**
-//     * @ORM\Column(name="google_access_token", type="string", length=255, nullable=true)
-//     */
-//    private $google_access_token;
 
 
     /**
