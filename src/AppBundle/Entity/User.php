@@ -9,179 +9,132 @@
 namespace AppBundle\Entity;
 
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use FOS\UserBundle\Model\User as BaseUser;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="`user`")
+ * @ORM\Table(name="user")
  */
-class User extends BaseUser
+class User implements UserInterface
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
-    protected $id;
+    private $id;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", unique=true)
      */
-    private $firstName;
+    private $email;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
-    private $lastName;
+    private $password;
+    
+    private $plainPassword;
 
     /**
-     * @ORM\Column(name="facebook_id", type="string", length=255, nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $facebook_id;
+    private $fb_userId;
 
-    /**
-     * @ORM\Column(name="facebook_access_token", type="string", length=255, nullable=true)
-     */
-    private $facebook_access_token;
-
-
-
-    /**
-     * @ORM\Column(type="string")
-     */
-    //private $bank;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    //private $personId;
-
-    /**
-     * @ORM\OneToMany(targetEntity="Trip", mappedBy="user")
-     * @ORM\OrderBy({"createdAt"="DESC"})
-     */
-    private $trips;
-
-    public function __construct()
+    public function getUsername()
     {
-        parent::__construct();
-        $this->trips = new ArrayCollection();
+        return $this->email;
+    }
+
+    public function getRoles()
+    {
+        return ['ROLE_USER'];
+    }
+
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    public function getSalt()
+    {
+        // TODO: Implement getSalt() method.
+    }
+
+
+    public function eraseCredentials()
+    {
+        $this->plainPassword = null;
+    }
+
+
+
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 
     /**
      * @return mixed
      */
-    public function getFirstName()
+    public function getEmail()
     {
-        return $this->firstName;
+        return $this->email;
     }
 
     /**
-     * @param mixed $firstName
+     * @param mixed $email
      */
-    public function setFirstName($firstName)
-    {
-        $this->firstName = $firstName;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getLastName()
-    {
-        return $this->lastName;
-    }
-
-    /**
-     * @param mixed $lastName
-     */
-    public function setLastName($lastName)
-    {
-        $this->lastName = $lastName;
-    }
-
     public function setEmail($email)
     {
-        $this->setUsername($email);
-
-        return parent::setEmail($email);
+        $this->email = $email;
     }
-
-//
-//    /**
-//     * @return mixed
-//     */
-//    public function getBank()
-//    {
-//        return $this->bank;
-//    }
-//
-//    /**
-//     * @param mixed $bank
-//     */
-//    public function setBank($bank)
-//    {
-//        $this->bank = $bank;
-//    }
-//
-//    /**
-//     * @return mixed
-//     */
-//    public function getPersonId()
-//    {
-//        return $this->personId;
-//    }
-//
-//    /**
-//     * @param mixed $personId
-//     */
-//    public function setPersonId($personId)
-//    {
-//        $this->personId = $personId;
-//    }
-
-    public function setFacebookId($facebookID) {
-        $this->facebook_id = $facebookID;
-    }
-
-    public function getFacebookId() {
-        return $this->facebook_id;
-    }
-
-    public function setFacebookAccessToken($facebookAccessToken) {
-        $this->facebook_access_token = $facebookAccessToken;
-    }
-
-    public function getFacebookAccessToken() {
-        return $this->facebook_access_token;
-    }
-//
-//    public function setGoogleId($googleID) {
-//        $this->google_id = $googleID;
-//    }
-//
-//    public function getGoogleId() {
-//        return $this->google_id;
-//    }
-//
-//    public function setGoogleAccessToken($googleAccessToken) {
-//        $this->google_access_token = $googleAccessToken;
-//    }
-//
-//    public function getGoogleAccessToken() {
-//        return $this->google_access_token;
-//    }
-
-
-
 
     /**
-     * @return ArrayCollection|Trip[]
+     * @param mixed $password
      */
-    public function getTrips()
+    public function setPassword($password)
     {
-        return $this->trips;
+        $this->password = $password;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    /**
+     * @param mixed $plainPassword
+     */
+    public function setPlainPassword($plainPassword)
+    {
+        $this->plainPassword = $plainPassword;
+
+        //to make sure the listeners will be called
+        $this->password = null;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFbUserId()
+    {
+        return $this->fb_userId;
+    }
+
+    /**
+     * @param mixed $fb_userId
+     */
+    public function setFbUserId($fb_userId)
+    {
+        $this->fb_userId = $fb_userId;
     }
 }

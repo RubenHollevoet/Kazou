@@ -10,11 +10,13 @@ namespace AppBundle\Controller;
 
 
 use AppBundle\Entity\User;
+use AppBundle\Form\UserRegistrationForm;
 use Facebook\Exceptions\FacebookResponseException;
 use Facebook\Exceptions\FacebookSDKException;
 use Facebook\Facebook;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
@@ -151,26 +153,39 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/user/add", name="user_add")
+     * @Route("/user/register", name="user_register")
      */
-    public function addUser()
+    public function registerUser(Request $request)
     {
-        $user = new User();
-        $user->setFirstName('user' . rand(0, 100));
-        $user->setLastName(rand(0, 100));
-        $user->setBank('-');
-        $user->setEmail('-');
-        $user->setPersonId('-');
-        // $user->setHash(sha1($user->getEmail().$user->getBank().rand(1,1000)));
+//        $user = new User();
+//        $user->setFirstName('user' . rand(0, 100));
+//        $user->setLastName(rand(0, 100));
+//        $user->setBank('-');
+//        $user->setEmail('-');
+//        $user->setPersonId('-');
+//        // $user->setHash(sha1($user->getEmail().$user->getBank().rand(1,1000)));
+//
+//        //temporary
+//        //setcookie('userHash', $user->getHash(),time()+31556926, '/');
+//
+//        $em = $this->getDoctrine()->getEntityManager();
+//        $em->persist($user);
+//        $em->flush();
 
-        //temporary
-        //setcookie('userHash', $user->getHash(),time()+31556926, '/');
+        $form = $this->createForm(UserRegistrationForm::class);
 
-        $em = $this->getDoctrine()->getEntityManager();
-        $em->persist($user);
-        $em->flush();
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            /** @var User $user */
+            $user = $form->getData();
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+            $this->addFlash('success', 'Welcome '.$user->getEmail());
+            return $this->redirectToRoute('homepage');
+        }
 
-        return $this->render('user/add.html.twig', ['user' => $user]);
+        return $this->render('user/register.html.twig', ['form' => $form->createView()]);
     }
 
     /**

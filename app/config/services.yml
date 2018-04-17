@@ -7,13 +7,17 @@ services:
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
-     app.form.registration:
+    app.form.registration:
             class: AppBundle\Form\RegistrationFormType
             tags:
                 - { name: form.type }
 
-     app.redirect_after_registration_subscriber:
-            class: AppBundle\EventListener\RedirectAfterRegistrationSubscriber
+    app.security.login_form_authenticator:
+            class: AppBundle\Security\LoginFormAuthenticator
+            autowire: true
+
+    app.doctrine.hash_password_listener:
+            class: AppBundle\Doctrine\HashPasswordListener
             autowire: true
             tags:
-                - { name: kernel.event_subscriber }
+                - { name: doctrine.event_listener, event: prePersist }
