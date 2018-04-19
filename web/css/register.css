@@ -1,0 +1,54 @@
+.register-selector {
+    display: flex;
+    justify-content: space-between;
+    align-elements: center;
+}
+
+.register-selector > div {
+    width: 45%;
+    margin: 0 20px;
+}
+
+.register-selector > .split {
+    margin: auto 0;
+    background-color: white;
+    padding: 8px 0;
+}
+
+.register-selector > .split::after {
+    border-right: 1px solid #ddd;
+    content: '';
+    width: 0px;
+    height: 250px;
+    position:  absolute;
+    transform: translate(-10px,-50%) translateY(10px);
+    z-index: -1;
+}
+
+.register-selector > .register-facebook {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.register-selector > .register-facebook > * {
+    text-align: center;
+}
+
+.register-selector > .register-facebook > a {
+    border-radius: 8px;
+    background-color: #0084ff;
+    color: white;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    padding: 7px 25px 7px 20px;
+    font-size: 21px;
+}
+
+.register-selector > .register-facebook > a:hover, .register-selector > .register-facebook > a:focus {
+    text-decoration: none;
+}
+
+.register-selector > .register-facebook > a > span {
+    padding: 10px;
+}

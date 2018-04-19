@@ -9,23 +9,55 @@
             <link rel="stylesheet" href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}">
             <link rel="stylesheet" href="{{ asset('vendor/fontawesome/css/font-awesome.min.css') }}">
             <link rel="stylesheet" href="{{ asset('css/styles.css') }}?v={{ random(999999) }}">
+            <link rel="stylesheet" href="{{ asset('css/header.css') }}?v={{ random(999999) }}">
+            <link rel="stylesheet" href="{{ asset('css/footer.css') }}?v={{ random(999999) }}">
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}?v=1" />
     </head>
     <body>
 
         {% block header %}
-            <div>
-                {% if is_granted('ROLE_USER') %}
-                    <a href="{{ path('security_logout') }}" class="btn btn-default">Logout</a>
-                {% else %}
-                    <a href="{{ path('security_login') }}" class="btn btn-default">Login</a>
-                    <a href="{{ path('user_register') }}" class="btn btn-default">Register</a>
-                {% endif %}
-            </div>
+            <header class="main-header">
+                <div class="container">
+                    <div class="row header-content">
+                        <a href="{{ path('homepage') }}">
+                            <img class="logo" src="{{ asset('img/kazou-logo.png') }}" alt="logo Kazou" width="125" height="98">
+                        </a>
+
+                        <nav class="desktop-nav">
+                            <ul>
+                                <li>
+                                    <a href="{{ path('expense') }}">Onkosten</a>
+                                </li>
+                                <li>
+                                    <a href="/">Open plaatsen</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('vvgps') }}">VV-GPS</a>
+                                </li>
+                                <li>
+                                    <a href="/">Agenda</a>
+                                </li>
+                            </ul>
+                        </nav>
+                        <div class="actions">
+                            {% if is_granted('ROLE_USER') %}
+                                <a href="{{ path('security_logout') }}">Logout</a>
+                            {% else %}
+                                <a href="{{ path('security_login') }}">Login</a>
+                                <a href="{{ path('user_register') }}">Registreer</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+            </header>
         {% endblock %}
 
         <div class="main-content">
+            <div class="header-coverup">
+
+            </div>
             {% for msg in app.session.flashBag.get('success') %}
                 <div class="alert alert-success">
                     {{ msg }}
@@ -36,9 +68,9 @@
         </div>
 
         {% block footer %}
-            <div class="footer">
+            <footer class="footer">
 
-            </div>
+            </footer>
         {% endblock %}
 
         {% block javascripts %}

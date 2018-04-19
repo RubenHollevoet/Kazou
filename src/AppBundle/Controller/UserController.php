@@ -34,30 +34,15 @@ class UserController extends Controller
         return $this->render('user/show.html.twig', ['user' => $user]);*/
 
 
-        $fb = new Facebook([
-            'app_id' => $this->getParameter('facebook_app_id'), // Replace {app-id} with your app id
-            'app_secret' => $this->getParameter('facebook_app_secret'),
-            'default_graph_version' => 'v2.2',
-        ]);
 
-        $helper = $fb->getRedirectLoginHelper();
-
-        $permissions = ['email']; // Optional permissions
-        $loginUrl = $helper->getLoginUrl($this->getParameter('facebook_oauth_redirect'), $permissions);
-
-        return new Response('<a href="' . htmlspecialchars($loginUrl) . '">Log in with Facebook!</a> ');
 
     }
 
     /**
-     * @Route("/user/login/response")
+     * @Route("/user/facebookResponse")
      */
     public function loginResponse() {
-        $fb = new Facebook([
-            'app_id' => $this->getParameter('facebook_app_id'), // Replace {app-id} with your app id
-            'app_secret' => $this->getParameter('facebook_app_secret'),
-            'default_graph_version' => 'v2.2',
-        ]);
+        $fb = $this->getFacebook();
 
         $helper = $fb->getRedirectLoginHelper();
 
@@ -134,7 +119,27 @@ class UserController extends Controller
             exit;
         }
 
-        $user = $fb_response->getGraphUser();
+        $fb_user = $fb_response->getGraphUser();
+
+
+        $user = $this->getDoctrine()->getRepository('AppBundle:User')->findOneBy(['fb_userId' => $fb_user['id']]);
+        if($user) {
+            // todo: login user
+        }
+        else {
+            //add user
+
+            $user = new User();
+            $user->setEmail($fb_user['email']);
+            $user->setFbUserId($fb_user['id']);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+            $this->addFlash('success', 'Welkom '.$fb_user['name'] . '!');
+            return $this->redirectToRoute('homepage');
+        }
+
         dump($user);
         die();
 
@@ -157,35 +162,30 @@ class UserController extends Controller
      */
     public function registerUser(Request $request)
     {
-//        $user = new User();
-//        $user->setFirstName('user' . rand(0, 100));
-//        $user->setLastName(rand(0, 100));
-//        $user->setBank('-');
-//        $user->setEmail('-');
-//        $user->setPersonId('-');
-//        // $user->setHash(sha1($user->getEmail().$user->getBank().rand(1,1000)));
-//
-//        //temporary
-//        //setcookie('userHash', $user->getHash(),time()+31556926, '/');
-//
-//        $em = $this->getDoctrine()->getEntityManager();
-//        $em->persist($user);
-//        $em->flush();
+        //facebook stuff
+        $fb = $this->getFacebook();
+        $helper = $fb->getRedirectLoginHelper();
+        $permissions = ['email']; // Optional permissions
+        $fbLoginUrl = $helper->getLoginUrl($this->getParameter('facebook_oauth_redirect'), $permissions);
 
+
+        // form stuff
         $form = $this->createForm(UserRegistrationForm::class);
 
         $form->handleRequest($request);
         if ($form->isValid()) {
-            /** @var User $user */
             $user = $form->getData();
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
-            $this->addFlash('success', 'Welcome '.$user->getEmail());
+            $this->addFlash('success', 'Welkom '.$user->getEmail() . '!');
             return $this->redirectToRoute('homepage');
         }
 
-        return $this->render('user/register.html.twig', ['form' => $form->createView()]);
+        return $this->render('user/register.html.twig', [
+            'form' => $form->createView(),
+            'fbLoginUrl' => $fbLoginUrl
+        ]);
     }
 
     /**
@@ -194,5 +194,17 @@ class UserController extends Controller
     public function loginUser()
     {
         return $this->render('user/login.html.twig', []);
+    }
+
+
+
+    private function getFacebook() {
+        $fb = new Facebook([
+            'app_id' => $this->getParameter('facebook_app_id'), // Replace {app-id} with your app id
+            'app_secret' => $this->getParameter('facebook_app_secret'),
+            'default_graph_version' => 'v2.2',
+        ]);
+
+        return $fb;
     }
 }

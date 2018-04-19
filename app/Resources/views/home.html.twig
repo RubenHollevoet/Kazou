@@ -1,5 +1,36 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
-    <h1>HOME!!</h1>
+
+    <style>
+        .btn-lg {
+            margin-bottom: 10px;
+        }
+    </style>
+
+    <div class="container">
+        <div class="row">
+            <div>
+                <div class="col-sm-6 col-lg-3">
+                    <a href="https://www.youtube.com/channel/UCJPO4UkWbl41CZGcoXLGhEA" class="btn btn-default btn-lg btn-block">Youtube Kanaal</a>
+                </div>
+
+                {#<div class="col-sm-6 col-lg-3">#}
+                    {#<button type="button" class="btn btn-default btn-lg btn-block" data-toggle="modal" data-target="#ModalContact">Contact werkgroepen</button>#}
+                {#</div>#}
+
+                <div class="col-sm-6 col-lg-3">
+                    <a href="https://rmt.kazou.be/" class="btn btn-default btn-lg btn-block">Medewerkers site</a>
+                </div>
+
+                <div class="col-sm-6 col-lg-3">
+                    <a href="http://www.kazourmt.be/amoniac" class="btn btn-default btn-lg btn-block">Amoniac</a>
+                </div>
+
+                <div class="col-sm-6 col-lg-3">
+                    <a href="http://www.kazourmt.be/onkosten" class="btn btn-default btn-lg btn-block">Onkosten</a>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

@@ -15,9 +15,15 @@ class UserRegistrationForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('email', EmailType::class)
+            ->add('email', EmailType::class, [
+                'label' => 'Email adres'
+            ])
             ->add('plainPassword', RepeatedType::class, [
-                'type' => PasswordType::class
+                'type' => PasswordType::class,
+                'required' => true,
+                'invalid_message' => 'De wachtwoorden komen niet overeen',
+                'first_options'  => ['label' => 'Wachtwoord'],
+                'second_options' => ['label' => 'Herhaling wachtwoord'],
             ]);
     }
 

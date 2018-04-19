@@ -204,3 +204,25 @@ header > a {
 .btnGroup > *{
     margin: 5px 5px;
 }
+
+
+/* general */
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+body > header {
+    flex: 0 1 auto;
+}
+
+body > .main-content {
+    flex: 1 1 auto;
+    /* align-items:  center; */
+    /* justify-self:  center; */
+}
+
+body > footer {
+    flex: 0 1 40px;
+}
