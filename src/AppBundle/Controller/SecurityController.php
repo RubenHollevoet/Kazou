@@ -34,6 +34,7 @@ class SecurityController extends Controller
 
         return $this->render('security/login.html.twig', [
             'form' => $form->createView(),
+            'fbLoginUrl' => $this->container->get('app.service.facebook_user_provider')->getLoginUrl(),
             'error' => $error,
         ]);
     }

@@ -12,8 +12,22 @@ services:
             tags:
                 - { name: form.type }
 
+    app.service.facebook_user_provider:
+            class: AppBundle\Service\FacebookUserProvider
+            arguments:
+                - '@session'
+                - '@Symfony\Component\Routing\RouterInterface'
+                - '%facebook_oauth_redirect%'
+                - '%facebook_app_id%'
+                - '%facebook_app_secret%'
+            autowire: true
+
     app.security.login_form_authenticator:
             class: AppBundle\Security\LoginFormAuthenticator
+            autowire: true
+
+    app.security.facebook_form_authenticator:
+            class: AppBundle\Security\FacebookFormAuthenticator
             autowire: true
 
     app.doctrine.hash_password_listener:

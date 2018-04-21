@@ -21,6 +21,8 @@ security:
             guard:
                 authenticators:
                     - app.security.login_form_authenticator #this calls the authenticator service every page load
+                    - app.security.facebook_form_authenticator #this calls the authenticator service every page load
+                entry_point: app.security.facebook_form_authenticator
 
             logout:
                 path: /logout
