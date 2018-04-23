@@ -99,21 +99,27 @@ class ExpensesController extends Controller
      */
     public function showExpense()
     {
-        $em = $this->getDoctrine()->getEntityManager();
+//        $em = $this->getDoctrine()->getEntityManager();
+//
+//        $user = null;
+//        if (isset($_COOKIE['userHash'])) {
+//            $user = $em->getRepository('AppBundle:User')->findOneBy(['hash' => $_COOKIE['userHash']]);
+//            if ($user) {
+//                //$trips = $user->getTrips();
+//                $trips = $em->getRepository('AppBundle:Trip')->findAllRecentTripsForUser($user, 5);
+//                return $this->render('expense/show.html.twig', ['trips' => $trips]);
+//            } else {
+//                $this->createNotFoundException('user doesnt exist - go to login page');
+//            }
+//        } else {
+//            $this->createNotFoundException('no user signed in');
+//        }
 
-        $user = null;
-        if (isset($_COOKIE['userHash'])) {
-            $user = $em->getRepository('AppBundle:User')->findOneBy(['hash' => $_COOKIE['userHash']]);
-            if ($user) {
-                //$trips = $user->getTrips();
-                $trips = $em->getRepository('AppBundle:Trip')->findAllRecentTripsForUser($user, 5);
-                return $this->render('expense/show.html.twig', ['trips' => $trips]);
-            } else {
-                $this->createNotFoundException('user doesnt exist - go to login page');
-            }
-        } else {
-            $this->createNotFoundException('no user signed in');
-        }
+        //TODO check if IBAN and personId are in user
+
+        return $this->render('expense/show.html.twig', [
+            'profileComplete' => false
+        ]);
     }
 
 

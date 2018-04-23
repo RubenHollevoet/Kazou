@@ -26,6 +26,31 @@ class User implements UserInterface
     private $id;
 
     /**
+     * @ORM\Column(type="string")
+     */
+    private $firstName;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $lastName;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $picture;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $iban;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $personId;
+
+    /**
      * @ORM\Column(type="string", unique=true)
      */
     private $email;
@@ -77,6 +102,86 @@ class User implements UserInterface
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFirstName()
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * @param mixed $firstName
+     */
+    public function setFirstName($firstName)
+    {
+        $this->firstName = $firstName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastName()
+    {
+        return $this->lastName;
+    }
+
+    /**
+     * @param mixed $lastName
+     */
+    public function setLastName($lastName)
+    {
+        $this->lastName = $lastName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPicture()
+    {
+        return $this->picture;
+    }
+
+    /**
+     * @param mixed $picture
+     */
+    public function setPicture($picture)
+    {
+        $this->picture = $picture;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIban()
+    {
+        return $this->iban;
+    }
+
+    /**
+     * @param mixed $iban
+     */
+    public function setIban($iban)
+    {
+        $this->iban = $iban;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPersonId()
+    {
+        return $this->personId;
+    }
+
+    /**
+     * @param mixed $personId
+     */
+    public function setPersonId($personId)
+    {
+        $this->personId = $personId;
     }
 
     /**

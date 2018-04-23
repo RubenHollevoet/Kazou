@@ -1,5 +1,0 @@
-registration:
-    login:
-        submit: "aanmelden"
-    flash:
-        user_created: "je account is aangemaakt"

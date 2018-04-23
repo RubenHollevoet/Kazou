@@ -38,10 +38,7 @@ class UserController extends Controller
     public function loginResponse() {
 
         $fbUserProvider = $this->container->get('app.service.facebook_user_provider');
-        $fbUserProvider->handleResponse();
-
-
-        return new Response('');
+        return $fbUserProvider->handleResponse();
     }
 
     /**
@@ -60,9 +57,6 @@ class UserController extends Controller
      */
     public function registerUser(Request $request)
     {
-
-
-
         // form stuff
         $form = $this->createForm(UserRegistrationForm::class);
 
@@ -72,7 +66,7 @@ class UserController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
-            $this->addFlash('success', 'Welkom '.$user->getEmail() . '!');
+            $this->addFlash('success', 'Welkom '.$user->getEmail());
             return $this->redirectToRoute('homepage');
         }
 

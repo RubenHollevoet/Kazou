@@ -12,10 +12,10 @@ namespace AppBundle\Security;
 use AppBundle\Form\LoginForm;
 use AppBundle\Service\FacebookUserProvider;
 use Doctrine\ORM\EntityManager;
-use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -32,24 +32,29 @@ class FacebookFormAuthenticator extends AbstractFormLoginAuthenticator
 {
     use TargetPathTrait;
 
-    private $formFactory;
     private $em;
     private $router;
-    /**
-     * @var FacebookUserProvider
-     */
     private $facebookUserProvider;
+    /**
+     * @var TokenStorage
+     */
+    private $tokenStorage;
 
-    public function __construct(FormFactoryInterface $formFactory, EntityManager $em, RouterInterface $router, FacebookUserProvider $facebookUserProvider)
+    public function __construct(EntityManager $em, RouterInterface $router, TokenStorage $tokenStorage, FacebookUserProvider $facebookUserProvider)
     {
-        $this->formFactory = $formFactory;
         $this->em = $em;
         $this->router = $router;
         $this->facebookUserProvider = $facebookUserProvider;
+        $this->tokenStorage = $tokenStorage;
     }
 
     public function getCredentials(Request $request)
     {
+        if($this->tokenStorage->getToken())
+        {
+            return;
+        }
+
         $fbUser = $this->facebookUserProvider->getCurrentUser();
 
         return $fbUser;

@@ -4,22 +4,22 @@
     <h1>todo: here you will find your expenses</h1>
     <a href="{{ path("expense_add") }}">add expense</a>
 
-    <table style="width: 80%">
-        <tr>
-            <th>van</th>
-            <th>naar</th>
-            <th>datum</th>
-            <th>tijdstip</th>
-            <th>status</th>
-        </tr>
+    {#<table style="width: 80%">#}
+        {#<tr>#}
+            {#<th>van</th>#}
+            {#<th>naar</th>#}
+            {#<th>datum</th>#}
+            {#<th>tijdstip</th>#}
+            {#<th>status</th>#}
+        {#</tr>#}
 
-    {% for trip in trips %}
-        <tr>
-            <td>{{ trip.from }}</td>
-            <td>{{ trip.to }}</td>
-            <td>{{ trip.createdAt|date('d M Y', "Europe/Brussels") }}</td>
-            <td>{{ trip.createdAt|date('G:i', "Europe/Brussels") }}</td>
-        </tr>
-    {% endfor %}
-    </table>
+    {#{% for trip in trips %}#}
+        {#<tr>#}
+            {#<td>{{ trip.from }}</td>#}
+            {#<td>{{ trip.to }}</td>#}
+            {#<td>{{ trip.createdAt|date('d M Y', "Europe/Brussels") }}</td>#}
+            {#<td>{{ trip.createdAt|date('G:i', "Europe/Brussels") }}</td>#}
+        {#</tr>#}
+    {#{% endfor %}#}
+    {#</table>#}
 {% endblock %}
