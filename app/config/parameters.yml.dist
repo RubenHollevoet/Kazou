@@ -16,7 +16,7 @@ parameters:
     mailer_password:   ~
 
     # A secret key that's used to generate certain security-related tokens
-    secret:            adjkjasdjllappoqwnva
-    facebook_app_id: '1567726960014638'
-    facebook_app_secret: dfe9b9648ec2ba8404863cadf06b46dd
-    facebook_oauth_redirect: http://kazourmt.dev.be/app_dev.php/user/login/response
+    secret:            appSecret
+    facebook_app_id: 'XXX'
+    facebook_app_secret: XXX
+    facebook_oauth_redirect: XXX

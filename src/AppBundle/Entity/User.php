@@ -46,7 +46,7 @@ class User implements UserInterface
     private $iban;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      */
     private $personId;
 
@@ -241,5 +241,10 @@ class User implements UserInterface
     public function setFbUserId($fb_userId)
     {
         $this->fb_userId = $fb_userId;
+    }
+
+    public function __toString()
+    {
+        return $this->email;
     }
 }

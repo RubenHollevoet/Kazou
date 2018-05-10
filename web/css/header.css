@@ -51,22 +51,10 @@ nav > ul > li > a:focus, nav > ul > li > a:hover {
     justify-content: space-between;
 }
 
-.header-content > .actions > * {
-    background-color: #f1d600;
-    padding: 3px 10px;
-    margin: 5px;
-    color: white;
+.header-content > .actions > a > .profilePicture {
     border-radius: 4px;
-    font-size: 24px;
-    font-family: 'Oswald', sans-serif;
-    align-self: center;
-}
-
-.header-content > .actions > *:hover, .header-content > .actions > *:focus {
-    text-decoration: none;
-    transform: scale(1.2);
 }
 
 .header-coverup {
-    height: 130px;
+    height: 96px;
 }

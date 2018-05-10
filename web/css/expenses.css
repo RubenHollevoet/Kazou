@@ -1,0 +1,88 @@
+/*#expenses_app {*/
+    /*background: url('/img/vvgps/menuBg.jpg');*/
+/*}*/
+
+/*@media only screen and (max-width: 600px) {*/
+    #expenses_app {
+        padding: 10px;
+        min-height: 75%;
+        position: relative;
+        /* transform: translateX(-50%); */
+        /* left: 50%; */
+    }
+
+    #expenses_app > div > * {
+        padding: 10px 30px;
+    }
+
+    #expenses_app > div > h2 {
+        text-align: center;
+    }
+
+    #expenses_app > div > .actions {
+
+    }
+
+    #expenses_app > div {
+        display: flex;
+        /* height: 100%; */
+        width: 100%;
+        min-height: 100%;
+        flex-direction: column;
+        /* background-color: rgba(255,255,255,0.9); */
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+
+    .flex1 {
+        flex-grow: 1;
+    }
+
+    .btnGroup {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+
+    .btnGroup > *{
+        margin: 5px 5px;
+    }
+
+/*}*/
+
+#groupStack > li {
+    padding: 5px 0;
+}
+
+.centerBox {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.submitIconContainer {
+    margin: 0 auto;
+    font-size: 60px;
+}
+
+
+
+/*@media only screen and (max-width: 600px) {*/
+    /*#expenses_app {*/
+         /*!* height: 100%; *!*/
+    /*}*/
+/*}*/
+
+@media (min-width: 600px) {
+    #expenses_app {
+        max-width: 700px;
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    #expenses_app > div {
+        background-color: rgba(255,255,255,0.9);
+}
+}

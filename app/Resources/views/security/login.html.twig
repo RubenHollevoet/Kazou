@@ -9,7 +9,7 @@
     <div class="container">
         <div class="row register-selector">
             <div class="register-facebook">
-                <a href="{{ fbLoginUrl }}"><span class="fa fa-facebook"></span>Login met Facebook</a>
+                <a href="{{ fbLoginUrl }}"><span class="fa fa-facebook"></span>Login met Facebook <br> (comming soon!)</a>
             </div>
             <span class="split">OF</span>
             <div>
@@ -20,10 +20,12 @@
                 {{ form_start(form) }}
                 {{ form_row(form._username) }}
                 {{ form_row(form._password) }}
-                <button type="submit" class="btn btn-success">Login</button>
-                {{ form_end(form) }}
+                <div>
+                    <button type="submit" class="btn btn-yellow">Aanmelden</button>
+                    <a href="{{ path('user_register') }}" class="btn btn-default">Registreren</a>
+                </div>
 
-                <a href="{{ path('user_register') }}" class="btn btn-default">Register</a>
+                {{ form_end(form) }}
             </div>
         </div>
     </div>

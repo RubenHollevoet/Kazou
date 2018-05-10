@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css?family=Archivo+Black');
 @import url('https://fonts.googleapis.com/css?family=Oswald');
 
-html, body, .main-content, #expenses_app {
+html, body, .main-content {
     height: 100%;
 }
 
@@ -28,6 +28,11 @@ header > a {
 
 .underline {
     text-decoration: underline;
+}
+
+.disableList {
+    list-style: none;
+    padding-left: 0;
 }
 
 /* go to top of page */
@@ -163,46 +168,6 @@ header > a {
     background-color: #d7bf00;
     color: white;
     text-decoration: none;
-}
-
-
-/* +++++  EXPENSES  +++++ */
-
-#expenses_app {
-    padding: 10px;
-}
-
-#expenses_app > div > * {
-    padding: 5px 0px;
-}
-
-#expenses_app > div > h2 {
-    text-align: center;
-}
-
-#expenses_app > div > .actions {
-   
-}
-
-#expenses_app > div {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}
-
-.flex1 {
-    flex-grow: 1;
-}
-
-.btnGroup {
-     display: flex;
-     flex-wrap: wrap;
-     justify-content: center;
-}
-
-
-.btnGroup > *{
-    margin: 5px 5px;
 }
 
 

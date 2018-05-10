@@ -32,7 +32,7 @@ class TripGroup
 
     /**
      * @ORM\ManyToOne(targetEntity="TripGroup", inversedBy="children")
-     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $parent;
 
@@ -45,6 +45,12 @@ class TripGroup
      * @ORM\Column(type="string", nullable=true)
      */
     private $code;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="TripActivity")
+     * @ORM\JoinColumn()
+     */
+    private $tripActivity;
 
     public function __construct()
     {
@@ -114,6 +120,26 @@ class TripGroup
     {
         $this->code = $code;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getTripActivity()
+    {
+        return $this->tripActivity;
+    }
+
+    /**
+     * @param mixed $tripActivity
+     */
+    public function setTripActivity($tripActivity)
+    {
+        $this->tripActivity = $tripActivity;
+    }
+
+
+
+
 
     public function __toString() {
         $count = 0;

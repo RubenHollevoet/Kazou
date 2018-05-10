@@ -9,6 +9,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Trip;
+use AppBundle\Entity\TripActivity;
 use AppBundle\Entity\TripGroup;
 use AppBundle\Entity\User;
 use AppBundle\Repository\TripRepository;
@@ -152,6 +153,7 @@ class ExpensesController extends Controller
                 $children[] = [
                     'id' => $child->getId(),
                     'name' => $child->getName(),
+                    'type' => 'group',
                     'code' => $child->getCode()
                 ];
             }
@@ -164,16 +166,116 @@ class ExpensesController extends Controller
     }
 
     /**
+     * @Route("/expenses/api/getTripActivities")
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function getTripActivities(Request $request)
+    {
+        $tripGroups = [];
+        $error = '';
+
+        $groupId = $request->query->get('group');
+        if($groupId) {
+            $result = $this->getDoctrine()->getRepository(TripGroup::class)->find($groupId);
+            if($result) {
+                $tripGroups = $result->getTripActivity()->getValues();
+//                $activities = $result->getParent()->getTripActivity()->getValues();
+                //todo: include parent trip activities
+            }
+        }
+        else {
+            $error = 'group doesn\'t exist';
+        }
+
+        if(count($tripGroups) < 1) {
+            $error = 'no groups exist on this activity';
+        }
+
+        if($tripGroups)
+        {
+            foreach ($tripGroups as $child)
+            {
+                $activities[] = [
+                    'id' => $child->getId(),
+                    'name' => $child->getName(),
+                    'type' => 'activity',
+                    'code' => $child->getCode()
+                ];
+            }
+        }
+
+        return $this->json([
+            'status' => $error ? 'error' : 'ok',
+            'data' => $error ?: $activities
+        ]);
+    }
+
+    /**
      * @Route("/expenses/api/createTrip")
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function addTrip(Request $request)
     {
-        $in = $request->getContent();
+        $formData = json_decode($request->getContent());
+        $em = $this->getDoctrine()->getManager();
+
+        //handle user
+        $user = null;
+        if($formData->userData) { //todo: update check to check here weather a user is loged in or not
+            $user = $this->getDoctrine()->getRepository(User::class)->findOneByEmail($formData->userData->email);
+            if($user === null)
+            {
+                //create new user
+                $user = new User();
+                $user->setEmail($formData->userData->email);
+            }
+
+            //update user info
+            $user->setIban($formData->userData->iban);
+            $user->setPersonId($formData->userData->personId);
+            $user->setFirstName($formData->userData->name);
+            $user->setLastName($formData->userData->name);
+
+            $em->persist($user);
+        }
+        else {
+            //TODO: get user that's curently signed in
+        }
+
+        //handle tripGroup
+        $tripGroup = $this->getDoctrine()->getRepository(TripGroup::class)->find($formData->tripData->groupId);
+
+        //handle tripActivity
+        $tripActivity = $this->getDoctrine()->getRepository(TripActivity::class)->find($formData->tripData->activityId);
+
+        $tripDate = new \DateTime($formData->tripData->date);
+
+        $trip = new Trip();
+        $trip->setUser($user);
+        $trip->setFrom($formData->tripData->from);
+        $trip->setTo($formData->tripData->to);
+        $trip->setDate($tripDate);
+//        $trip->setDate('2018-01-01 00:00:00');
+        $trip->setGroup($tripGroup);
+        $trip->setActivity($tripActivity);
+        $trip->setTransportType($formData->tripData->transportType);
+        if(property_exists($formData->tripData, 'price')) {
+            $trip->setPrice($formData->tripData->price);
+        }
+        else {
+            $trip->setPrice($formData->tripData->distance * 0.25);
+        }
+        if($formData->tripData->company) $trip->setCompany($formData->tripData->company);
+        if($formData->tripData->distance) $trip->setDistance($formData->tripData->distance);
+        if($formData->tripData->comment) $trip->setComment($formData->tripData->comment);
+
+        $em->persist($trip);
+
+        $em->flush();
 
         return $this->json([
             'status' => 'ok',
-            'echo' => $in
+//            'echo' => json_encode($formData)
         ]);
     }
 }

@@ -4,13 +4,14 @@ window.onscroll = function () {
 };
 
 function scrollFunction() {
-    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-        document.querySelector('.goToTop').classList.remove('down');
-        $('.goHome').removeClass('large');
-    } else {
-        document.querySelector('.goToTop').classList.add('down');
-        $('.goHome').addClass('large');
-    }
+    //TODO: fix
+    // if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    //     document.querySelector('.goToTop').classList.remove('down');
+    //     $('.goHome').removeClass('large');
+    // } else {
+    //     document.querySelector('.goToTop').classList.add('down');
+    //     $('.goHome').addClass('large');
+    // }
 }
 
 

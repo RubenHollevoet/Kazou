@@ -1,25 +1,23 @@
 {% extends "base.html.twig" %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/expenses.css') }}?v={{ random(999999) }}">
+    {{ parent() }}
+{% endblock %}
+
 {% block body %}
-    <h1>todo: here you will find your expenses</h1>
-    <a href="{{ path("expense_add") }}">add expense</a>
-
-    {#<table style="width: 80%">#}
-        {#<tr>#}
-            {#<th>van</th>#}
-            {#<th>naar</th>#}
-            {#<th>datum</th>#}
-            {#<th>tijdstip</th>#}
-            {#<th>status</th>#}
-        {#</tr>#}
-
-    {#{% for trip in trips %}#}
-        {#<tr>#}
-            {#<td>{{ trip.from }}</td>#}
-            {#<td>{{ trip.to }}</td>#}
-            {#<td>{{ trip.createdAt|date('d M Y', "Europe/Brussels") }}</td>#}
-            {#<td>{{ trip.createdAt|date('G:i', "Europe/Brussels") }}</td>#}
-        {#</tr>#}
-    {#{% endfor %}#}
-    {#</table>#}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 centerBox">
+                <h1>Welkom op de onkostentool</h1>
+                <p>Hier kan je al je transport onkosten indienen. Momenteel is de onkostentool nog volop in ontwikkeling
+                    en zullen er nog een hele boel functionaliteiten worden toegevoegd.</p>
+                <a href="{{ path("expense_add") }}" class="btn btn-yellow btn-zoom">onkosten toevoegen</a>
+            </div>
+            <div class="col-md-12 centerBox">
+                <p>Binnenkort zal het ook mogelijk zijn je ingediende onkosten en de status ervan via deze pagina op te
+                    volgen.</p>
+            </div>
+        </div>
+    </div>
 {% endblock %}

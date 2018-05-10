@@ -1,43 +1,112 @@
 {% extends "base.html.twig" %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/expenses.css') }}?v={{ random(999999) }}">
+    {{ parent() }}
+    <style>
+        @media (min-width: 768px) {
+            .main-content {
+                background: url('/img/vvgps/menuBg.jpg');
+                background-size: cover;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
 {% block body %}
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
     {#{{ dump(user) }}#}
 
     {#{{ form_start(form) }}#}
-    <div id="expenses_app">
+    {#{{ dump(user|json_decode()) }}#}
+
+    <div id="expenses_app"
+            {% if user %}
+         :json="setUserData({name: '{{ user.firstName }} {{ user.lastName }}', email: '{{ user.email }}'})">
+        {% else %}
+            :json="setUserData({})">
+        {% endif %}
         <div v-if="page === 0">
-            <h2>Wie ben je?</h2>
-            <img src="" alt="">
-            <table>
-                <tr>
-                    <th>Naam:</th>
-                    <td>???</td>
-                </tr>
-                <tr>
-                    <th>Email:</th>
-                    <td>???</td>
-                </tr>
-                <tr>
-                    <th>Rijksregisternummer:</th>
-                    <td>???</td>
-                </tr>
-                <tr>
-                    <th>IBAN:</th>
-                    <td>???</td>
-                </tr>
-            </table>
+            <h2>voor we beginnen</h2>
+            <div class="col-md-12">
+                <div class="alert alert-info">
+                    <ul>
+                        <li>We raden verder iedereen aan om zoveel mogelijk te carpoolen, je bewijst er de aarde (en dus ook
+                            jezelf) een dienst mee!
+                        </li>
+                        <li>Bij misbruik worden er geen onkosten terugbetaald.</li>
+                    </ul>
+                </div>
+            </div>
+
             <span class="flex1"></span>
             <div class="actions btnGroup">
-                <span class="btn btn-default" v-on:click="nextStep">Dit ben ik</span>
+                <span class="btn btn-yellow btn-zoom" v-on:click="nextStep">Akkoord!</span>
             </div>
         </div>
         <div v-else-if="page === 1">
+            <h2>Wie ben je?</h2>
+            <img src="" alt="">
+            <div class="row">
+                <div class="col-md-4">Naam:</div>
+                <div class="col-md-8">
+                    {% if(user) %}
+                        <input id="name" class="form-control" type="text" v-model="userData.name" disabled>
+                    {% else %}
+                        <input id="name" class="form-control" type="text" v-model="userData.name"
+                               placeholder="voor- en achternaam">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">Email:</div>
+                <div class="col-md-8">
+                    {% if(user) %}
+                        <input id="name" class="form-control" type="email" v-model="userData.email" disabled>
+                    {% else %}
+                        <input id="name" class="form-control" type="email" v-model="userData.email">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">IBAN:</div>
+                <div class="col-md-8">
+                    <input id="name" class="form-control" placeholder="BE..." type="text" v-model="userData.iban">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">Rijksregisternummer:</div>
+                <div class="col-md-8">
+                    <input id="name" class="form-control" placeholder="xxxxxxxxx" type="text"
+                           v-model="userData.personId">
+                </div>
+            </div>
+            <span class="flex1"></span>
+            <div class="col-md-12" v-if="formErrors.length">
+                <div class="<div alert alert-danger">
+                    <ul>
+                        <form-errors
+                                v-for="error in formErrors"
+                                v-bind:error="error"
+                                v-bind:key="error">
+                        </form-errors>
+                    </ul>
+                </div>
+            </div>
+            <div class="actions btnGroup">
+                <span class="btn btn-yellow btn-zoom" v-on:click="prevStep">vorige</span>
+                <span class="btn btn-yellow btn-zoom" v-on:click="nextStep">Dit ben ik</span>
+            </div>
+        </div>
+        <div v-else-if="page === 2">
             <h2>Waarvoor dien je KM in?</h2>
             <div>
                 <h3>activiteit</h3>
-                <ul id="groupStack">
+                <ul id="groupStack" class="disableList">
                     <groupstack-item
                             v-for="group in groupStack"
                             v-bind:group="group"
@@ -52,25 +121,39 @@
                     </groupsavaliable-item>
                 </div>
             </div>
-            <div>
-                <h3>datum</h3>
-                <div class="form-group">
-                    <input class="form-control "v-model="tripData.date" placeholder="vertrekplaats" type="date">
+            <div class="row">
+                <div class="col-md-6">
+                    <h3>datum</h3>
+                    <div class="form-group">
+                        <input class="form-control " v-model="tripData.date" type="date">
+                    </div>
                 </div>
-            </div>
-            <div>
-                <h3>plaats</h3>
-                <div class="form-group">
-                    <input class="form-control "v-model="tripData.to" placeholder="vertrekplaats" type="text">
+                <div class="col-md-6">
+                    <h3>plaats</h3>
+                    <div class="form-group">
+                        <input class="form-control " v-model="tripData.to" placeholder="waar vond de activiteit plaats?"
+                               type="text">
+                    </div>
                 </div>
             </div>
             <span class="flex1"></span>
+            <div class="col-md-12" v-if="formErrors.length">
+                <div class="<div alert alert-danger">
+                    <ul>
+                        <form-errors
+                                v-for="error in formErrors"
+                                v-bind:error="error"
+                                v-bind:key="error">
+                        </form-errors>
+                    </ul>
+                </div>
+            </div>
             <div class="actions btnGroup">
-                <span class="btn btn-default" v-on:click="prevStep">vorige</span>
-                <span class="btn btn-default" v-on:click="nextStep">volgende</span>
+                <span class="btn btn-yellow btn-zoom" v-on:click="prevStep">vorige</span>
+                <span class="btn btn-yellow btn-zoom" v-on:click="nextStep">volgende</span>
             </div>
         </div>
-        <div class="" v-else-if="page === 2">
+        <div class="" v-else-if="page === 3">
             <h2>vervoer?</h2>
             <h3>Waar ben je vertrokken?</h3>
             <div class="form-group">
@@ -80,23 +163,82 @@
             {#{{ form_row(form.from_) }}#}
             <h3>Welk vervoer heb je gebruikt?</h3>
             <div class="btnGroup">
-                <span class="btn btn-default">auto of moto (+50cc)</span>
-                <span class="btn btn-default">openbaar vervoer</span>
-                <span class="btn btn-default">fiets</span>
-                <span class="btn btn-default">brommer (-50cc)</span>
+                <div v-bind:class="[tripData.transportType ? 'car' : '123', '456']"></div>
+                <span class="btn" v-bind:class="[tripData.transportType === 'car' ? 'btn-primary' : 'btn-default']"
+                      v-on:click="tripData.transportType = 'car'">auto of moto (+50cc)</span>
+                <span class="btn"
+                      v-bind:class="[tripData.transportType === 'publicTransport' ? 'btn-primary' : 'btn-default']"
+                      v-on:click="tripData.transportType = 'publicTransport'">openbaar vervoer</span>
+                <span class="btn" v-bind:class="[tripData.transportType === 'bike' ? 'btn-primary' : 'btn-default']"
+                      v-on:click="tripData.transportType = 'bike'">fiets</span>
+                <span class="btn" v-bind:class="[tripData.transportType === 'scooter' ? 'btn-primary' : 'btn-default']"
+                      v-on:click="tripData.transportType = 'scooter'">brommer (-50cc)</span>
+            </div>
+            <div class="btnGroup" v-if="tripData.transportType === 'car'">
+                <span class="btn btn-default"
+                      v-bind:class="[tripData.company === 'soloDriver' ? 'btn-primary' : 'btn-default']"
+                      v-on:click="tripData.company = 'soloDriver'">alleen gereden</span>
+                <span class="btn btn-default"
+                      v-bind:class="[tripData.company === 'groupDriver' ? 'btn-primary' : 'btn-default']"
+                      v-on:click="tripData.company = 'groupDriver'">carpool (als bestuurder)</span>
+                <span class="btn btn-default"
+                      v-bind:class="[tripData.company === 'carpooler' ? 'btn-primary' : 'btn-default']"
+                      v-on:click="tripData.company = 'carpooler'">carpool (geen bestuurder)</span>
+            </div>
+            <div v-if="tripData.transportType === 'car' && (tripData.company === 'soloDriver' || tripData.company === 'groupDriver')">
+                <h3>Hoeveel KM heb je afgelegd? (heen + terug)</h3>
+                <div class="form-group">
+                    <input class="form-control" v-model="tripData.distance" placeholder="vertrekplaats" type="text">
+                </div>
+            </div>
+            <div class="alert alert-info"
+                 v-if="(tripData.company === 'carpooler' && tripData.transportType === 'car') || tripData.transportType === 'bike' || tripData.transportType === 'scooter'">
+                Helaas, hiervoor betalen we geen onkosten terug. We vragen je toch het formulier in te dienen om zo een
+                beeld te krijgen van welke vervoersmiddelen er allemaal gebruikt worden.
+            </div>
+            <div>
+                <h3>Opmerkingen</h3>
+                <div class="form-group">
+                    <textarea class="form-control" v-model="tripData.comment" placeholder="zijn er nog opmerkingen? Ben je iemand gaan ophalen? Vermeld hier dan wie en waar" type="text"></textarea>
+                </div>
             </div>
             <span class="flex1"></span>
+            <div class="col-md-12" v-if="formErrors.length">
+                <ul class="<div alert alert-danger">
+                    <form-errors
+                            v-for="error in formErrors"
+                            v-bind:error="error"
+                            v-bind:key="error">
+                    </form-errors>
+                </ul>
+            </div>
             <div class="actions btnGroup">
-                <span class="btn btn-default" v-on:click="prevStep">vorige</span>
-                <span class="btn btn-default" v-on:click="nextStep">volgende</span>
+                <span class="btn btn-yellow btn-zoom" v-on:click="prevStep">vorige</span>
+                <span class="btn btn-yellow btn-zoom" v-on:click="nextStep">volgende</span>
             </div>
         </div>
-        <div v-else-if="page === 3">
+        <div v-else-if="page === 4">
             <h2>Bevestigen</h2>
+            <h3>We zijn er bijna!</h3>
+            <h3>Controleer nog eventjes of je alles juist hebt ingevuld.</h3>
             <span class="flex1"></span>
             <div class="actions btnGroup">
-                <span class="btn btn-default" v-on:click="prevStep">vorige</span>
-                <span class="btn btn-default" v-on:click="submit">bevestigen</span>
+                <span class="btn btn-yellow btn-zoom" v-on:click="prevStep">vorige</span>
+                <span class="btn btn-yellow btn-zoom" v-on:click="submit">bevestigen</span>
+            </div>
+        </div>
+        <div v-else-if="page === 5">
+            <h2>Bevestigen</h2>
+            <div class="submitIconContainer">
+                <span v-bind:class="submitStatusClass"></span>
+            </div>
+            <h2 v-if="submitStatus === 0">je data is onderweg naar de server</h2>
+            <h2 v-if="submitStatus === 200">Je onkosten zijn succesvol opgeslagen!</h2>
+            <h2 v-if="submitStatus === 500">Er heeft zich een probleem voorgedaan en je onkosten zij niet opgeslagen. Contacteer het Kazou team.</h2>
+            <span class="flex1"></span>
+            <div class="actions btnGroup">
+                <span class="btn btn-yellow btn-zoom" v-on:click="prevStep" v-if="submitStatus === 500">vorige</span>
+                <a class="btn btn-yellow btn-zoom" href="{{ path('expense_add') }}">afronden</a>
             </div>
         </div>
     </div>

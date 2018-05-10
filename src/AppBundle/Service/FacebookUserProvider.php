@@ -45,6 +45,8 @@ class FacebookUserProvider
 
     public function handleResponse()
     {
+        die('----- 555 -----');
+
         $fb = $this->getFacebook();
 
         $helper = $fb->getRedirectLoginHelper();
@@ -76,8 +78,8 @@ class FacebookUserProvider
         }
 
         // Logged in
-        echo '<h3>Access Token</h3>';
-        var_dump($accessToken->getValue());
+         echo '<h3>Access Token</h3>';
+         var_dump($accessToken->getValue());
 
         // The OAuth 2.0 client handler helps us manage access tokens
         $oAuth2Client = $fb->getOAuth2Client();
@@ -107,7 +109,7 @@ class FacebookUserProvider
 
         $this->session->set('fb_access_token', (string) $accessToken);
 
-        return new RedirectResponse($this->router->generate('homepage'));
+//        return new RedirectResponse($this->router->generate('homepage'));
     }
 
     public function getCurrentUser()

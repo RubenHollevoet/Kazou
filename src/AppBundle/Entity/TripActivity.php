@@ -24,11 +24,11 @@ class TripActivity
      */
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="TripGroup", inversedBy="trips")
-     * @ORM\JoinColumn()
-     */
-    private $tripGroup;
+//    /**
+//     * @ORM\ManyToMany(targetEntity="TripGroup", inversedBy="trips")
+//     * @ORM\JoinColumn()
+//     */
+//    private $tripGroup;
 
     /**
      * @ORM\Column(type="string")
@@ -36,7 +36,7 @@ class TripActivity
     private $name;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     private $code;
 
@@ -94,5 +94,10 @@ class TripActivity
     public function setCode($code)
     {
         $this->code = $code;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 }
