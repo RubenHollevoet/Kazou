@@ -11,10 +11,12 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="user")
+ * @ORM\HasLifecycleCallbacks
  */
 class User implements UserInterface
 {
@@ -26,6 +28,12 @@ class User implements UserInterface
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Region")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $region = 1;
+
+    /**
      * @ORM\Column(type="string")
      */
     private $firstName;
@@ -34,6 +42,11 @@ class User implements UserInterface
      * @ORM\Column(type="string")
      */
     private $lastName;
+
+    /**
+     * @ORM\Column(type="json_array")
+     */
+    private $roles = [];
 
     /**
      * @ORM\Column(type="string", nullable=true)
@@ -67,6 +80,16 @@ class User implements UserInterface
      */
     private $fb_userId;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $updatedAt;
+
     public function getUsername()
     {
         return $this->email;
@@ -74,7 +97,20 @@ class User implements UserInterface
 
     public function getRoles()
     {
-        return ['ROLE_USER'];
+        $roles = $this->roles;
+        if(!in_array('ROLE_USER', $roles)) {
+            $roles[] = 'ROLE_USER';
+        }
+
+        return $roles;
+    }
+
+    /**
+     * @param mixed $roles
+     */
+    public function setRoles($roles)
+    {
+        $this->roles = $roles;
     }
 
     public function getPassword()
@@ -102,6 +138,22 @@ class User implements UserInterface
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRegion()
+    {
+        return $this->region;
+    }
+
+    /**
+     * @param mixed $region
+     */
+    public function setRegion($region)
+    {
+        $this->region = $region;
     }
 
     /**
@@ -225,6 +277,7 @@ class User implements UserInterface
 
         //to make sure the listeners will be called
         $this->password = null;
+        $this->setUpdatedAt(new \DateTime());
     }
 
     /**
@@ -246,5 +299,56 @@ class User implements UserInterface
     public function __toString()
     {
         return $this->email;
+    }
+
+
+    /**
+     * @param mixed $createdAt
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+
+    /**
+     * @param mixed $updatedAt
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function onPrePersist()
+    {
+        $this->createdAt = new \DateTime('now');
+    }
+
+    /**
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function onPreUpdate()
+    {
+        $this->updatedAt = new \DateTime('now');
     }
 }

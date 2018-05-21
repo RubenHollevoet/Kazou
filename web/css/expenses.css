@@ -11,7 +11,7 @@
         /* left: 50%; */
     }
 
-    #expenses_app > div > * {
+    #expenses_app > div > div {
         padding: 10px 30px;
     }
 
@@ -60,6 +60,7 @@
     display: flex;
     align-items: center;
     flex-direction: column;
+    text-align: center;
 }
 
 .submitIconContainer {
@@ -67,6 +68,13 @@
     font-size: 60px;
 }
 
+.expensesProfilePic {
+    width: 200px;
+    height: 200px;
+    padding: 0;
+    margin: 15px auto;
+    border-radius: 4px;
+}
 
 
 /*@media only screen and (max-width: 600px) {*/
@@ -74,6 +82,29 @@
          /*!* height: 100%; *!*/
     /*}*/
 /*}*/
+
+.expense-status {
+    color: white;
+    font-weight: bold;
+    padding: 4px 9px;
+    border-radius:  4px;
+}
+
+.expense-status.inafwachting {
+    background-color: #ff852c;
+}
+
+.expense-status.goedgekeurd {
+    background-color: #6faf2a;
+}
+
+.expense-status.behandeld {
+    background-color: #6faf2a;
+}
+
+.expense-status.afgekeurd {
+    background-color: #c9302c;
+}
 
 @media (min-width: 600px) {
     #expenses_app {
@@ -85,4 +116,38 @@
     #expenses_app > div {
         background-color: rgba(255,255,255,0.9);
 }
+}
+
+.expenseStatusExplenation {
+    margin: 10px;
+}
+
+.editPersonData {
+    height: 34px;
+    font-size: 18px !important;
+}
+
+.publicTransportTicketContainer {
+    display: flex;
+    align-items: center;
+}
+
+.publicTransportTicketsGroup {
+    display: flex;
+    flex-direction:  column;
+    align-items:  center;
+}
+
+.publicTransportTicketsGroup > * {
+    padding: 20px 0;
+}
+
+.modalTicketImage {
+    max-width: 80%;
+    margin: 0 auto;
+}
+
+.modalTicketContainer {
+    display: flex;
+    align-items: center
 }

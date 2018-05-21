@@ -34,22 +34,5 @@
 }
 
 .register-selector > .register-facebook > * {
-    text-align: center;
-}
-
-.register-selector > .register-facebook > a {
-    border-radius: 8px;
-    background-color: #0084ff;
-    color: white;
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-    padding: 7px 25px 7px 20px;
-    font-size: 21px;
-}
-
-.register-selector > .register-facebook > a:hover, .register-selector > .register-facebook > a:focus {
-    text-decoration: none;
-}
-
-.register-selector > .register-facebook > a > span {
-    padding: 10px;
+    /* text-align: center; */
 }

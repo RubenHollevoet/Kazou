@@ -76,3 +76,5 @@ easy_admin:
         - AppBundle\Entity\TripActivity
         - AppBundle\Entity\TripGroup
         - AppBundle\Entity\User
+        - AppBundle\Entity\Vacancy
+        - AppBundle\Entity\Region

@@ -13,8 +13,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\TripGroupRepository")
  * @ORM\Table(name="trip_group")
+ * @ORM\HasLifecycleCallbacks()
  */
 class TripGroup
 {
@@ -26,9 +27,35 @@ class TripGroup
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Region")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $region;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $code;
+
+    /**
      * @ORM\Column(type="string")
      */
     private $name;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $startDate;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $endDate;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $location;
 
     /**
      * @ORM\ManyToOne(targetEntity="TripGroup", inversedBy="children")
@@ -37,24 +64,24 @@ class TripGroup
     private $parent;
 
     /**
-     * @ORM\OneToMany(targetEntity="TripGroup", mappedBy="parent", cascade={"all"}, orphanRemoval=true)
-     */
-    private $children;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private $code;
-
-    /**
      * @ORM\ManyToMany(targetEntity="TripActivity")
      * @ORM\JoinColumn()
      */
     private $tripActivity;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $updatedAt;
+
     public function __construct()
     {
-        $this->children = new ArrayCollection();
+//        $this->children = new ArrayCollection();
     }
 
     /**
@@ -63,6 +90,22 @@ class TripGroup
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRegion()
+    {
+        return $this->region;
+    }
+
+    /**
+     * @param mixed $region
+     */
+    public function setRegion($region)
+    {
+        $this->region = $region;
     }
 
     /**
@@ -137,7 +180,53 @@ class TripGroup
         $this->tripActivity = $tripActivity;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getStartDate()
+    {
+        return $this->startDate;
+    }
 
+    /**
+     * @param mixed $startDate
+     */
+    public function setStartDate($startDate)
+    {
+        $this->startDate = $startDate;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEndDate()
+    {
+        return $this->endDate;
+    }
+
+    /**
+     * @param mixed $endDate
+     */
+    public function setEndDate($endDate)
+    {
+        $this->endDate = $endDate;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLocation()
+    {
+        return $this->location;
+    }
+
+    /**
+     * @param mixed $location
+     */
+    public function setLocation($location)
+    {
+        $this->location = $location;
+    }
 
 
 
@@ -151,5 +240,56 @@ class TripGroup
         }
 
         return str_repeat('> ', $count) . $this->name;
+    }
+
+
+    /**
+     * @param mixed $createdAt
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+
+    /**
+     * @param mixed $updatedAt
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function onPrePersist()
+    {
+        $this->createdAt = new \DateTime('now');
+    }
+
+    /**
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function onPreUpdate()
+    {
+        $this->updatedAt = new \DateTime('now');
     }
 }

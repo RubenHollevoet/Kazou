@@ -14,6 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity
  * @ORM\Table(name="trip_activity")
+ * @ORM\HasLifecycleCallbacks()
  */
 class TripActivity
 {
@@ -24,11 +25,11 @@ class TripActivity
      */
     private $id;
 
-//    /**
-//     * @ORM\ManyToMany(targetEntity="TripGroup", inversedBy="trips")
-//     * @ORM\JoinColumn()
-//     */
-//    private $tripGroup;
+    /**
+     * @ORM\ManyToOne(targetEntity="Region")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $region;
 
     /**
      * @ORM\Column(type="string")
@@ -41,11 +42,37 @@ class TripActivity
     private $code;
 
     /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $updatedAt;
+
+    /**
      * @return mixed
      */
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRegion()
+    {
+        return $this->region;
+    }
+
+    /**
+     * @param mixed $region
+     */
+    public function setRegion($region)
+    {
+        $this->region = $region;
     }
 
     /**
@@ -99,5 +126,56 @@ class TripActivity
     public function __toString()
     {
         return $this->name;
+    }
+
+
+    /**
+     * @param mixed $createdAt
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+
+    /**
+     * @param mixed $updatedAt
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function onPrePersist()
+    {
+        $this->createdAt = new \DateTime('now');
+    }
+
+    /**
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function onPreUpdate()
+    {
+        $this->updatedAt = new \DateTime('now');
     }
 }

@@ -9,7 +9,9 @@
 namespace AppBundle\Controller;
 
 
+use AppBundle\Entity\Region;
 use AppBundle\Entity\User;
+use AppBundle\Form\UserProfileForm;
 use AppBundle\Form\UserRegistrationForm;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -19,17 +21,31 @@ use Symfony\Component\HttpFoundation\Response;
 class UserController extends Controller
 {
     /**
-     * @Route("/user", name="user")
+     * @Route("/profile", name="user_profile")
      */
-    public function showUser()
+    public function showUser(Request $request)
     {
-        /*$user = null;
-        if(isset($_COOKIE['userHash'])) {
-            $em = $this->getDoctrine()->getEntityManager();
-            $user = $em->getRepository('AppBundle:User')->findOneBy(['hash' => $_COOKIE['userHash']]);
-        }
-        return $this->render('user/show.html.twig', ['user' => $user]);*/
+        $form = $this->createForm(UserProfileForm::class, $this->getUser());
 
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $user = $form->getData();
+            if(count($em->getRepository(User::class)->findBy([ 'email' => $user->getEmail()])) > 0)
+            {
+                $this->addFlash('error', 'Dit email adres is al in gebruik door een andere account. Je gegevens zijn niet aangepast.');
+            }
+            else {
+                $em->persist($user);
+                $em->flush();
+                $this->addFlash('success', 'Je account weizigingen zijn opgeslagen.');
+                return $this->redirectToRoute('homepage');
+            }
+        }
+
+        return $this->render('user/show.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 
     /**
@@ -39,17 +55,6 @@ class UserController extends Controller
 
         $fbUserProvider = $this->container->get('app.service.facebook_user_provider');
         return $fbUserProvider->handleResponse();
-    }
-
-    /**
-     * @Route("/user/profile")
-     */
-    public function showProfile()
-    {
-        return new Response(
-            '<html><body>page--</body></html>'
-        );
-
     }
 
     /**
@@ -63,10 +68,11 @@ class UserController extends Controller
         $form->handleRequest($request);
         if ($form->isValid()) {
             $user = $form->getData();
+            $user->setRegion($this->getDoctrine()->getRepository(Region::class)->find(1));
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
-            $this->addFlash('success', 'Welkom '.$user->getEmail());
+            $this->addFlash('success', 'Welkom '.$user->getEmail().'. Je kan vanaf nu inloggen.');
             return $this->redirectToRoute('homepage');
         }
 

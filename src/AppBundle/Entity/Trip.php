@@ -14,6 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\TripRepository")
  * @ORM\Table(name="trip")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Trip
 {
@@ -43,6 +44,12 @@ class Trip
     private $activity;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Region", inversedBy="trips")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $region;
+
+    /**
      * @ORM\Column(type="string", length=50)
      */
     private $from_;
@@ -63,7 +70,7 @@ class Trip
     private $transport_type;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     private $company;
 
@@ -78,14 +85,30 @@ class Trip
     private $price;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="json_array", nullable=true)
      */
-    private $tickets;
+    private $tickets = [];
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
     private $comment;
+
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $status = 'in afwachting';
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $updatedAt;
 
     /**
      * @return mixed
@@ -125,6 +148,22 @@ class Trip
     public function setGroup($group)
     {
         $this->group = $group;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRegion()
+    {
+        return $this->region;
+    }
+
+    /**
+     * @param mixed $region
+     */
+    public function setRegion($region)
+    {
+        $this->region = $region;
     }
 
     /**
@@ -285,5 +324,71 @@ class Trip
     public function setComment($comment)
     {
         $this->comment = $comment;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param mixed $status
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    }
+
+    /**
+     * @param mixed $createdAt
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+
+    /**
+     * @param mixed $updatedAt
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function onPrePersist()
+    {
+        $this->createdAt = new \DateTime('now');
+    }
+
+    /**
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function onPreUpdate()
+    {
+        $this->updatedAt = new \DateTime('now');
     }
 }

@@ -44,6 +44,7 @@ class SecurityController extends Controller
      */
     public function logoutAction()
     {
+        //TODO: remove Facebook session
         throw new \Exception('logout - this should not be reached');
     }
 }

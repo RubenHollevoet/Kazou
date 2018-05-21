@@ -15,11 +15,13 @@ services:
     app.service.facebook_user_provider:
             class: AppBundle\Service\FacebookUserProvider
             arguments:
+                - '@Doctrine\ORM\EntityManagerInterface'
                 - '@session'
                 - '@Symfony\Component\Routing\RouterInterface'
                 - '%facebook_oauth_redirect%'
                 - '%facebook_app_id%'
                 - '%facebook_app_secret%'
+                - '%upload_directory%'
             autowire: true
 
     app.security.login_form_authenticator:
@@ -35,3 +37,4 @@ services:
             autowire: true
             tags:
                 - { name: doctrine.event_listener, event: prePersist }
+                - { name: doctrine.event_listener, event: preUpdate }

@@ -27,6 +27,7 @@ use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticato
 use Facebook\Exceptions\FacebookResponseException;
 use Facebook\Exceptions\FacebookSDKException;
 use Facebook\Facebook;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class FacebookFormAuthenticator extends AbstractFormLoginAuthenticator
 {
@@ -35,17 +36,19 @@ class FacebookFormAuthenticator extends AbstractFormLoginAuthenticator
     private $em;
     private $router;
     private $facebookUserProvider;
+    private $session;
     /**
      * @var TokenStorage
      */
     private $tokenStorage;
 
-    public function __construct(EntityManager $em, RouterInterface $router, TokenStorage $tokenStorage, FacebookUserProvider $facebookUserProvider)
+    public function __construct(EntityManager $em, RouterInterface $router, TokenStorage $tokenStorage, FacebookUserProvider $facebookUserProvider, Session $session)
     {
         $this->em = $em;
         $this->router = $router;
         $this->facebookUserProvider = $facebookUserProvider;
         $this->tokenStorage = $tokenStorage;
+        $this->session = $session;
     }
 
     public function getCredentials(Request $request)
@@ -63,6 +66,12 @@ class FacebookFormAuthenticator extends AbstractFormLoginAuthenticator
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
         $fbUserId = $credentials['id'];
+
+        if(!$this->facebookUserProvider->createOrUpdateUser($credentials)) {
+            //error when creating user
+            $this->facebookUserProvider->resetFacebookUserSession();
+            $this->session->getFlashBag()->add('error', 'Er liep iets mis, je Facebook profiel kon helaas niet geregistreerd worden. Neem contact op met Kazou indien het probleem zich blijft voordoen.');
+        }
 
         return $this->em->getRepository('AppBundle:User')
             ->findOneBy(['fb_userId' => $fbUserId]);

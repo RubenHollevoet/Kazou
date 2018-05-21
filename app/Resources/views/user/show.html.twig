@@ -1,15 +1,62 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
-    <h1>todo: user overview</h1>
-
-    {% if user %}
-        <h3>user:</h3>
-        {{ dump(user) }}
-    {% else %}
-        <h3>no user found - you can</h3>
-        <a href="{{ path('user_add') }}">create account</a>
-        <br>
-        <a href="{{ path('user_login') }}">login</a>
-    {% endif %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Profiel</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_start(form) }}
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Persoonsgegevens</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        {{ form_row(form.firstName) }}
+                    </div>
+                    <div class="col-md-4">
+                        {{ form_row(form.lastName) }}
+                    </div>
+                    <div class="col-md-4">
+                        {{ form_row(form.email) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        {{ form_row(form.iban) }}
+                    </div>
+                    <div class="col-md-4">
+                        {{ form_row(form.personId) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>wachtwoord weizigen</h2>
+                    </div>
+                </div>
+                {% if app.user.password == null %}
+                    <div class="row">
+                        <div class="alert alert-info">
+                            Je account heeft momenteel nog geen wachtwoord. Je kan dus enkel aanmelden via Facebook.
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="row">
+                    <div class="col-md-4">
+                        {{ form_row(form.plainPassword.first) }}
+                    </div>
+                    <div class="col-md-4">
+                        {{ form_row(form.plainPassword.second) }}
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-yellow" formnovalidate>Opslaan</button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
 {% endblock %}
