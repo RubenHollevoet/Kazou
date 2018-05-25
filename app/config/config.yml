@@ -71,10 +71,67 @@ swiftmailer:
     spool:     { type: memory }
 
 easy_admin:
+    site_name: 'Kazou RMT'
+    formats:
+        datetime: 'd/m/Y H:i:s'
+    design:
+        brand_color: '#6db649'
+        assets:
+            favicon: 'favicon.ico'
+        menu:
+            - { label: 'Algemeen' }
+            - { entity: 'User', icon: 'user'}
+            - { entity: 'Vacancy', icon: 'question'}
+            - { label: 'Onkosten' }
+            - { entity: 'Trip', icon: 'car'}
+            - { entity: 'TripGroup', icon: 'filter'}
+            - { entity: 'TripActivity', icon: 'list'}
+            - { label: 'Onkosten verwerken', icon: 'paper-plane', children: [ { entity: 'TripValidate', icon: 'check' }, { entity: 'TripExport', icon: 'download'}] }
+            - { label: 'Overigen' }
+            - { entity: 'Region', icon: 'map-marker'}
     entities:
-        - AppBundle\Entity\Trip
-        - AppBundle\Entity\TripActivity
-        - AppBundle\Entity\TripGroup
-        - AppBundle\Entity\User
-        - AppBundle\Entity\Vacancy
-        - AppBundle\Entity\Region
+        Trip:
+            class: AppBundle\Entity\Trip
+            label: 'Ritten'
+            list:
+                title: '%%entity_label%%'
+                fields: ['user', 'activity', 'from', 'to', 'date']
+                sort: 'createdAt'
+                fields:
+        TripGroup:
+            class: AppBundle\Entity\TripGroup
+            label: 'Groepen'
+            list:
+                title: '%%entity_label%%'
+        TripActivity:
+            class: AppBundle\Entity\TripActivity
+            label: 'Activiteiten'
+            list:
+                title: '%%entity_label%%'
+        TripValidate:
+            class: AppBundle\Entity\Trip
+            label: 'Onkosten valideren'
+            list:
+                title: '%%entity_label%%'
+            templates:
+                list: 'easyAdmin/TripValidate/list.html.twig'
+        TripExport:
+            class: AppBundle\Entity\Trip
+            label: 'Onkosten exporteren'
+            list:
+                title: '%%entity_label%%'
+        User:
+            class: AppBundle\Entity\User
+            label: 'Gebruikers'
+            list:
+                title: '%%entity_label%%'
+        Vacancy:
+            class: AppBundle\Entity\Vacancy
+            label: 'Vacatures'
+            list:
+                title: '%%entity_label%%'
+        Region:
+            class: AppBundle\Entity\Region
+            label: 'Verbonden'
+            list:
+                title: '%%entity_label%%'
