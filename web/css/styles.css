@@ -213,6 +213,7 @@ body > footer {
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     padding: 11px 25px 11px 20px;
     font-size: 21px;
+    white-space: nowrap;
 }
 
 .fb-login-btn:hover, .fb-login-btn:focus {
@@ -235,4 +236,12 @@ body > footer {
 
 .alert {
     margin-top: 20px;
+}
+
+.register-facebook {
+    margin: 0;
+}
+
+.btn {
+    margin-bottom: 8px;
 }

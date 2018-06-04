@@ -35,6 +35,9 @@ class UserProfileForm extends AbstractType
             ->add('personId', TextType::class, [
                 'label' => 'Rijksregisternummer'
             ])
+            ->add('address', TextType::class, [
+                'label' => 'Woonplaats (volledige adres)'
+            ])
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'required' => true,

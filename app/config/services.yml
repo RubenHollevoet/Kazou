@@ -1,12 +1,15 @@
 # Learn more about services, parameters and containers at
 # http://symfony.com/doc/current/book/service_container.html
 parameters:
-#    parameter_name: value
+   trip_status:
+        in afwachting: awaiting
+        goedgekeurd: approved
+        behandeld: processed
+        afgekeurd: denied
 
 services:
 #    service_name:
 #        class: AppBundle\Directory\ClassName
-#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
     app.form.registration:
             class: AppBundle\Form\RegistrationFormType
             tags:
@@ -38,3 +41,15 @@ services:
             tags:
                 - { name: doctrine.event_listener, event: prePersist }
                 - { name: doctrine.event_listener, event: preUpdate }
+    app.doctrine.set_region_listener:
+            class: AppBundle\Doctrine\SetRegionListener
+            autowire: true
+            tags:
+                - { name: doctrine.event_listener, event: prePersist }
+    app.doctrine.order_trip_group_listener:
+            class: AppBundle\Doctrine\OrderTripGroupListener
+            autowire: true
+            tags:
+                - { name: doctrine.event_listener, event: prePersist }
+                - { name: doctrine.event_listener, event: preUpdate }
+                - { name: doctrine.event_listener, event: onFlush }

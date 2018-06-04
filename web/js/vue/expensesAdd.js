@@ -40,6 +40,7 @@ Vue.component('groupsavaliable-item', {
 });
 
 var app = new Vue({
+    delimiters: ['${', '}'],
     el: '#expenses_app',
     data: {
         counter: '',
@@ -53,6 +54,7 @@ var app = new Vue({
             email: '',
             iban: '',
             personId: '',
+            address: '',
         },
         tripData: {
             from: '',
@@ -61,14 +63,17 @@ var app = new Vue({
             transportType: '',
             company: '',
             distance: 0,
+            estimateDistance: -1,
             comment: '',
-            tickets: '',
+            tickets: [],
+            price: 0
         },
         submitStatus: 0,
         // editPersonDatapersonId: false,
         editPersonData: {
             personId: false,
             iban: false,
+            address: false,
         },
     },
     computed: {
@@ -97,7 +102,7 @@ var app = new Vue({
                 userData: this.userData,
                 tripData: this.tripData
             };
-            axios.post('/app_dev.php/expenses/api/createTrip', tripData)
+            axios.post('/expenses/api/createTrip', tripData)
                 .then(function (response) {
                     if(response.data !== '') {
                         self.submitStatus = 200;
@@ -121,19 +126,29 @@ var app = new Vue({
                 else if (this.userData.email.indexOf('@') < 0 || this.userData.email.split('@')[1].indexOf('.') < 0) this.formErrors.push('het opgegeven emailadres is ongeldig');
                 if (!this.userData.iban.length) this.formErrors.push('vul je iban in');
                 if (!this.userData.personId.length) this.formErrors.push('vul je rijksregisternummer in');
+                if (!this.userData.address.length) this.formErrors.push('vul je adres in');
             }
             else if (pageId === 2) {
-                if (this.activeGroups.length) this.formErrors.push('specifieer je activiteit. Kies tussen de aangegeven activiteiten');
+                // if (this.activeGroups.length) this.formErrors.push('specifieer je activiteit. Kies tussen de aangegeven activiteiten');
                 if (!this.tripData.date) this.formErrors.push('vul de datum in waarop de activiteit plaats vond');
                 if (!this.tripData.to) this.formErrors.push('vul de plaats van de activiteit in');
             }
-            console.log('todo: validate page ' + pageId);
+            else if(pageId === 3) {
+                if (this.tripData.transportType === 'car' &&
+                    this.tripData.estimateDistance > 0 &&
+                    this.tripData.distance > this.tripData.estimateDistance * 1.15 &&
+                    this.tripData.comment.replace(/\s/g, '').length < 5) this.formErrors.push('Omdat het door jou opgegeven aantal kilometers te veel afwijkt van het geschatte aantal kilometers is een opmerking met meer uitleg verplicht.');
+                if(this.tripData.from === '') this.formErrors.push('vul je vertrekplaats in');
+                if(this.tripData.transportType === '') this.formErrors.push('kies je transportmiddel');
+                if(this.tripData.transportType === 'car' && this.tripData.company === '' ) this.formErrors.push('specifieer je reisgezelschap');
+                if(this.tripData.transportType === 'publicTransport' && this.tripData.tickets === [] ) this.formErrors.push('upload een duidelijke foto of scan van je ticketjes');
+                if(this.tripData.transportType === 'publicTransport' && !this.tripData.price ) this.formErrors.push('geef de totale prijs van je ticketjes in');
+            }
             return !this.formErrors.length > 0;
         },
         fetchGroups: function (id = 0) {
             var self = this;
             axios.get('/expenses/api/getChildGroups?group=' + id.toString())
-            //axios.get('//kazourmt.dev.be/app_dev.php/expenses/api/getChildGroups?group=' + id.toString())
                 .then(function (response) {
                     self.activeGroups = response.data.data;
                     self.formErrors = [];
@@ -145,8 +160,7 @@ var app = new Vue({
         },
         fetchActivity: function (id) {
             var self = this;
-            axios.get('/app_dev.php/expenses/api/getTripActivities?group=' + id.toString())
-            //axios.get('//kazourmt.dev.be/app_dev.php/expenses/api/getChildGroups?group=' + id.toString())
+            axios.get('/expenses/api/getTripActivities?group=' + id.toString())
                 .then(function (response) {
                     // console.log(response.data.status);
                     if (response.data.status === 'ok') {
@@ -154,7 +168,7 @@ var app = new Vue({
                         self.formErrors = [];
                     }
                     else {
-                        self.formErrors.push('De huidige groep bezit geen activiteiten. Contacteer het Kazou team.');
+                        // self.formErrors.push('De huidige groep bezit geen activiteiten. Contacteer het Kazou team.');
                         console.log('error when requesting activities', response.data);
                     }
                 })
@@ -167,37 +181,113 @@ var app = new Vue({
             var files = e.target.files || e.dataTransfer.files;
             if (!files.length)
                 return;
-            this.createImage(files[0]);
+            this.createImage(files);
         },
-        createImage(file) {
-            var image = new Image();
-            var reader = new FileReader();
-            var vm = this;
+        createImage(files) {
+            // var image = new Image();
 
-            console.log(file);
+            var self = this;
 
-            if (!file.type.match('image.*')) {
-                alert('Je kan enkel afbeeldingen uploaden als ticketjes');
-                return;
-            }
-            if (file.size >= 10000000) {
-                alert('Een afbeeldingen mag maximaal 10Mb zijn.');
-                return;
-            }
+            console.log(files);
 
-            reader.onload = (e) => {
-                // vm.tripData.tickets = e.target.result;
-                vm.tripData.tickets = {
-                    content: e.target.result,
-                    mime: file.type
-                };
+            for (var i = 0; i < files.length; i++) {
+                console.log(files[i]);
 
-                console.log(e, vm.tripData.tickets);
+                var file = files[i];
+                var reader = new FileReader();
+
+                if (!file.type.match('image.*')) {
+                    alert('Je kan enkel afbeeldingen uploaden als ticketjes');
+                    return;
+                }
+                if (file.size >= 10000000) {
+                    alert('Een afbeeldingen mag maximaal 10Mb zijn.');
+                    return;
+                }
+
+                reader.onload = (e) => {
+                    // vm.tripData.tickets = e.target.result;
+                    self.tripData.tickets.push({
+                        content: e.target.result,
+                        mime: file.type
+                    });
+
+                    console.log(e, self.tripData.tickets);
+                }
+                reader.readAsDataURL(file);
             };
-            reader.readAsDataURL(file);
         },
-        removeTickets: function (e) {
-            this.tripData.tickets = '';
+        removeTicket: function (e) {
+            if(e) {
+                //TODO: remove element
+                // this.tripData.tickets[] = '';
+            }
+            else {
+                this.tripData.tickets = [];
+            }
+
+        },
+        updateFrom: function (from) {
+            this.tripData.from = from;
+            if(from === this.userData.address) {
+                this.calculateDistance();
+            }
+        },
+        updateTo: function (to) {
+            this.tripData.to = to;
+            this.calculateDistance();
+        },
+        forceUpdateMapsField: function (place, field) {
+            eval(field + " = '" + place + "'");
+        },
+        calculateDistance: function() {
+            if( this.tripData.from && this.tripData.to) {
+                var self = this;
+
+                var locationData = {
+                    from: this.tripData.from,
+                    to: this.tripData.to
+                };
+                axios.post('/expenses/api/getTripDistance', locationData)
+                    .then(function (response) {
+                        self.tripData.estimateDistance = (response.data.distance * 2) / 1000;
+                        self.tripData.distance = self.tripData.estimateDistance;
+                    })
+                    .catch(function (error) {
+                        self.tripData.estimateDistance = -1;
+                        console.log(error);
+                    });
+            }
+        },
+        formatDateNl: function(date) {
+            var d = new Date(date);
+
+            var month = new Array(12);
+            month[0] = 'januari';
+            month[1] = 'februari';
+            month[2] = 'maart';
+            month[3] = 'april';
+            month[4] = 'mei';
+            month[5] = 'juni';
+            month[6] = 'juli';
+            month[7] = 'augustus';
+            month[8] = 'zaterdag';
+            month[9] = 'september';
+            month[10] = 'oktober';
+            month[11] = 'november';
+            month[12] = 'december';
+
+            var weekday = new Array(7);
+            weekday[0] = 'zondag';
+            weekday[1] = 'maandag';
+            weekday[2] = 'dinsdag';
+            weekday[3] = 'woensdag';
+            weekday[4] = 'donderdag';
+            weekday[5] = 'vrijdag';
+            weekday[6] = 'zaterdag';
+
+            console.log(d.getMonth());
+            return weekday[d.getDay()] + ' ' + (Number(date.substr(8,2))).toString() + ' ' + month[d.getMonth()] + ' ' + d.getFullYear();
         },
         setUserData(userData) {
             if (!this.userDataSet) {

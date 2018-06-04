@@ -27,6 +27,11 @@ class TripGroup
     private $id;
 
     /**
+     * @ORM\Column(name="order_", type="integer", nullable=true)
+     */
+    private $order;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Region")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -58,7 +63,7 @@ class TripGroup
     private $location;
 
     /**
-     * @ORM\ManyToOne(targetEntity="TripGroup", inversedBy="children")
+     * @ORM\ManyToOne(targetEntity="TripGroup")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $parent;
@@ -79,17 +84,28 @@ class TripGroup
      */
     protected $updatedAt;
 
-    public function __construct()
-    {
-//        $this->children = new ArrayCollection();
-    }
-
     /**
      * @return mixed
      */
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOrder()
+    {
+        return $this->order;
+    }
+
+    /**
+     * @param mixed $order
+     */
+    public function setOrder($order)
+    {
+        $this->order = $order;
     }
 
     /**
@@ -138,14 +154,6 @@ class TripGroup
     public function setParent($parent)
     {
         $this->parent = $parent;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getChildren()
-    {
-        return $this->children;
     }
 
     /**
@@ -228,7 +236,9 @@ class TripGroup
         $this->location = $location;
     }
 
-
+    public function getNameHierarchy() {
+        return $this->__toString();
+    }
 
     public function __toString() {
         $count = 0;
@@ -239,7 +249,19 @@ class TripGroup
             $count++;
         }
 
-        return str_repeat('> ', $count) . $this->name;
+        return str_repeat('<span class="paddingLeft"></span>', $count) . $this->name;
+    }
+
+    public function getParentCount() {
+        $count = 0;
+        $group = $this;
+        while($group->getParent() !== null)
+        {
+            $group = $group->getParent();
+            $count++;
+        }
+
+        return $count;
     }
 
 

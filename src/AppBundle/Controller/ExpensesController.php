@@ -25,8 +25,17 @@ use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
 class ExpensesController extends Controller
 {
+
     /**
-     * @Route("/expenses", name="expense")
+     * @Route("/onkosten/test")
+     */
+    public function test(Request $request)
+    {
+        return $this->render('expense/test.html.twig', []);
+    }
+
+    /**
+     * @Route("/onkosten", name="expense")
      */
     public function showExpense()
     {
@@ -46,7 +55,7 @@ class ExpensesController extends Controller
     }
 
     /**
-     * @Route("/expenses/add", name="expense_add")
+     * @Route("/onkosten/add", name="expense_add")
      */
     public function addExpense(Request $request)
     {
@@ -67,6 +76,7 @@ class ExpensesController extends Controller
 
         return $this->render('expense/add.html.twig', [
             'form' => $form->createView(),
+            'google_api_key' => $this->getParameter('google_api_key')
         ]);
     }
 
@@ -156,20 +166,23 @@ class ExpensesController extends Controller
         $formData = json_decode($request->getContent());
         $em = $this->getDoctrine()->getManager();
         $ticketsArr = [];
-
-        if($formData->tripData->tickets) {
-            $folder = '/uploads/tickets/'.$this->getUser()->getId().'/';
-            $uploadPath = $this->getParameter('upload_directory');
-            if(!is_dir($uploadPath.$folder))
+        $loopCount = 0;
+        if ($formData->tripData->tickets && $formData->tripData->transportType === 'publicTransport') {
+            $hash = hash('md5', microtime(true));
+            foreach ($formData->tripData->tickets as $ticket)
             {
-                mkdir($uploadPath.$folder, 0777, true);
+                $folder = '/uploads/tickets/' . $this->getUser()->getId() . '/';
+                $uploadPath = $this->getParameter('upload_directory');
+                if (!is_dir($uploadPath . $folder)) {
+                    mkdir($uploadPath . $folder, 0777, true);
+                }
+
+                $fileName = $hash . '-' . $loopCount . '.' . explode('/', $ticket->mime)[1];
+                file_put_contents($uploadPath . $folder . $fileName, fopen($ticket->content, 'r'));
+
+                $ticketsArr[] = $folder . $fileName;
+                $loopCount++;
             }
-
-            $loopCount = 0;
-            $fileName = hash('md5', microtime(true) + $loopCount).'.'.explode('/', $formData->tripData->tickets->mime )[1];
-            file_put_contents($uploadPath.$folder.$fileName, fopen($formData->tripData->tickets->content, 'r'));
-
-            $ticketsArr[] = $folder.$fileName;
         }
 
         //update user
@@ -197,6 +210,7 @@ class ExpensesController extends Controller
         $user->setEmail($formData->userData->email);
         $user->setIban($formData->userData->iban);
         $user->setPersonId($formData->userData->personId);
+        $user->setAddress($formData->userData->address);
 
         $em->persist($user);
 
@@ -217,16 +231,16 @@ class ExpensesController extends Controller
         $trip->setGroup($tripGroup);
         $trip->setActivity($tripActivity);
         $trip->setTransportType($formData->tripData->transportType);
-        if (property_exists($formData->tripData, 'price')) {
-//            $trip->setPrice($formData->tripData->price);
-            $trip->setPrice(100);
+        if ($formData->tripData->transportType === 'publicTransport') {
+            $trip->setPrice($formData->tripData->price);
         } else {
             $trip->setPrice($formData->tripData->distance * 0.25);
         }
-        if($ticketsArr) $trip->setTickets($ticketsArr);
-        if($formData->tripData->company) $trip->setCompany($formData->tripData->company);
-        if($formData->tripData->distance) $trip->setDistance($formData->tripData->distance);
-        if($formData->tripData->comment) $trip->setComment($formData->tripData->comment);
+        if ($ticketsArr) $trip->setTickets($ticketsArr);
+        if ($formData->tripData->company) $trip->setCompany($formData->tripData->company);
+        if ($formData->tripData->distance) $trip->setDistance($formData->tripData->distance);
+        if ($formData->tripData->estimateDistance) $trip->setEstimateDistance($formData->tripData->estimateDistance);
+        if ($formData->tripData->comment) $trip->setComment($formData->tripData->comment);
 
         $em->persist($trip);
 
@@ -234,6 +248,24 @@ class ExpensesController extends Controller
 
         return $this->json([
             'status' => 'ok',
+        ]);
+    }
+
+    /**
+     * @Route("/expenses/api/getTripDistance")
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    function getDistance(Request $request)
+    {
+        $formData = json_decode($request->getContent());
+        $distanceMatrixCall = 'https://maps.googleapis.com/maps/api/distancematrix/json?origins=' . $formData->from . '&destinations=' . $formData->to . '&key=' . $this->getParameter('google_api_key');
+        $distanceMatrixCall = str_replace(' ', '+', $distanceMatrixCall);
+
+        $json = json_decode(file_get_contents($distanceMatrixCall));
+
+        return $this->json([
+            'status' => 'ok',
+            'distance' => $json->rows[0]->elements[0]->distance->value
         ]);
     }
 }

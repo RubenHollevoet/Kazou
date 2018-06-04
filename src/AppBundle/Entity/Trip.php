@@ -60,7 +60,7 @@ class Trip
     private $to_;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="date")
      */
     private $date;
 
@@ -80,6 +80,11 @@ class Trip
     private $distance;
 
     /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $estimateDistance;
+
+    /**
      * @ORM\Column(type="decimal", scale=2)
      */
     private $price;
@@ -90,15 +95,14 @@ class Trip
     private $tickets = [];
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     private $comment;
-
 
     /**
      * @ORM\Column(type="string")
      */
-    private $status = 'in afwachting';
+    private $status = 'awaiting';
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -276,6 +280,22 @@ class Trip
     public function setDistance($distance)
     {
         $this->distance = $distance;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEstimateDistance()
+    {
+        return $this->estimateDistance;
+    }
+
+    /**
+     * @param mixed $estimateDistance
+     */
+    public function setEstimateDistance($estimateDistance)
+    {
+        $this->estimateDistance = $estimateDistance;
     }
 
     /**

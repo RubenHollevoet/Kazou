@@ -181,7 +181,7 @@ class FacebookUserProvider
                 mkdir($uploadPath.$folder, 0777, true);
             }
 
-            $fileName = $user->getId().'-avatar.jpg';
+            $fileName = (string)$user->getId().'-avatar.jpg';
             file_put_contents($uploadPath.$folder.$fileName, fopen($credentials->getPicture()->getUrl(), 'r'));
 
             $user->setPicture($folder.$fileName);

@@ -78,7 +78,8 @@
                             {#{% endif %}#}
                             {#<td>{{ trip.price }} &euro;</td>#}
                             <td>
-                                <span class="expense-status nowrap {{ trip.status|replace({' ':''}) }}">{{ trip.status }}</span>
+                                <span class="expense-status nowrap {{ trip.status }}">{{ ('trip.status.'~trip.status)|trans }}</span>
+
                             </td>
                             {#<td>{{ trip.status }}</td>#}
                             <td><a href="#" data-toggle="modal" data-target="#tripDetailModal{{ trip.id }}">details</a>
@@ -91,19 +92,19 @@
             </div>
             <div class="row">
                 <div class="expenseStatusExplenation">
-                    <span class="expense-status inafwachting">in afwachting</span>
+                    <span class="expense-status awaiting">in afwachting</span>
                     <span> Je onkosten zijn nog niet bekeken door een educatief medewerker.</span>
                 </div>
                 <div class="expenseStatusExplenation">
-                    <span class="expense-status goedgekeurd">goedgekeurd</span>
+                    <span class="expense-status approved">goedgekeurd</span>
                     <span> Een educatief medewerker heeft je onkost goedgekeurd.</span>
                 </div>
                 <div class="expenseStatusExplenation">
-                    <span class="expense-status behandeld">behandeld</span>
+                    <span class="expense-status processed">behandeld</span>
                     <span> Je onkosten zijn op weg naar de boekhouding. Je sult ze spoedig op je rekening zien verschijnen.</span>
                 </div>
                 <div class="expenseStatusExplenation">
-                    <span class="expense-status afgekeurd">afgekeurd</span>
+                    <span class="expense-status denied">afgekeurd</span>
                     <span> Kazou heeft besloten je deze onkost niet te vergoeden.</span>
                 </div>
             </div>
@@ -125,7 +126,7 @@
                         <div class="modal-body">
                             <p><strong>Groep: </strong>{{ trip.group }}</p>
                             <p><strong>Activiteit: </strong>{{ trip.activity }}</p>
-                            <p><strong>Status: </strong>{{ trip.status }}</p>
+                            <p><strong>Status: </strong><span class="expense-status nowrap {{ trip.status }}">{{ ('trip.status.'~trip.status)|trans }}</span></p>
                             <p><strong>Van: </strong>{{ trip.from }}</p>
                             <p><strong>Naar: </strong>{{ trip.to }}</p>
                             <p><strong>Voertuig: </strong>
@@ -144,7 +145,7 @@
                             <p><strong>Aangemaakt op: </strong>{{ trip.createdAt|date('j-n-Y H:i:s') }}</p>
                             {% if trip.tickets %}
                                 {#todo: loop over tickets#}
-                                <p><strong>Ticket: </strong></p>
+                                <p><strong>Ticketjes: </strong></p>
                                 <p class="modalTicketContainer">
                                     {% for ticket in trip.tickets %}
                                         <img class="modalTicketImage" src="{{ asset(ticket) }}" alt="">

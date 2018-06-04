@@ -71,6 +71,11 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", nullable=true)
      */
+    private $address;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
     private $password;
     
     private $plainPassword;
@@ -250,6 +255,22 @@ class User implements UserInterface
     public function setEmail($email)
     {
         $this->email = $email;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    /**
+     * @param mixed $address
+     */
+    public function setAddress($address)
+    {
+        $this->address = $address;
     }
 
     /**

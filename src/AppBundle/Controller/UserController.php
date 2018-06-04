@@ -31,7 +31,8 @@ class UserController extends Controller
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $user = $form->getData();
-            if(count($em->getRepository(User::class)->findBy([ 'email' => $user->getEmail()])) > 0)
+            $userWithEmail = $em->getRepository(User::class)->findOneBy([ 'email' => $user->getEmail()]);
+            if($userWithEmail !== null && $userWithEmail->getId() !== $user->getId())
             {
                 $this->addFlash('error', 'Dit email adres is al in gebruik door een andere account. Je gegevens zijn niet aangepast.');
             }
@@ -45,6 +46,7 @@ class UserController extends Controller
 
         return $this->render('user/show.html.twig', [
             'form' => $form->createView(),
+            'google_api_key' => $this->getParameter('google_api_key'),
         ]);
     }
 

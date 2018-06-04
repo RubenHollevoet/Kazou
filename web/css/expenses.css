@@ -1,54 +1,54 @@
 /*#expenses_app {*/
-    /*background: url('/img/vvgps/menuBg.jpg');*/
+/*background: url('/img/vvgps/menuBg.jpg');*/
 /*}*/
 
 /*@media only screen and (max-width: 600px) {*/
-    #expenses_app {
-        padding: 10px;
-        min-height: 75%;
-        position: relative;
-        /* transform: translateX(-50%); */
-        /* left: 50%; */
-    }
+#expenses_app {
+    padding: 10px;
+    min-height: 75%;
+    position: relative;
+    /* transform: translateX(-50%); */
+    /* left: 50%; */
+}
 
-    #expenses_app > div > div {
-        padding: 10px 30px;
-    }
+#expenses_app > div > div {
+    padding: 10px 30px;
+}
 
-    #expenses_app > div > h2 {
-        text-align: center;
-    }
+#expenses_app > div > h2 {
+    text-align: center;
+}
 
-    #expenses_app > div > .actions {
+#expenses_app > div > .actions {
 
-    }
+}
 
-    #expenses_app > div {
-        display: flex;
-        /* height: 100%; */
-        width: 100%;
-        min-height: 100%;
-        flex-direction: column;
-        /* background-color: rgba(255,255,255,0.9); */
-        position: absolute;
-        left: 0;
-        top: 0;
-    }
+#expenses_app > div {
+    display: flex;
+    /* height: 100%; */
+    width: 100%;
+    min-height: 100%;
+    flex-direction: column;
+    /* background-color: rgba(255,255,255,0.9); */
+    position: absolute;
+    left: 0;
+    top: 0;
+}
 
-    .flex1 {
-        flex-grow: 1;
-    }
+.flex1 {
+    flex-grow: 1;
+}
 
-    .btnGroup {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
+.btnGroup {
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
 
-
-    .btnGroup > *{
-        margin: 5px 5px;
-    }
+.btnGroup > * {
+    margin: 0 5px;
+}
 
 /*}*/
 
@@ -76,33 +76,32 @@
     border-radius: 4px;
 }
 
-
 /*@media only screen and (max-width: 600px) {*/
-    /*#expenses_app {*/
-         /*!* height: 100%; *!*/
-    /*}*/
+/*#expenses_app {*/
+/*!* height: 100%; *!*/
+/*}*/
 /*}*/
 
 .expense-status {
     color: white;
     font-weight: bold;
     padding: 4px 9px;
-    border-radius:  4px;
+    border-radius: 4px;
 }
 
-.expense-status.inafwachting {
+.expense-status.awaiting {
     background-color: #ff852c;
 }
 
-.expense-status.goedgekeurd {
+.expense-status.approved {
     background-color: #6faf2a;
 }
 
-.expense-status.behandeld {
+.expense-status.processed {
     background-color: #6faf2a;
 }
 
-.expense-status.afgekeurd {
+.expense-status.denied {
     background-color: #c9302c;
 }
 
@@ -114,8 +113,8 @@
     }
 
     #expenses_app > div {
-        background-color: rgba(255,255,255,0.9);
-}
+        background-color: rgba(255, 255, 255, 0.9);
+    }
 }
 
 .expenseStatusExplenation {
@@ -134,8 +133,8 @@
 
 .publicTransportTicketsGroup {
     display: flex;
-    flex-direction:  column;
-    align-items:  center;
+    flex-direction: column;
+    align-items: center;
 }
 
 .publicTransportTicketsGroup > * {
@@ -144,10 +143,36 @@
 
 .modalTicketImage {
     max-width: 80%;
-    margin: 0 auto;
+    margin: 10px auto;
 }
 
 .modalTicketContainer {
     display: flex;
-    align-items: center
+    align-items: center;
+    flex-direction:  column;
+}
+
+.estimateDistanceProposal {
+    font-size: 24px;
+}
+
+.green {
+    color: green;
+}
+
+.summary {
+    text-align: center;
+    font-size: 18px;
+    line-height: 38px;
+    max-width: 85%;
+    margin: 36px auto;
+}
+
+.accentuate {
+    background-color: #6db649;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 9px;
+    white-space: nowrap;
+    font-weight: bold;
 }

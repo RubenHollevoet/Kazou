@@ -60,6 +60,9 @@
                         <a href="{{ path('security_login') }}" class="btn btn-yellow">Login</a>
                         <a href="{{ path('user_register') }}" class="btn btn-yellow">Registreer</a>
                     {% endif %}
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('easyadmin') }}" class="btn btn-yellow">Admin</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
