@@ -245,3 +245,8 @@ body > footer {
 .btn {
     margin-bottom: 8px;
 }
+
+
+.home.container {
+    margin-top: 30px;
+}

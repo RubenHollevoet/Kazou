@@ -31,7 +31,7 @@ class User implements UserInterface
      * @ORM\ManyToOne(targetEntity="Region")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $region = 1;
+    private $region;
 
     /**
      * @ORM\Column(type="string")

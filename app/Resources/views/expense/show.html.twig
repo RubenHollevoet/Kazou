@@ -23,14 +23,13 @@
                         <span>Om onkosten in te dienen moet je ingelogd zijn.</span>
                         <div class="facebook-login-alert-wrapper">
                             <div class="register-facebook">
-
                                 <a href="{{ fbLoginUrl }}" class="fb-login-btn"><span class="fa fa-facebook"></span>Login
                                     met Facebook</a>
-
-                                of met je
-                                <a href="{{ path('security_login') }}">email</a>.
                             </div>
                         </div>
+                        <span>of met je
+                                <a href="{{ path('security_login') }}">email</a>.
+                        </span>
                     </div>
                 {% endif %}
             </div>
@@ -126,7 +125,9 @@
                         <div class="modal-body">
                             <p><strong>Groep: </strong>{{ trip.group }}</p>
                             <p><strong>Activiteit: </strong>{{ trip.activity }}</p>
-                            <p><strong>Status: </strong><span class="expense-status nowrap {{ trip.status }}">{{ ('trip.status.'~trip.status)|trans }}</span></p>
+                            <p><strong>Status: </strong><span
+                                        class="expense-status nowrap {{ trip.status }}">{{ ('trip.status.'~trip.status)|trans }}</span>
+                            </p>
                             <p><strong>Van: </strong>{{ trip.from }}</p>
                             <p><strong>Naar: </strong>{{ trip.to }}</p>
                             <p><strong>Voertuig: </strong>

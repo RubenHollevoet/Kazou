@@ -319,7 +319,7 @@
                         <span class="btnGroup">
                             <span class="estimateDistanceProposal">
                                 <span>schatting: </span>
-                                <span class="green">${tripData.estimateDistance} Km</span>
+                                <span class="green">${String(tripData.estimateDistance).replace('.',',')} Km</span>
                             </span>
                             <span class="btn btn-default"
                                   v-bind:class="[tripData.distance === tripData.estimateDistance ? 'btn-primary' : 'btn-default']"
@@ -382,10 +382,8 @@
                 <h2>We zijn er bijna!</h2>
                 <h3>Controleer nog eventjes of je alles juist hebt ingevuld.</h3>
                 <div class="summary" v-show="tripData.transportType === 'car'">Op <span class="accentuate">${formatDateNl(tripData.date)}</span>
-                    heb ik met de auto <span class="accentuate">${tripData.distance} Km</span> afgelegd om heen en weer
-                    te
-                    rijden tussen <span class="accentuate">${tripData.from}</span> en <span
-                            class="accentuate">${tripData.to}</span> voor <span class="accentuate">${groupStack[groupStack.length -1].text}</span>
+                    heb ik met de auto <span class="accentuate">${String(tripData.distance).replace('.',',')} Km</span> afgelegd om heen en weer
+                    te rijden tussen <span class="accentuate">${tripData.from}</span> en <span class="accentuate">${tripData.to}</span> voor <span class="accentuate">${groupStack[groupStack.length -1].text}</span>
                     van <span class="accentuate">${groupStack[groupStack.length -2].text}</span>
                     voor een bedrag van <span class="accentuate">&euro; ${Math.round(tripData.distance*25)/100}</span>
                     aan

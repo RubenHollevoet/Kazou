@@ -138,6 +138,7 @@ class FacebookUserProvider
 
             $fbUser = $fb_response->getGraphUser();
 
+
             return $fbUser;
         }
         else
@@ -149,6 +150,10 @@ class FacebookUserProvider
     public function createOrUpdateUser($credentials) {
 
         $user = $this->em->getRepository('AppBundle:User')->findOneBy(['fb_userId' => $credentials->getId()]);
+
+        if(!$user) {
+            $user = $this->em->getRepository('AppBundle:User')->findOneBy(['email' => $credentials->getField('email')]);
+        }
 
         if($user) {
             //if account doesn't have a FB ID yet (if it has been created using standard method), add it
@@ -181,7 +186,7 @@ class FacebookUserProvider
                 mkdir($uploadPath.$folder, 0777, true);
             }
 
-            $fileName = (string)$user->getId().'-avatar.jpg';
+            $fileName = (string)$credentials->getId().'-avatar.jpg';
             file_put_contents($uploadPath.$folder.$fileName, fopen($credentials->getPicture()->getUrl(), 'r'));
 
             $user->setPicture($folder.$fileName);

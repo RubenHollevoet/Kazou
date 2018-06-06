@@ -26,7 +26,7 @@ class SetRegionListener implements EventSubscriberInterface
     public function prePersist(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
-        if(method_exists($entity, 'setRegion')) {
+        if(method_exists($entity, 'setRegion') && !($entity instanceof User)) {
 
             if($entity instanceof User)
             {

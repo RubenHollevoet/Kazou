@@ -39,7 +39,7 @@ class UserController extends Controller
             else {
                 $em->persist($user);
                 $em->flush();
-                $this->addFlash('success', 'Je account weizigingen zijn opgeslagen.');
+                $this->addFlash('success', 'Je account wijzigingen zijn opgeslagen.');
                 return $this->redirectToRoute('homepage');
             }
         }
