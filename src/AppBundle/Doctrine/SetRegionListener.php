@@ -25,26 +25,26 @@ class SetRegionListener implements EventSubscriberInterface
 
     public function prePersist(LifecycleEventArgs $args)
     {
-        $entity = $args->getEntity();
-        if(method_exists($entity, 'setRegion') && !($entity instanceof User)) {
-
-            if($entity instanceof User)
-            {
-                $region = $args->getEntityManager()->getRepository('AppBundle:Region')->find(0);
-            }
-            else if( $this->tokenStorage->getToken())
-            {
-                $user = $this->tokenStorage->getToken()->getUser();
-                $region = $user->getRegion();
-            }
-            else
-            {
-                //TODO
-                $region = null;
-            }
-
-            $entity->setRegion($region);
-        }
+//        $entity = $args->getEntity();
+//        if(method_exists($entity, 'setRegion') && !($entity instanceof User)) {
+//
+//            if($entity instanceof User)
+//            {
+//                $region = $args->getEntityManager()->getRepository('AppBundle:Region')->find(0);
+//            }
+//            else if( $this->tokenStorage->getToken())
+//            {
+////                $user = $this->tokenStorage->getToken()->getUser();
+////                $region = $user->getRegion();
+//            }
+//            else
+//            {
+//                //TODO
+//                $region = null;
+//            }
+//
+////            $entity->setRegion($region);
+//        }
     }
 
     public static function getSubscribedEvents()

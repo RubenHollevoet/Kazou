@@ -136,6 +136,7 @@ easy_admin:
                     - status
         TripGroup:
             class: AppBundle\Entity\TripGroup
+            controller: AppBundle\Controller\EasyAdmin\TripGroupController
             label: 'Groepen'
             list:
                 title: '%%entity_label%%'

@@ -41,11 +41,11 @@ services:
             tags:
                 - { name: doctrine.event_listener, event: prePersist }
                 - { name: doctrine.event_listener, event: preUpdate }
-    app.doctrine.set_region_listener:
-            class: AppBundle\Doctrine\SetRegionListener
-            autowire: true
-            tags:
-                - { name: doctrine.event_listener, event: prePersist }
+#    app.doctrine.set_region_listener:
+#            class: AppBundle\Doctrine\SetRegionListener
+#            autowire: true
+#            tags:
+#                - { name: doctrine.event_listener, event: prePersist }
     app.doctrine.order_trip_group_listener:
             class: AppBundle\Doctrine\OrderTripGroupListener
             autowire: true

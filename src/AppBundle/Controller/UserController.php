@@ -70,7 +70,7 @@ class UserController extends Controller
         $form->handleRequest($request);
         if ($form->isValid()) {
             $user = $form->getData();
-            $user->setRegion($this->getDoctrine()->getRepository(Region::class)->find(1));
+            $user->setRegion($this->getDoctrine()->getRepository(Region::class)->find(0));
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
