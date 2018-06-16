@@ -48,7 +48,7 @@ var app = new Vue({
         formErrors: [],
         groupStack: [],
         activeGroups: [],
-        userDataSet: false,
+        startDataSet: false,
         userData: {
             name: '',
             email: '',
@@ -100,7 +100,8 @@ var app = new Vue({
 
             var tripData = {
                 userData: this.userData,
-                tripData: this.tripData
+                tripData: this.tripData,
+                regionId: this.regionId
             };
             axios.post('/expenses/api/createTrip', tripData)
                 .then(function (response) {
@@ -148,7 +149,7 @@ var app = new Vue({
         },
         fetchGroups: function (id = 0) {
             var self = this;
-            axios.get('/expenses/api/getChildGroups?group=' + id.toString())
+            axios.get('/expenses/api/getChildGroups?group=' + id.toString() + '&region=' + this.regionId)
                 .then(function (response) {
                     self.activeGroups = response.data.data;
                     self.formErrors = [];
@@ -160,7 +161,7 @@ var app = new Vue({
         },
         fetchActivity: function (id) {
             var self = this;
-            axios.get('/expenses/api/getTripActivities?group=' + id.toString())
+            axios.get('/expenses/api/getTripActivities?group=' + id.toString() + '&region=' + this.regionId)
                 .then(function (response) {
                     // console.log(response.data.status);
                     if (response.data.status === 'ok') {
@@ -168,7 +169,7 @@ var app = new Vue({
                         self.formErrors = [];
                     }
                     else {
-                        // self.formErrors.push('De huidige groep bezit geen activiteiten. Contacteer het Kazou team.');
+                        self.formErrors.push('De huidige groep bezit geen activiteiten. Contacteer het Kazou team.');
                         console.log('error when requesting activities', response.data);
                     }
                 })
@@ -289,12 +290,13 @@ var app = new Vue({
             console.log(d.getMonth());
             return weekday[d.getDay()] + ' ' + (Number(date.substr(8,2))).toString() + ' ' + month[d.getMonth()] + ' ' + d.getFullYear();
         },
-        setUserData(userData) {
-            if (!this.userDataSet) {
-                this.userData = Object.assign({}, this.userData, userData);
-                this.userDataSet = true;
+        setStartData(data) {
+            if (!this.startDataSet) {
+                this.userData = Object.assign({}, this.userData, data.user);
+                this.regionId = data.regionId;
+                this.startDataSet = true;
             }
-        },
+        }
     },
     mounted: function () {
         this.fetchGroups(0);

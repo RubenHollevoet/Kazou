@@ -26,10 +26,10 @@ class VacancyController extends Controller
 
         foreach ($vacancyLines as $vacancyLine) {
             //create group
-            $parentGroupId = $vacancyLine->getGroup()->getParent()->getId();
+            $parentGroupId = $vacancyLine->getGroup()->getId();
             if (!array_key_exists($parentGroupId, $vacancies)) {
                 $vacancies[$parentGroupId] = [
-                    'name' => $vacancyLine->getGroup()->getParent()->getName(),
+                    'name' => $vacancyLine->getGroup()->getName(),
                     'vacations' => [],
                 ];
             }

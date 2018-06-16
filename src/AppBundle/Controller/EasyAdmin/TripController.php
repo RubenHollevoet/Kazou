@@ -6,22 +6,22 @@
  * Time: 21:14
  */
 
-namespace AppBundle\Controller\EasyAdmin;
-
-use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
-
-class TripController extends BaseAdminController
-{
-    protected function listAction() {
-        $this->entity['list']['dql_filter'] = 'entity.region = '.(string)$this->getUser()->getRegion()->getId();
-
-        return parent::listAction();
-    }
-
-    protected function persistEntity($entity)
-    {
-        $entity->setRegion($this->getUser()->getRegion());
-
-        parent::persistEntity($entity);
-    }
-}
+//namespace AppBundle\Controller\EasyAdmin;
+//
+//use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
+//
+//class TripController extends BaseAdminController
+//{
+//    protected function listTripAction() {
+//        $this->entity['list']['dql_filter'] = 'entity.region = '.(string)$this->getUser()->getRegion()->getId();
+//
+//        return parent::listTripAction();
+//    }
+//
+//    protected function persistTripEntity($entity)
+//    {
+//        $entity->setRegion($this->getUser()->getRegion());
+//
+//        parent::persistTripEntity($entity);
+//    }
+//}

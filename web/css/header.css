@@ -58,3 +58,7 @@ nav > ul > li > a:focus, nav > ul > li > a:hover {
 .header-coverup {
     height: 96px;
 }
+
+.flex1 {
+    flex-grow: 1;
+}

@@ -1,4 +1,8 @@
 {% extends "base.html.twig" %}
+{% if regionId != 0 %}
+    {% set expenses_only = true %}
+{% endif %}
+
 
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('css/expenses.css') }}?v={{ random(999999) }}">
@@ -13,11 +17,13 @@
             <div class="col-md-8 centerBox">
                 <h1>Welkom op de onkostentool</h1>
                 <p class="center">Hier kan je al je transport onkosten indienen. Je vind verder ook een overzicht van je
-                    eerder ingediende onkosten. Voor meer info over waar je een killometervergoeding voor kan indienen,
-                    kan je de
-                    <a href="">onkostennota</a> raadplegen.</p>
+                    eerder ingediende onkosten.
+                    {% if app.request.server.get('HTTP_REFERER') == null or 'kazourmt' in app.request.server.get('HTTP_REFERER') %}
+                    Voor meer info over waar je een killometervergoeding voor kan indienen, kan je de <a href="">onkostennota</a> raadplegen.
+                    {% endif %}
+                </p>
                 {% if app.user %}
-                    <a href="{{ path("expense_add") }}" class="btn btn-yellow btn-zoom">onkosten toevoegen</a>
+                    <a href="{{ path("expenses_add",{ 'regionId': regionId }) }}" class="btn btn-yellow btn-zoom">onkosten toevoegen</a>
                 {% else %}
                     <div class="alert alert-info width100">
                         <span>Om onkosten in te dienen moet je ingelogd zijn.</span>

@@ -1,4 +1,7 @@
 {% extends "base.html.twig" %}
+{% if regionId != 0 %}
+    {% set expenses_only = true %}
+{% endif %}
 
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('css/expenses.css') }}?v={{ random(999999) }}">
@@ -21,11 +24,16 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
     <div id="expenses_app"
-            {% if app.user %}
-         :json="setUserData({name: '{{ app.user.firstName }} {{ app.user.lastName }}', email: '{{ app.user.email }}', personId: '{{ app.user.personId }}', iban: '{{ app.user.iban }}', address: '{{ app.user.address }}'})">
-        {% else %}
-            :json="setUserData({})">
-        {% endif %}
+            {#{% if app.user %}#}
+         :json="setStartData(
+            {
+                user: {name: '{{ app.user.firstName }} {{ app.user.lastName }}', email: '{{ app.user.email }}', personId: '{{ app.user.personId }}', iban: '{{ app.user.iban }}', address: '{{ app.user.address }}'},
+                regionId: {{ regionId }}
+            }
+         )">
+        {#{% else %}#}
+            {#:json="setUserData({});setRegionId({{ regionId }})">#}
+        {#{% endif %}#}
         <div v-show="page === 0">
             <h2>voor we beginnen</h2>
             <div class="col-md-12">
@@ -58,6 +66,7 @@
 
             <span class="flex1"></span>
             <div class="actions btnGroup">
+                <a href="{{ path('expenses', {'regionId': regionId}) }}" class="btn btn-yellow btn-zoom">Terug</a>
                 <span class="btn btn-yellow btn-zoom" v-on:click="nextStep">Akkoord!</span>
             </div>
         </div>
@@ -192,10 +201,22 @@
                 <div class="col-md-6">
                     <h3>plaats</h3>
                     <div class="form-group">
-                        <span class="btn btn-default" v-on:click="updateTo('CM Mechelen Noord')"
-                              v-bind:class="[tripData.to === 'CM Mechelen Noord' ? 'btn-primary' : 'btn-default']">Rezzon</span>
-                        <span class="btn btn-default" v-on:click="updateTo('CM Turnhout')"
-                              v-bind:class="[tripData.to === 'CM Turnhout' ? 'btn-primary' : 'btn-default']">Bar Volontar</span>
+                        {% if regionId == 0 %}
+                            <span class="btn btn-default" v-on:click="updateTo('CM Mechelen Noord')"
+                                  v-bind:class="[tripData.to === 'CM Mechelen Noord' ? 'btn-primary' : 'btn-default']">Rezzon</span>
+                            <span class="btn btn-default" v-on:click="updateTo('CM Turnhout')"
+                                  v-bind:class="[tripData.to === 'CM Turnhout' ? 'btn-primary' : 'btn-default']">Bar Volontar</span>
+                        {% elseif regionId == 1 %}
+                            <span class="btn btn-default" v-on:click="updateTo('Haachtsesteenweg 1805, 1130 Haren')"
+                                  v-bind:class="[tripData.to === 'Haachtsesteenweg 1805, 1130 Haren' ? 'btn-primary' : 'btn-default']">Verbondsgebouw</span>
+                            <span class="btn btn-default" v-on:click="updateTo('Wilgenlaan 1, 1861 Meise')"
+                                  v-bind:class="[tripData.to === 'Wilgenlaan 1, 1861 Meise' ? 'btn-primary' : 'btn-default']">CM Meise</span>
+                            <span class="btn btn-default" v-on:click="updateTo('Ninoofsesteenweg 176, 1700 Dilbeek')"
+                                  v-bind:class="[tripData.to === 'Ninoofsesteenweg 176, 1700 Dilbeek' ? 'btn-primary' : 'btn-default']">CM Dilbeek</span>
+                            <span class="btn btn-default" v-on:click="updateTo('Molenbos1, 1731 Asse')"
+                                  v-bind:class="[tripData.to === 'Molenbos1, 1731 Asse' ? 'btn-primary' : 'btn-default']">Vertrekplaats Asse</span>
+                        {% endif %}
+
                         <span class="btn btn-default" v-on:click="updateTo('')"
                               v-bind:class="[tripData.to !== 'CM Mechelen Noord' && tripData.to !== 'CM Turnhout' ? 'btn-primary' : 'btn-default']">Overige</span>
 
@@ -416,7 +437,7 @@
             <span class="flex1"></span>
             <div class="actions btnGroup">
                 <span class="btn btn-yellow btn-zoom" v-on:click="prevStep" v-show="submitStatus === 500">vorige</span>
-                <a class="btn btn-yellow btn-zoom" href="{{ path('expense') }}">afronden</a>
+                <a class="btn btn-yellow btn-zoom" href="{{ path('expenses', {'regionId': regionId}) }}">afronden</a>
             </div>
         </div>
     </div>

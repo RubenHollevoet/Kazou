@@ -167,7 +167,9 @@ class FacebookUserProvider
         }
         else {
             $user = new User();
-            $user->setRegion($this->em->getRepository(Region::class)->find(1));
+            // $regionUrl = $_SERVER['HTTP_HOST']
+//            $this->em->getRepository(Region::class)->findBy(['url' => $regionUrl]);
+            $user->setRegion($this->em->getRepository(Region::class)->find(0));
             $user->setFirstName($credentials->getFirstName());
             $user->setLastName($credentials->getLastName());
             $user->setEmail($credentials->getField('email'));

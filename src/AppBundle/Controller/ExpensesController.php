@@ -27,17 +27,17 @@ class ExpensesController extends Controller
 {
 
     /**
-     * @Route("/onkosten/test")
+     * @Route("/onkosten")
      */
     public function test(Request $request)
     {
-        return $this->render('expense/test.html.twig', []);
+        return $this->redirectToRoute('expenses', ['regionId' => 0]);
     }
 
     /**
-     * @Route("/onkosten", name="expense")
+     * @Route("/onkosten/{regionId}", name="expenses")
      */
-    public function showExpense()
+    public function showExpense($regionId)
     {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
@@ -49,15 +49,16 @@ class ExpensesController extends Controller
         $trips = $em->getRepository(Trip::class)->findBy(['user' => $user]);
 
         return $this->render('expense/show.html.twig', [
+            'regionId' => $regionId,
             'trips' => $trips,
             'fbLoginUrl' => $this->container->get('app.service.facebook_user_provider')->getLoginUrl()
         ]);
     }
 
     /**
-     * @Route("/onkosten/add", name="expense_add")
+     * @Route("/onkosten/{regionId}/add", name="expenses_add")
      */
-    public function addExpense(Request $request)
+    public function addExpense($regionId, Request $request)
     {
         $trip = new Trip();
 
@@ -75,6 +76,7 @@ class ExpensesController extends Controller
 
 
         return $this->render('expense/add.html.twig', [
+            'regionId' => $regionId,
             'form' => $form->createView(),
             'google_api_key' => $this->getParameter('google_api_key')
         ]);
@@ -87,20 +89,23 @@ class ExpensesController extends Controller
      */
     public function getChildGroups(Request $request)
     {
-        $group = [];
+        $groups = [];
         $children = [];
 
         $groupId = $request->query->get('group');
+
         if ($groupId) {
-            $result = $this->getDoctrine()->getRepository(TripGroup::class)->find($groupId);
-            $group = $this->getDoctrine()->getRepository(TripGroup::class)->findBy(['parent' => $result]);
+            $result = $this->getDoctrine()->getRepository(TripGroup::class)->findBy(['id' => $groupId]);
+            $groups = $this->getDoctrine()->getRepository(TripGroup::class)->findBy(['parent' => $result]);
         } else {
-            $group = $this->getDoctrine()->getRepository(TripGroup::class)->findBy(['parent' => null]);
+            $regionId = $request->query->get('region');
+            $region = $this->getDoctrine()->getRepository(Region::class)->findBy(['id' => $regionId]);
+            $groups = $this->getDoctrine()->getRepository(TripGroup::class)->findBy(['parent' => null, 'region' => $region]);
         }
 
 
-        if ($group) {
-            foreach ($group as $child) {
+        if ($groups) {
+            foreach ($groups as $child) {
                 $children[] = [
                     'id' => $child->getId(),
                     'name' => $child->getName(),
@@ -223,7 +228,7 @@ class ExpensesController extends Controller
         $tripDate = new \DateTime($formData->tripData->date);
 
         $trip = new Trip();
-        $trip->setRegion($em->getRepository(Region::class)->find(1)); //attach Kazou region
+        $trip->setRegion($em->getRepository(Region::class)->find($formData->regionId));
         $trip->setUser($user);
         $trip->setFrom($formData->tripData->from);
         $trip->setTo($formData->tripData->to);

@@ -17,35 +17,38 @@
 </head>
 <body>
 
+
 {% block header %}
     <header class="main-header">
         <div class="container">
             <div class="row header-content">
                 <a href="{{ path('homepage') }}">
-                    <img class="logo" src="{{ asset('img/kazou-logo.png') }}" alt="logo Kazou" width="125" height="98">
+                    <img class="logo" src="{{ asset('img/kazou-logo.png') }}" alt="logo Kazou" width="125"
+                         height="98">
                 </a>
 
-                <nav class="desktop-nav">
-                    <ul>
-                        <li>
-                            <a href="{{ path('expense') }}">Onkosten</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('vacancies') }}">Open plaatsen</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('vvgps') }}">VV-GPS</a>
-                        </li>
-                        <li>
-                            <a href="/">Agenda</a>
-                        </li>
-                    </ul>
-                </nav>
-                <div>
-                    {% if is_granted('ROLE_USER') %}
+                {% if expenses_only is not defined %}
+                {#{% if app.request.server.get('HTTP_REFERER') == null or 'kazourmt' in app.request.server.get('HTTP_REFERER') %}#}
+                    <nav class="desktop-nav">
+                        <ul>
+                            <li>
+                                <a href="{{ path('expenses', {'regionId': '0'}) }}">Onkosten</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('vacancies') }}">Open plaatsen</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('vvgps') }}">VV-GPS</a>
+                            </li>
+                            <li>
+                                <a href="/">Agenda</a>
+                            </li>
+                        </ul>
+                    </nav>
+                {% endif %}
 
-                    {% endif %}
-                </div>
+                <div class="flex1"></div>
+
                 <div class="actions">
                     {% if is_granted('ROLE_USER') %}
                         <a href="">
@@ -66,9 +69,9 @@
                 </div>
             </div>
         </div>
-
     </header>
 {% endblock %}
+
 
 <div class="main-content">
     <div class="header-coverup"></div>

@@ -10,18 +10,18 @@ namespace AppBundle\Controller\EasyAdmin;
 
 use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 
-class TripGroupController extends BaseAdminController
-{
-    protected function listAction() {
-        $this->entity['list']['dql_filter'] = 'entity.region = '.(string)$this->getUser()->getRegion()->getId();
-
-        return parent::listAction();
-    }
-
-    protected function persistEntity($entity)
-    {
-        $entity->setRegion($this->getUser()->getRegion());
-
-        parent::persistEntity($entity);
-    }
-}
+//class TripGroupController extends BaseAdminController
+//{
+//    protected function listTripGroupAction() {
+//        $this->entity['list']['dql_filter'] = 'entity.region = '.(string)$this->getUser()->getRegion()->getId();
+//
+//        return parent::listTripGroupAction();
+//    }
+//
+//    protected function persistTripGroupEntity($entity)
+//    {
+//        $entity->setRegion($this->getUser()->getRegion());
+//
+//        parent::persistTripGroupEntity($entity);
+//    }
+//}

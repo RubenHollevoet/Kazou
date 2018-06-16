@@ -96,6 +96,7 @@ easy_admin:
     entities:
         Trip:
             class: AppBundle\Entity\Trip
+#            controller: AppBundle\Controller\EasyAdmin\TripController
             label: 'Ritten'
             disabled_actions: ['new']
             list:
@@ -136,7 +137,7 @@ easy_admin:
                     - status
         TripGroup:
             class: AppBundle\Entity\TripGroup
-            controller: AppBundle\Controller\EasyAdmin\TripGroupController
+#            controller: AppBundle\Controller\EasyAdmin\TripGroupController
             label: 'Groepen'
             list:
                 title: '%%entity_label%%'
@@ -174,6 +175,7 @@ easy_admin:
                     - { property: 'location', label: 'admin.location' }
         TripActivity:
             class: AppBundle\Entity\TripActivity
+#            controller: AppBundle\Controller\EasyAdmin\TripActivityController
             label: 'Activiteiten'
             list:
                 title: '%%entity_label%%'
