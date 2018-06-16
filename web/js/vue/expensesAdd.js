@@ -19,11 +19,10 @@ Vue.component('groupstack-item', {
 
 Vue.component('groupsavaliable-item', {
     props: ['group'],
-    template: '<span class="btn btn-default" v-bind:data-id="group.id" v-on:click="loadNewGroups">{{ group.name }}</span>',
+    template: '<span class="btn btn-default" v-bind:data-id="group.id" v-on:click="loadNewGroups">{{ getName() }}</span>',
     methods: {
         loadNewGroups: function (evt) {
             this.$root.groupStack.push({id: this.group.id + '-' + this.group.type, text: this.group.name});
-            console.log(this.group);
             if (this.group.type === 'activity') {
 
                 this.$root.tripData.activityId = this.group.id;
@@ -36,6 +35,11 @@ Vue.component('groupsavaliable-item', {
             //clear the shown active groups until the new ones are loaded
             this.$root.activeGroups = [];
         },
+        getName: function() {
+            var name = this.group.name;
+            if(this.group.startDate) name = this.group.startDate + ' - ' + name;
+            return name;
+        }
     }
 });
 

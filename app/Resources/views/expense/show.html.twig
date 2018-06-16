@@ -16,11 +16,9 @@
             </div>
             <div class="col-md-8 centerBox">
                 <h1>Welkom op de onkostentool</h1>
-                <p class="center">Hier kan je al je transport onkosten indienen. Je vind verder ook een overzicht van je
+                <p class="center">Hier kan je al je transport onkosten indienen. Je vindt verder ook een overzicht van je
                     eerder ingediende onkosten.
-                    {% if app.request.server.get('HTTP_REFERER') == null or 'kazourmt' in app.request.server.get('HTTP_REFERER') %}
-                    Voor meer info over waar je een killometervergoeding voor kan indienen, kan je de <a href="">onkostennota</a> raadplegen.
-                    {% endif %}
+                    {#Voor meer info over waar je een killometervergoeding voor kan indienen, kan je de <a href="">onkostennota</a> raadplegen.#}
                 </p>
                 {% if app.user %}
                     <a href="{{ path("expenses_add",{ 'regionId': regionId }) }}" class="btn btn-yellow btn-zoom">onkosten toevoegen</a>
@@ -129,7 +127,7 @@
                             <h4 class="modal-title">Mijn rit van {{ trip.date|date('j-n-Y') }}</h4>
                         </div>
                         <div class="modal-body">
-                            <p><strong>Groep: </strong>{{ trip.group }}</p>
+                            <p><strong>Groep: </strong>{{ trip.group.name }}</p>
                             <p><strong>Activiteit: </strong>{{ trip.activity }}</p>
                             <p><strong>Status: </strong><span
                                         class="expense-status nowrap {{ trip.status }}">{{ ('trip.status.'~trip.status)|trans }}</span>

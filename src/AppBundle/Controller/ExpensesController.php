@@ -96,20 +96,22 @@ class ExpensesController extends Controller
 
         if ($groupId) {
             $result = $this->getDoctrine()->getRepository(TripGroup::class)->findBy(['id' => $groupId]);
-            $groups = $this->getDoctrine()->getRepository(TripGroup::class)->findBy(['parent' => $result]);
+            $groups = $this->getDoctrine()->getRepository(TripGroup::class)->findBy(['parent' => $result], ['startDate' => 'asc']);
         } else {
             $regionId = $request->query->get('region');
             $region = $this->getDoctrine()->getRepository(Region::class)->findBy(['id' => $regionId]);
-            $groups = $this->getDoctrine()->getRepository(TripGroup::class)->findBy(['parent' => null, 'region' => $region]);
+            $groups = $this->getDoctrine()->getRepository(TripGroup::class)->findBy(['parent' => null, 'region' => $region], ['startDate' => 'asc']);
         }
-
 
         if ($groups) {
             foreach ($groups as $child) {
+                $startDate = $child->getStartDate();
+                if($startDate) $startDate = $startDate->format('j/n');
                 $children[] = [
                     'id' => $child->getId(),
                     'name' => $child->getName(),
                     'type' => 'group',
+                    'startDate' => $startDate,
                     'code' => $child->getCode()
                 ];
             }
