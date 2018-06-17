@@ -20,3 +20,6 @@ parameters:
     facebook_app_id: 'XXX'
     facebook_app_secret: XXX
     facebook_oauth_redirect: XXX
+
+    upload_directory: '%kernel.project_dir%/web'
+    google_api_key: XXX

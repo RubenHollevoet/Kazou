@@ -51,6 +51,18 @@ class TripActivity
      */
     protected $updatedAt;
 
+
+    /**
+     * @ORM\ManyToOne(targetEntity="User")
+     */
+    private $createdBy;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="User")
+     */
+    private $updatedBy;
+
+
     /**
      * @return mixed
      */
@@ -160,6 +172,38 @@ class TripActivity
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
+    }
+
+    /**
+     * @param mixed $createdBy
+     */
+    public function setCreatedBy($createdBy)
+    {
+        $this->createdBy = $createdBy;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUpdatedBy()
+    {
+        return $this->updatedBy;
+    }
+
+    /**
+     * @param mixed $updatedBy
+     */
+    public function setUpdatedBy($updatedBy)
+    {
+        $this->updatedBy = $updatedBy;
     }
 
     /**
