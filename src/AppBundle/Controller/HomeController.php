@@ -8,6 +8,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Link;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -18,7 +19,15 @@ class HomeController extends Controller
      */
     public function home()
     {
-        return $this->render('home.html.twig', []);
+        //hacky
+        if($this->getUser()) {
+            if($this->getUser()->getRegion()->getId() > 0) {
+                return $this->redirectToRoute('expenses_region', ['regionId' => $this->getUser()->getRegion()->getId()]);
+            }
+        }
+
+        $links = $this->getDoctrine()->getRepository(Link::class)->findBy(['enabled' => true]);
+        return $this->render('home.html.twig', ['links' => $links]);
     }
 
     /**

@@ -134,7 +134,7 @@ var app = new Vue({
                 if (!this.userData.address.length) this.formErrors.push('vul je adres in');
             }
             else if (pageId === 2) {
-                // if (this.activeGroups.length) this.formErrors.push('specifieer je activiteit. Kies tussen de aangegeven activiteiten');
+                if (this.activeGroups.length) this.formErrors.push('specifieer je activiteit. Kies tussen de aangegeven activiteiten');
                 if (!this.tripData.date) this.formErrors.push('vul de datum in waarop de activiteit plaats vond');
                 if (!this.tripData.to) this.formErrors.push('vul de plaats van de activiteit in');
             }
@@ -146,7 +146,7 @@ var app = new Vue({
                 if(this.tripData.from === '') this.formErrors.push('vul je vertrekplaats in');
                 if(this.tripData.transportType === '') this.formErrors.push('kies je transportmiddel');
                 if(this.tripData.transportType === 'car' && this.tripData.company === '' ) this.formErrors.push('specifieer je reisgezelschap');
-                if(this.tripData.transportType === 'publicTransport' && this.tripData.tickets === [] ) this.formErrors.push('upload een duidelijke foto of scan van je ticketjes');
+                if(this.tripData.transportType === 'publicTransport' && this.tripData.tickets.length < 1 ) this.formErrors.push('upload een duidelijke foto of scan van je ticketjes');
                 if(this.tripData.transportType === 'publicTransport' && !this.tripData.price ) this.formErrors.push('geef de totale prijs van je ticketjes in');
             }
             return !this.formErrors.length > 0;

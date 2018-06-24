@@ -25,25 +25,17 @@ use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
 class ExpensesController extends Controller
 {
-
     /**
-     * @Route("/onkosten")
+     * @Route("/onkosten", name="expenses")
+     * @Route("{regionId}/onkosten", name="expenses_region")
      */
-    public function test(Request $request)
-    {
-        return $this->redirectToRoute('expenses', ['regionId' => 0]);
-    }
-
-    /**
-     * @Route("/onkosten/{regionId}", name="expenses")
-     */
-    public function showExpense($regionId)
+    public function showExpense($regionId = 0)
     {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
 
         if (!$user) {
-            $_SESSION['_sf2_attributes']['_security.main.target_path'] = $this->generateUrl('expense');
+            $_SESSION['_sf2_attributes']['_security.main.target_path'] = $this->generateUrl('expenses_region', ['regionId' => $regionId]);
         }
 
         $trips = $em->getRepository(Trip::class)->findBy(['user' => $user]);
@@ -56,7 +48,7 @@ class ExpensesController extends Controller
     }
 
     /**
-     * @Route("/onkosten/{regionId}/add", name="expenses_add")
+     * @Route("/{regionId}/onkosten/add", name="expenses_add")
      */
     public function addExpense($regionId, Request $request)
     {
@@ -218,8 +210,8 @@ class ExpensesController extends Controller
         $user->setIban($formData->userData->iban);
         $user->setPersonId($formData->userData->personId);
         $user->setAddress($formData->userData->address);
+        $user->setRegion($em->getRepository(Region::class)->find($formData->regionId)); //TO BE MOVED TO USER REGISTRATION
 
-        $em->persist($user);
 
         //handle tripGroup
         $tripGroup = $this->getDoctrine()->getRepository(TripGroup::class)->find($formData->tripData->groupId);

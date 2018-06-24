@@ -17,8 +17,9 @@ class SecurityController extends Controller
 {
     /**
      * @Route("/login", name="security_login")
+     * @Route("{regionId}/login", name="security_login_region")
      */
-    public function loginAction()
+    public function loginAction($regionId = 0)
     {
         $authenticationUtils = $this->get('security.authentication_utils');
 
@@ -33,6 +34,7 @@ class SecurityController extends Controller
         ]);
 
         return $this->render('security/login.html.twig', [
+            'regionId' => $regionId,
             'form' => $form->createView(),
             'fbLoginUrl' => $this->container->get('app.service.facebook_user_provider')->getLoginUrl(),
             'error' => $error,

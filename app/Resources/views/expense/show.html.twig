@@ -1,7 +1,8 @@
 {% extends "base.html.twig" %}
-{% if regionId != 0 %}
-    {% set expenses_only = true %}
-{% endif %}
+{#{% if regionId != 0 %}#}
+    {#{% set expenses_only = true %}#}
+    {#{% set regionId = regionId %}#}
+{#{% endif %}#}
 
 
 {% block stylesheets %}
@@ -16,6 +17,13 @@
             </div>
             <div class="col-md-8 centerBox">
                 <h1>Welkom op de onkostentool</h1>
+
+                <span class="alert alert-info">
+                    <h4>De onkostentool staat nog maar in zijn kinderschoentjes en dus kan ik jouw hulp zeker goed gebruiken!</h4>
+                    <p>Heb je ergens een fout gevonden, is er iets niet duidelijk, staan er nog ergens schrijffouten, heb je nog een zot idee voor een uitbreiding of is er volgens jou nog een 'feature' die ontbreekt? Meld het dan hieronder zodat ik er verder mee aan de slag kan gaan :D</p>
+                    <a class="btn btn-yellow" target="_blank" href="https://goo.gl/forms/NkVAowEoqFXlvcaK2">Vul het feedback formulier in!</a>
+                </span>
+
                 <p class="center">Hier kan je al je transport onkosten indienen. Je vindt verder ook een overzicht van je
                     eerder ingediende onkosten.
                     {#Voor meer info over waar je een killometervergoeding voor kan indienen, kan je de <a href="">onkostennota</a> raadplegen.#}
@@ -27,12 +35,12 @@
                         <span>Om onkosten in te dienen moet je ingelogd zijn.</span>
                         <div class="facebook-login-alert-wrapper">
                             <div class="register-facebook">
-                                <a href="{{ fbLoginUrl }}" class="fb-login-btn"><span class="fa fa-facebook"></span>Login
+                                <a href="{{ fbLoginUrl }}" target="_top" class="fb-login-btn"><span class="fa fa-facebook"></span>Login
                                     met Facebook</a>
                             </div>
                         </div>
                         <span>of met je
-                                <a href="{{ path('security_login') }}">email</a>.
+                                <a href="{{ path('security_login_region', {'regionId': regionId}) }}">email</a>.
                         </span>
                     </div>
                 {% endif %}

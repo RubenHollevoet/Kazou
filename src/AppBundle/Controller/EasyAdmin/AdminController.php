@@ -44,6 +44,14 @@ class AdminController extends BaseAdminController
             $entity->setUpdatedBy($user);
         }
 
+        if(method_exists($entity, 'setCreatedAt')) {
+            $entity->setCreatedAt(new \DateTime());
+        }
+
+        if(method_exists($entity, 'setUpdatedAt')) {
+            $entity->setUpdatedAt(new \DateTime());
+        }
+
         parent::prePersistEntity($entity);
     }
 
@@ -53,6 +61,10 @@ class AdminController extends BaseAdminController
 
         if(method_exists($entity, 'setUpdatedBy')) {
             $entity->setUpdatedBy($user);
+        }
+
+        if(method_exists($entity, 'setUpdatedAt')) {
+            $entity->setUpdatedAt(new \DateTime());
         }
 
         parent::preUpdateEntity($entity);

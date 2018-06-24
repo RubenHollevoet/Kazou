@@ -8,6 +8,8 @@ easy_admin:
             favicon: 'favicon.ico'
             css: ['css/easyAdmin.css']
         menu:
+            - { label: 'Website' }
+            - { entity: 'Link', icon: 'link'}
             - { label: 'Algemeen' }
             - { entity: 'User', icon: 'user'}
             - { entity: 'Vacancy', icon: 'question'}
@@ -43,7 +45,8 @@ easy_admin:
                     - { property: 'to', type: 'text'}
                     - { property: 'date'}
                     - { property: 'transportType', type: 'text'}
-                    - { property: 'company', type: 'text'}
+                    - { property: 'distance', type: 'text'}
+                    - { property: 'distance', type: 'text'}
                     - { property: 'comment', type: 'textarea'}
                     - { property: 'price'}
                     - { property: 'status', type: 'choice', type_options: { choices: '%trip_status%' }, help: 'Weet waar je mee bezig bent als je de status hier weizigd. De status zou automatisch aangepast moeten worden door onkosten te verwerken of te exporteren.</br> Deze waarde manueel aanpassen kan tot gevolg hebben dat onkosten niet bij de boekhouding geraken.'}
@@ -56,6 +59,8 @@ easy_admin:
                     - to
                     - date
                     - transportType
+                    - distance
+                    - estimateDistance
                     - company
                     - { property: 'tickets', template: 'easyAdmin/typeTemplates/imageArray.html.twig' }
                     - comment
@@ -80,7 +85,7 @@ easy_admin:
                     - { type: 'group', css_class: 'col-sm-6', label: 'admin.general' }
                     - { property: 'code', label: 'admin.code' }
                     - { property: 'name', label: 'admin.name' }
-                    - { property: 'parent', label: 'admin.parent' }
+                    - { property: 'parent', type_options: { expanded: false, multiple: false }, label: 'admin.parent' }
                     - { property: 'tripActivity', label: 'admin.tripActivity' }
                     - { type: 'group', css_class: 'col-sm-6', label: 'admin.forHolidays' }
                     - { property: 'startDate', label: 'admin.startDate', type_options: { widget: 'single_text' }  }
@@ -96,8 +101,8 @@ easy_admin:
                     - { property: 'tripActivity', label: 'admin.tripActivity' }
                     - { type: 'group', css_class: 'col-sm-6', label: 'admin.forHolidays' }
                     - { property: 'startDate', label: 'admin.startDate' }
-                    - { property: 'endDate', label: 'admin.endDate', type_options: { widget: 'single_text' } }
-                    - { property: 'location', label: 'admin.location', type_options: { widget: 'single_text' } }
+                    - { property: 'endDate', label: 'admin.endDate', type: 'datetime' ,type_options: { widget: 'single_text' } }
+                    - { property: 'location', label: 'admin.location', type: 'datetime', type_options: { widget: 'single_text' } }
         TripActivity:
             class: AppBundle\Entity\TripActivity
             label: 'Activiteiten'
@@ -149,3 +154,27 @@ easy_admin:
             label: 'Verbonden'
             list:
                 title: '%%entity_label%%'
+        Link:
+            class: AppBundle\Entity\Link
+            label: 'Knoppen hoofdpagina'
+            list:
+                title: '%%entity_label%%'
+                fields:
+                    - { property: 'name', label: 'admin.name' }
+                    - { property: 'enabled', label: 'admin.enabled' }
+                    - { property: 'createdBy' }
+                    - { property: 'updatedBy' }
+                    - { property: 'updatedAt' }
+                    - { property: 'updatedAt' }
+            new:
+                title: '%%entity_label%%'
+                fields:
+                    - { property: 'name', label: 'admin.name' }
+                    - { property: 'link', label: 'admin.link' }
+                    - { property: 'enabled', label: 'admin.enabled' }
+            edit:
+                title: '%%entity_label%%'
+                fields:
+                    - { property: 'name', label: 'admin.name' }
+                    - { property: 'link', label: 'admin.link' }
+                    - { property: 'enabled', label: 'admin.enabled' }

@@ -27,7 +27,7 @@ class Redirect
     /**
      * @ORM\Column(type="string")
      */
-    private $slug;
+    private $url;
 
     /**
      * @ORM\Column(type="string")
@@ -55,17 +55,17 @@ class Redirect
     /**
      * @return mixed
      */
-    public function getSlug()
+    public function getUrl()
     {
-        return $this->slug;
+        return $this->url;
     }
 
     /**
-     * @param mixed $slug
+     * @param mixed url
      */
-    public function setSlug($slug)
+    public function setSlug($url)
     {
-        $this->slug = $slug;
+        $this->url = $url;
     }
 
     /**

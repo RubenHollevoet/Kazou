@@ -17,32 +17,41 @@
 </head>
 <body>
 
+{% if regionId is not defined %}
+    {% set regionId = 0 %}
+{% endif %}
 
 {% block header %}
     <header class="main-header">
         <div class="container">
             <div class="row header-content">
-                <a href="{{ path('homepage') }}">
+
+                {% if regionId == 0 %}
+                    <a href="{{ path('homepage') }}">
+                        <img class="logo" src="{{ asset('img/kazou-logo.png') }}" alt="logo Kazou" width="125"
+                             height="98">
+                    </a>
+                {% else %}
                     <img class="logo" src="{{ asset('img/kazou-logo.png') }}" alt="logo Kazou" width="125"
                          height="98">
-                </a>
+                {% endif %}
 
-                {% if expenses_only is not defined %}
-                {#{% if app.request.server.get('HTTP_REFERER') == null or 'kazourmt' in app.request.server.get('HTTP_REFERER') %}#}
+                {% if regionId == 0 %}
+                    {#{% if app.request.server.get('HTTP_REFERER') == null or 'kazourmt' in app.request.server.get('HTTP_REFERER') %}#}
                     <nav class="desktop-nav">
                         <ul>
                             <li>
-                                <a href="{{ path('expenses', {'regionId': '0'}) }}">Onkosten</a>
+                                <a href="{{ path('expenses') }}">Onkosten</a>
                             </li>
-                            <li>
-                                <a href="{{ path('vacancies') }}">Open plaatsen</a>
-                            </li>
-                            <li>
-                                <a href="{{ path('vvgps') }}">VV-GPS</a>
-                            </li>
-                            <li>
-                                <a href="/">Agenda</a>
-                            </li>
+                            {#<li>#}
+                                {#<a href="{{ path('vacancies') }}">Open plaatsen</a>#}
+                            {#</li>#}
+                            {#<li>#}
+                                {#<a href="{{ path('vvgps') }}">VV-GPS</a>#}
+                            {#</li>#}
+                            {#<li>#}
+                                {#<a href="/">Agenda</a>#}
+                            {#</li>#}
                         </ul>
                     </nav>
                 {% endif %}
@@ -52,16 +61,19 @@
                 <div class="actions">
                     {% if is_granted('ROLE_USER') %}
                         <a href="">
-                            <a href="{{ path('user_profile') }}">
+                            <a href="{{ path('user_profile', {'regionId': regionId}) }}">
                                 <img src="{{ app.user.picture|default(asset('img/profile_placeholder.png')) }}"
                                      class="profilePicture"
                                      alt="profile picture" width="42" height="42">
                             </a>
                         </a>
-                        <a href="{{ path('security_logout') }}" class="btn btn-yellow">Logout</a>
+                        {% if regionId == 0 %}
+                            {#At the moment, non RMT users can not log out since this will regardless redirect you to the homepage without the ability of further tracking#}
+                            <a href="{{ path('security_logout') }}" class="btn btn-yellow">Logout</a>
+                        {% endif %}
                     {% else %}
-                        <a href="{{ path('security_login') }}" class="btn btn-yellow">Login</a>
-                        <a href="{{ path('user_register') }}" class="btn btn-yellow">Registreer</a>
+                        <a href="{{ path('security_login_region', {'regionId': regionId}) }}" class="btn btn-yellow">Login</a>
+                        <a href="{{ path('user_register_region', {'regionId': regionId}) }}" class="btn btn-yellow">Registreer</a>
                     {% endif %}
                     {% if is_granted('ROLE_ADMIN') %}
                         <a href="{{ path('easyadmin') }}" class="btn btn-yellow">Admin</a>
