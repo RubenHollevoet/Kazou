@@ -84,21 +84,24 @@ class ExpensesController extends Controller
         $groups = [];
         $children = [];
 
-        $groupId = $request->query->get('group');
+        $groupId = $request->query->get('group') ?: null;
 
-        if ($groupId) {
-            $result = $this->getDoctrine()->getRepository(TripGroup::class)->findBy(['id' => $groupId]);
-            $groups = $this->getDoctrine()->getRepository(TripGroup::class)->findBy(['parent' => $result], ['startDate' => 'asc']);
-        } else {
-            $regionId = $request->query->get('region');
-            $region = $this->getDoctrine()->getRepository(Region::class)->findBy(['id' => $regionId]);
-            $groups = $this->getDoctrine()->getRepository(TripGroup::class)->findBy(['parent' => null, 'region' => $region], ['startDate' => 'asc']);
-        }
+//        if ($groupId) {
+//            $result = $this->getDoctrine()->getRepository(TripGroup::class)->findBy(['id' => $groupId]);
+//            $groups = $this->getDoctrine()->getRepository(TripGroup::class)->findBy(['parent' => $result], ['startDate' => 'asc']);
+//        } else {
+//            $regionId = $request->query->get('region');
+//            $region = $this->getDoctrine()->getRepository(Region::class)->findBy(['id' => $regionId]);
+//            $groups = $this->getDoctrine()->getRepository(TripGroup::class)->findBy(['parent' => null, 'region' => $region], ['startDate' => 'asc']);
+//        }
+
+        $region = $this->getDoctrine()->getRepository(Region::class)->findBy(['id' => $request->query->get('region')]);
+        $groups = $this->_getChildGroups($groupId, $region);
 
         if ($groups) {
             foreach ($groups as $child) {
                 $startDate = $child->getStartDate();
-                if($startDate) $startDate = $startDate->format('j/n');
+                if ($startDate) $startDate = $startDate->format('j/n');
                 $children[] = [
                     'id' => $child->getId(),
                     'name' => $child->getName(),
@@ -157,6 +160,56 @@ class ExpensesController extends Controller
     }
 
     /**
+     * @Route("/expenses/api/getExpenses")
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function getTrips(Request $request)
+    {
+        $error = [];
+
+        $em = $this->getDoctrine()->getManager();
+        $group = $em->getRepository(TripGroup::class)->find((int)$request->query->get('group'));
+
+        $region = $this->getDoctrine()->getRepository(Region::class)->findBy(['id' => $request->query->get('region')]);
+        $children = $this->_getChildGroups($group, $region, true);
+
+        $groups = array_merge($children, [$group]);
+
+        $trips = $em->getRepository(Trip::class)->findBy(['group' => $groups]);
+
+        $result = [];
+        foreach ($trips as $trip) {
+            if(!array_key_exists($trip->getGroup()->getId(), $result))
+            {
+                $result[$trip->getGroup()->getId()] = [
+                    'name' => $trip->getGroup()->getName(),
+                    'trips' => []
+                ];
+            }
+
+            $result[$trip->getGroup()->getId()]['trips'][] = [
+                'id' => $trip->getId(),
+                'name' => $trip->getUser()->getFirstName().' '.$trip->getUser()->getLastName(),
+                'from' => $trip->getFrom(),
+                'date' => $trip->getDate(),
+                'to' => $trip->getTo(),
+                'activity' => $trip->getActivity()->getName(),
+                'comment' => $trip->getComment(),
+                'transportType' => $trip->getTransportType(),
+                'tickets' => $trip->getTickets(),
+                'distance' => $trip->getDistance(),
+                'estimatedDistance' => $trip->getEstimateDistance(),
+                'status' => $trip->getStatus(),
+            ];
+        }
+
+        return $this->json([
+            'status' => $error ? 'error' : 'ok',
+            'data' => $error ?: $result
+        ]);
+    }
+
+    /**
      * @Route("/expenses/api/createTrip")
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
@@ -168,8 +221,7 @@ class ExpensesController extends Controller
         $loopCount = 0;
         if ($formData->tripData->tickets && $formData->tripData->transportType === 'publicTransport') {
             $hash = hash('md5', microtime(true));
-            foreach ($formData->tripData->tickets as $ticket)
-            {
+            foreach ($formData->tripData->tickets as $ticket) {
                 $folder = '/uploads/tickets/' . $this->getUser()->getId() . '/';
                 $uploadPath = $this->getParameter('upload_directory');
                 if (!is_dir($uploadPath . $folder)) {
@@ -266,5 +318,14 @@ class ExpensesController extends Controller
             'status' => 'ok',
             'distance' => $json->rows[0]->elements[0]->distance->value
         ]);
+    }
+
+    private function _getChildGroups($group, $region, $recursive = false)
+    {
+        $result = $this->getDoctrine()->getRepository(TripGroup::class)->findBy(['parent' => $group, 'region' => $region], ['startDate' => 'asc']);
+        if($recursive) {
+
+        }
+        return $result;
     }
 }
