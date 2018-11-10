@@ -10,6 +10,9 @@ namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class AmoniacController
@@ -20,12 +23,17 @@ class AmoniacController extends Controller
     /**
      * @Route("/", name="amoniac")
      */
-    public function showAction()
+    public function showAction(Request $request)
     {
         $json = file_get_contents($this->getParameter('google_API_script_Amoniac'));
         $activityData = json_decode($json);
 
-        $showFull = true;
+        $showFull = false;
+
+        if($request->query->get('show') === 'all' || $request->cookies->get('show') === 'all') {
+            $showFull = true;
+        }
+
 
         return $this->render('Amoniac/index.twig', [
             'activityData' => $activityData,

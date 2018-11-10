@@ -24,26 +24,29 @@
     </header>
     <div class="container">
 
-        <div class="row quick-actions">
-            <div class="inner col-md-4">
-                <a href="https://drive.google.com/drive/folders/0B-GZrOzGnLQdfm9aNVltY082ZERpS1FzYklhQ0xNQ3VHWGZpRXZZdGJ2NVdWTXNWUEFWSlU?usp=sharing" target="_blank">
-                    <img src="{{ asset('img/icons/drive.png') }}" alt="" width="50" height="50">
-                    <span>Google drive</span>
-                </a>
+        {% if showFull %}
+            <div class="row quick-actions">
+                <div class="inner col-md-4">
+                    <a href="https://drive.google.com/drive/folders/0B-GZrOzGnLQdfm9aNVltY082ZERpS1FzYklhQ0xNQ3VHWGZpRXZZdGJ2NVdWTXNWUEFWSlU?usp=sharing" target="_blank">
+                        <img src="{{ asset('img/icons/drive.png') }}" alt="" width="50" height="50">
+                        <span>Google drive</span>
+                    </a>
+                </div>
+                <div class="inner col-md-4">
+                    <a href="https://photos.app.goo.gl/YDqYiJ1PUXk7zo6E6" target="_blank">
+                        <img src="{{ asset('img/icons/photos.png') }}" alt="" width="50" height="50">
+                        <span>Google photo's</span>
+                    </a>
+                </div>
+                <div class="inner col-md-4">
+                    <a href="https://www.facebook.com/groups/1470566779871127/" target="_blank">
+                        <img src="{{ asset('img/icons/facebook.png') }}" alt="" width="50" height="50">
+                        <span>Facebook groep</span>
+                    </a>
+                </div>
             </div>
-            <div class="inner col-md-4">
-                <a href="https://photos.app.goo.gl/YDqYiJ1PUXk7zo6E6" target="_blank">
-                    <img src="{{ asset('img/icons/photos.png') }}" alt="" width="50" height="50">
-                    <span>Google photo's</span>
-                </a>
-            </div>
-            <div class="inner col-md-4">
-                <a href="https://www.facebook.com/groups/1470566779871127/" target="_blank">
-                    <img src="{{ asset('img/icons/facebook.png') }}" alt="" width="50" height="50">
-                    <span>Facebook groep</span>
-                </a>
-            </div>
-        </div>
+        {% endif %}
+
         <div class="activity-container">
             {% for activity in activityData %}
                 <div class="row">
@@ -100,4 +103,28 @@
 
         </div>
     </div>
+    <a href="/amoniac?show=all" class="amoniacInfo">Info voor Amoniac leden</a>
 </body>
+<script>
+
+    if(getParameterByName('show') === 'all') {
+        setCookie('show', 'all', 365);
+    }
+
+    function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, '\\$&');
+        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    }
+
+    function setCookie(cname, cvalue, exdays) {
+        var d = new Date();
+        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+        var expires = "expires="+d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+</script>
