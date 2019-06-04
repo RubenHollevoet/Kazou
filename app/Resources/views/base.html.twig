@@ -14,6 +14,14 @@
         <link rel="stylesheet" href="{{ asset('css/objects.css') }}?v={{ random(999999) }}">
     {% endblock %}
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}?v=1"/>
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-8405807820052594",
+            enable_page_level_ads: true
+        });
+    </script>
 </head>
 <body>
 
@@ -40,12 +48,12 @@
                     {#{% if app.request.server.get('HTTP_REFERER') == null or 'kazourmt' in app.request.server.get('HTTP_REFERER') %}#}
                     <nav class="desktop-nav">
                         <ul>
-                            <li>
-                                <a href="{{ path('expenses') }}">Onkosten</a>
-                            </li>
-                            <li>
-                                <a href="{{ path('amoniac') }}">Amoniac</a>
-                            </li>
+                            {#<li>#}
+                                {#<a href="{{ path('expenses') }}">Onkosten</a>#}
+                            {#</li>#}
+                            {#<li>#}
+                                {#<a href="{{ path('amoniac') }}">Amoniac</a>#}
+                            {#</li>#}
                             {#<li>#}
                                 {#<a href="{{ path('vacancies') }}">Open plaatsen</a>#}
                             {#</li>#}
@@ -61,27 +69,27 @@
 
                 <div class="flex1"></div>
 
-                <div class="actions">
-                    {% if is_granted('ROLE_USER') %}
-                        <a href="">
-                            <a href="{{ path('user_profile', {'regionId': regionId}) }}">
-                                <img src="{{ app.user.picture|default(asset('img/profile_placeholder.png')) }}"
-                                     class="profilePicture"
-                                     alt="profile picture" width="42" height="42">
-                            </a>
-                        </a>
-                        {% if regionId == 0 %}
+                {#<div class="actions">#}
+                    {#{% if is_granted('ROLE_USER') %}#}
+                        {#<a href="">#}
+                            {#<a href="{{ path('user_profile', {'regionId': regionId}) }}">#}
+                                {#<img src="{{ app.user.picture|default(asset('img/profile_placeholder.png')) }}"#}
+                                     {#class="profilePicture"#}
+                                     {#alt="profile picture" width="42" height="42">#}
+                            {#</a>#}
+                        {#</a>#}
+                        {#{% if regionId == 0 %}#}
                             {#At the moment, non RMT users can not log out since this will regardless redirect you to the homepage without the ability of further tracking#}
-                            <a href="{{ path('security_logout') }}" class="btn btn-yellow">Logout</a>
-                        {% endif %}
-                    {% else %}
-                        <a href="{{ path('security_login_region', {'regionId': regionId}) }}" class="btn btn-yellow">Login</a>
-                        <a href="{{ path('user_register_region', {'regionId': regionId}) }}" class="btn btn-yellow">Registreer</a>
-                    {% endif %}
-                    {% if is_granted('ROLE_ADMIN') %}
-                        <a href="{{ path('easyadmin') }}" class="btn btn-yellow">Admin</a>
-                    {% endif %}
-                </div>
+                            {#<a href="{{ path('security_logout') }}" class="btn btn-yellow">Logout</a>#}
+                        {#{% endif %}#}
+                    {#{% else %}#}
+                        {#<a href="{{ path('security_login_region', {'regionId': regionId}) }}" class="btn btn-yellow">Login</a>#}
+                        {#<a href="{{ path('user_register_region', {'regionId': regionId}) }}" class="btn btn-yellow">Registreer</a>#}
+                    {#{% endif %}#}
+                    {#{% if is_granted('ROLE_ADMIN') %}#}
+                        {#<a href="{{ path('easyadmin') }}" class="btn btn-yellow">Admin</a>#}
+                    {#{% endif %}#}
+                {#</div>#}
             </div>
         </div>
     </header>
