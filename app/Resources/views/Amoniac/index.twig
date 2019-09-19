@@ -8,7 +8,7 @@
     {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}">
         <link rel="stylesheet" href="{{ asset('vendor/fontawesome/css/font-awesome.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/amoniac.css') }}?v={{ random(999999) }}">
+        <link rel="stylesheet" href="{{ asset('css/amoniac.css') }}?v=2.0">
     {% endblock %}
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}?v=1"/>
 </head>
@@ -47,58 +47,157 @@
             </div>
         {% endif %}
 
+        {% if showFull %}
+            <span class="requirements-title">
+                    <h3>Verwachtingen</h3>
+                    <span id="toggle-requirements" class="btn btn-primary">verbergen</span>
+                </span>
+            <div class="js-requirements alert alert-info">
+                <h3>Verwachtingen Amoniac-lid</h3>
+                <ul>
+                    <li>Aanwezigheid op de grote vergaderingen, verontschuldigen als je niet kan.</li>
+                    <li>Minstens 2 PG’s waarin je actief meewerkt.</li>
+                    <li>Shiften invullen op andere activiteiten indien mogelijk.</li>
+                    <li>Indien je in een PG zit en je kan tijdens de activiteit niet aanwezig zijn meld je dit op tijd en zoek je indien nodig zelf vervanging.</li>
+                </ul>
+
+                <br>
+                <h3>Verwachtingen PG</h3>
+                <h4>Administratie</h4>
+                <ul>
+                    <li>PG-verantwoordelijke aanduiden (deze communiceert met voorzitters / Daphne). Je laat het voorzitters team weten wie dit is.</li>
+                    <li>Verslag maken en aanvullen na de activiteit. Hiervoor gebruik je de lege template bij je activiteit.</li>
+                    <li>minstens 1 keer fysiek vergaderen (Videochatten kan ook)</li>
+                    <li>Shiftenlijsten opstellen indien nodig. Hiervoor gebruik je het document onder de knop “shiftenlijst”</li>
+                    <li>Materiaal kazou 1 week op voorhand doorgeven aan Daphne (PG-verantwoordelijke)
+                        <ul>
+                            <li>1 week op voorhand</li>
+                            <li>Door de PG-verantwoordelijke</li>
+                            <li>Specifiek zijn! (niet ‘bekers’ maar ‘100 afwasbare bekers’)</li>
+                        </ul>
+                    </li>
+                    <li>Materiaalaanvraag Malle bespreken met <a href="https://fb.com/daan.vervoort.92">Daan</a> (kan vanaf 6 maanden voor activiteit)</li>
+                </ul>
+                <h4>Inschrijvingen (optioneel)</h4>
+                <ul>
+                    <li>
+                        Je mailt naar Daphne met de vraag om een inschrijvingstool te maken op de medewerkerssite. Hierin vermeld je alle gegevens die opgevraagd moeten worden (zoals je normaal in een Google form zou doen) en het promotekstje/extra info dat erboven moet verschijnen. Je kan hier ook een start/eind-datum voor de inschrijvingen kiezen, de prijs, maximum, …
+                        <ul>
+                            <li>Via de website (rmt.kazou.be -> groepen -> PG’s) kunnen jullie een up-to-date inschrijvingslijst bekijken</li>
+                        </ul>
+                    </li>
+                    <li>Je maakt een bit.ly-link aan naar de inschrijftool. Bv. bit.ly/galabal2018. Deze link stuur je door naar het voorzitters team zodat zij het bij je activiteit kunnen zetten.</li>
+                </ul>
+
+                <h4>Promo</h4>
+                <ul>
+                    <li>
+                        Poster met minstens:
+                        <ul>
+                            <li>datum (ook weekdag vermelden; bv.: vrijdag 8 september)</li>
+                            <li>Locatie</li>
+                            <li>Uur (cafeeke standaard om 21u)</li>
+                            <li>logo Amoniac</li>
+                            <li>vermelding van de inkom</li>
+                            <li>TIP: canva app</li>
+                        </ul>
+                    </li>
+                    <li>Poster stuur je door naar iemand van het voorzitters team zodat het op de site gezet kan worden.</li>
+                    <li>Promotekstje schrijven</li>
+                    <li>
+                        Promotekstje schrijven
+                        <ul>
+                            <li>Inschrijven via <a href="https://kazourmt.be/amoniac">kazourmt.be/amoniac</a></li>
+                            <li>Vragen? <a href="email:team.amoniac@kazourmt.be">team.amoniac@kazourmt.be</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        Promotekst en poster doorsturen naar:
+                        <ul>
+                            <li>Daphne voor de nieuwsbrief / inschrijvingspagina (deadline: woensdagavond) -> gebeurd door PG verantwoordelijke</li>
+                            <li>Jeroen of Ruben voor de Facebookgroep (of zelf posten zodat het overgenomen kan worden door Roger)</li>
+                            <li>Activiteit moet eerst in de nieuwsbrief verschijnen!</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h4>Activiteiten</h4>
+                <ul>
+                    <li>Aanwezig zijn</li>
+                    <li>Iemand is aanspreekpunt (bv. PG-verantwoordelijke)</li>
+                    <li>Andere Team-leden informeren</li>
+                </ul>
+                <br>
+                <h3>Verwachtingen Voorzitters</h3>
+                <ul>
+                    <li>Een voorzitter volgt een PG op, meehelpen mag altijd!</li>
+                    <li>Vergadering voorzitten</li>
+                    <li>Verslag maken van vergaderingen en communiceren (aan team en AC)</li>
+                    <li>Communicatie met BK</li>
+                    <li>Zoveel mogelijk aanwezig zijn op activiteiten</li>
+                </ul>
+            </div>
+        {% endif %}
+
         <div class="activity-container">
             {% for activity in activityData %}
-                <div class="row">
-                    <div class="topContainer">
-                        <div class="leftBlock">
-                            <h2>{{ activity.name }}</h2>
-                            <span class="line">
-                                <span class="fa fa-clock-o"></span>
-                                <h3>{{ activity.date }}</h3>
-                            </span>
-                            <span class="line">
-                                <span class="fa fa-location-arrow"></span>
-                                <h3>{{ activity.location }}</h3>
-                            </span>
-                        </div>
-                        <div class="rightBlock">
-                            <img src="{{ activity.poster }}" alt="">
-                        </div>
-                    </div>
-
-                    <div class="line actions">
-                        {% if activity.subscribeLink %} <a class="action" href="{{ activity.subscribeLink }}" target="_blank"><span class="fa fa-pencil"></span>Inschrijven</a> {% endif %}
-                        {% if activity.carpoolLink %} <a class="action" href="{{ activity.carpoolLink }}" target="_blank"><span class="fa fa-car"></span>Carpool</a> {% endif %}
-                        {% if showFull %}
-                            {% if activity.report %} <a class="action" href="{{ activity.report }}" target="_blank"><span class="fa fa-file"></span>Verslag</a> {% endif %}
-                            {% if activity.teamSchedule %} <a class="action" href="{{ activity.teamSchedule }}" target="_blank"><span class="fa fa-list"></span>Shiftenlijst</a> {% endif %}
-                            {#{% if activity.report %} <a class="action" href="#todo"><span class="fa fa-car"></span>Onkosten indienen</a> {% endif %}#}
-                        {% endif %}
-                    </div>
-
-
-                    {% if showFull %}
-                        <div class="members">
-                            {% if activity.groupLeader != '' %}
-                                <span><span class="fa fa-star"></span>{{ activity.groupLeader }}</span>
-                            {% else %}
-                                <span class="red"><span class="fa fa-star"></span></span>
-                            {% endif %}
-
-                            {% for member in activity.groupMembers %}
-                                <span>{{ member }}</span>
-                            {% endfor %}
+                {% if activity.date or showFull %}
+                    <div class="row">
+                        <div class="topContainer">
+                            <div class="leftBlock">
+                                <h2>{{ activity.name }}</h2>
+                                <span class="line">
+                                    <span class="fa fa-clock-o"></span>
+                                    <h3>{{ activity.date }}</h3>
+                                </span>
+                                <span class="line">
+                                    <span class="fa fa-location-arrow"></span>
+                                    <h3>{{ activity.location }}</h3>
+                                </span>
+                            </div>
+                            <div class="rightBlock">
+                                <img src="{{ activity.poster }}" alt="">
+                            </div>
                         </div>
 
-                        {% if activity.followUp %}
-                            <div class="followup">
-                                Opvolging door <strong>{{ activity.followUp }}</strong>
+                        {% if activity.todo and showFull %}
+                            <div class="todos">
+                                <span><strong>TODO's: </strong>{{ activity.todo }}</span>
                             </div>
                         {% endif %}
-                    {% endif %}
-                </div>
-                <hr>
+
+                        <div class="line actions">
+                            {% if activity.subscribeLink %} <a class="action" href="{{ activity.subscribeLink }}" target="_blank"><span class="fa fa-pencil"></span>Inschrijven</a> {% endif %}
+                            {% if activity.carpoolLink %} <a class="action" href="{{ activity.carpoolLink }}" target="_blank"><span class="fa fa-car"></span>Carpool</a> {% endif %}
+                            {% if showFull %}
+                                {% if activity.report %} <a class="action" href="{{ activity.report }}" target="_blank"><span class="fa fa-file"></span>Verslag</a> {% endif %}
+                                {% if activity.teamSchedule %} <a class="action" href="{{ activity.teamSchedule }}" target="_blank"><span class="fa fa-list"></span>Shiftenlijst</a> {% endif %}
+                                {#{% if activity.report %} <a class="action" href="#todo"><span class="fa fa-car"></span>Onkosten indienen</a> {% endif %}#}
+                            {% endif %}
+                        </div>
+
+                        {% if showFull %}
+                            <div class="members">
+                                {% if activity.groupLeader != '' %}
+                                    <span><span class="fa fa-star"></span>{{ activity.groupLeader }}</span>
+                                {% else %}
+                                    <span class="red"><span class="fa fa-star"></span></span>
+                                {% endif %}
+
+                                {% for member in activity.groupMembers %}
+                                    <span>{{ member }}</span>
+                                {% endfor %}
+                            </div>
+
+                            {% if activity.followUp %}
+                                <div class="followup">
+                                    Opvolging door <strong>{{ activity.followUp }}</strong>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                    <hr>
+                {% endif %}
             {% endfor %}
 
         </div>
@@ -109,6 +208,35 @@
 
     if(getParameterByName('show') === 'all') {
         setCookie('show', 'all', 365);
+    }
+
+    var $btn = document.getElementById('toggle-requirements');
+    $btn.addEventListener('click', function (ev) {
+        if(!getCookie('requirements') || getCookie('requirements') === 'false') {
+            setCookie('requirements', 'true', 365);
+            $btn.innerText = 'tonen';
+        }
+        else {
+            setCookie('requirements', 'false', 365);
+            $btn.innerText = 'verberken';
+        }
+        setVisibilityRequirements();
+    });
+
+    setVisibilityRequirements();
+
+    if(getCookie('requirements') === 'true') {
+        $btn.innerText = 'tonen';
+    }
+
+    function setVisibilityRequirements() {
+        var $requirements = document.querySelector('.js-requirements');
+        if(getCookie('requirements') === 'true') {
+            $requirements.classList.add('hidden');
+        }
+        else {
+            $requirements.classList.remove('hidden');
+        }
     }
 
     function getParameterByName(name, url) {
@@ -126,5 +254,21 @@
         d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
         var expires = "expires="+d.toUTCString();
         document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+
+    function getCookie(cname) {
+        var name = cname + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for(var i = 0; i <ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
     }
 </script>

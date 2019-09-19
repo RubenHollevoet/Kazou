@@ -81,12 +81,27 @@ header > a {
 .vvgps_main_menu > .menuContainer > a > .inner {
     margin: 0 10px;
     height: 280px;
-    background: url('http://via.placeholder.com/270x270') no-repeat center;
+}
+
+.vvgps_main_menu > .menuContainer > a > .inner.before {
+    background: url('/img/vvgps/before.jpg') no-repeat center;
+    background-size: cover;
+}
+
+.vvgps_main_menu > .menuContainer > a > .inner.during {
+    background: url('/img/vvgps/during.jpg') no-repeat center;
+    background-size: cover;
+}
+
+.vvgps_main_menu > .menuContainer > a > .inner.extra {
+    background: url('/img/vvgps/extra.jpg') no-repeat center;
     background-size: cover;
 }
 
 .vvgps_main_menu > .menuContainer > a > .inner > h2 {
     color: white;
+    text-align: center;
+    background-color: rgba(255,255,255,0.5);
 }
 
 .vvgps_title {
@@ -147,10 +162,18 @@ header > a {
 .vvgps_pageMenu_btns {
     padding-top: 60px;
     display: flex;
+    flex-wrap: wrap;
     flex-direction: column;
     background-color: rgba(255,255,255,0.6);
     max-width: 600px;
     margin: auto;
+}
+
+@media (min-width: 768px) {
+    .vvgps_pageMenu_btns {
+        flex-direction: row;
+        justify-content: center;
+    }
 }
 
 .vvgps_menu_btn {

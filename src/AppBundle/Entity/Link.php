@@ -12,7 +12,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\LinkRepository")
  * @ORM\Table(name="link")
  */
 class Link
@@ -37,6 +37,12 @@ class Link
      * @ORM\Column(type="boolean")
      */
     private $enabled = true;
+
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $order;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -122,6 +128,22 @@ class Link
     public function getCreatedBy()
     {
         return $this->createdBy;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOrder()
+    {
+        return $this->order;
+    }
+
+    /**
+     * @param mixed $order
+     */
+    public function setOrder($order)
+    {
+        $this->order = $order;
     }
 
     /**

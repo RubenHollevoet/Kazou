@@ -19,14 +19,7 @@ class HomeController extends Controller
      */
     public function home()
     {
-        //hacky
-        if($this->getUser()) {
-            if($this->getUser()->getRegion()->getId() > 0) {
-                return $this->redirectToRoute('expenses_region', ['regionId' => $this->getUser()->getRegion()->getId()]);
-            }
-        }
-
-        $links = $this->getDoctrine()->getRepository(Link::class)->findBy(['enabled' => true]);
+        $links = $this->getDoctrine()->getRepository(Link::class)->getLinksByWeight();
         return $this->render('home.html.twig', ['links' => $links]);
     }
 

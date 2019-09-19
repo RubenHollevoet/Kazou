@@ -2,7 +2,7 @@
     margin-top: 30px;
     display: flex;
     justify-content: space-between;
-    align-elements: center;
+    align-items: center;
 }
 
 .register-selector > div {
